@@ -38,7 +38,6 @@ class Player {
         if (obstacle || ['topOverlap', 'bottomOverlap'].includes(overlap) && (this === state.player || state.nonPlayers.includes(this))) {
             if (['gravity', 'poison', 'instruction'].includes(obstacle)) {
                 this.pos = newPos;
-                if (obstacle === 'poison') debugger;
             } else if (overlap === 'topOverlap' && this.speed.y < 0) {
                 this.pos = newPos;
             } else if (obstacle === 'trampoline') {

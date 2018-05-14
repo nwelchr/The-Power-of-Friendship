@@ -5,7 +5,7 @@
 .background {
   border-spacing: 0;
   table-layout: fixed;
-  background: #111;
+  background: linear-gradient(#2ca0e2, #48cbf5);
 }
 
 .background td {
@@ -21,7 +21,7 @@
 }
 
 .wall {
-  background: rgb(50, 50, 50);
+  background: rgb(120, 120, 120);
 }
 
 .water {
@@ -79,11 +79,11 @@
 }
 
 .finley {
-  background-color: #320d61;
+  background-color: #e0b427;
 }
 
 .frankie {
-  background-color: #0d613c;
+  background-color: #27a25d;
 }
 
 .instruction {
@@ -93,17 +93,17 @@
 
 .instruction:before {
   color: white;
-  font-size: 50px;
+  font-size: 30px;
   font-family: 'lato', 'helveticaneue-light', 'helvetica';
 }
 
 .zero:before {
-  content: 'it\'s been...';
+  content: 'welcome, finley. :)';
   margin-left: -30px;
 }
 
 .one:before {
-  content: 'a while.';
+  content: 'use the arrow keys to move and jump.';
   margin-left: -30px;
 }
 
@@ -133,13 +133,14 @@
 }
 
 .pause-modal, .title-screen  {
+  border-radius: 45px;
   display: none;
   position: absolute;
   z-index: 1;
   width: 900px;
   height: 600px;
-  background-color: rgba(0, 0, 0, .4);
-  opacity: .7;
+  background-color: green;
+  /* background-color: rgba(0, 0, 0, .4); */
 }
 
 .title-screen {
@@ -148,7 +149,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  animation: fadein 5s linear;
+  animation: fadein 1s linear;
 }
 
 .title-screen h1 {
@@ -198,8 +199,8 @@ button:hover, a:hover {
   transform: scale(1.05);
 }
 
-.curr-player:before {
-  content: '';
+.curr-player {
+  content: 'Finley';
   height: 0;
   width: 0;
   position: absolute;
@@ -211,6 +212,18 @@ button:hover, a:hover {
   border-right: 8px solid transparent;
   
   border-top: 10px solid #fff;
+}
+
+.finley-tut, .curr-player.finley-tut {
+  content: 'Finley';
+  height: 0;
+  width: 0;
+  position: absolute;
+  z-index: 9999;
+  top: -20px;
+  left: calc(50% - 8px);
+  font-size: 20px;
+  font: 15px 'HelveticaNeue-UltraLight' white;
 }
 
 .promotion {
@@ -228,8 +241,8 @@ button:hover, a:hover {
 }
 
 @keyframes fadein {
-  0% { opacity: 0; }
-  100% { opacity: .8; }
+  0% { opacity: .5; }
+  100% { opacity: 1; }
 }
 
 .six:before {
@@ -352,7 +365,7 @@ button:hover, a:hover {
   max-width: 900px;
   max-height: 600px;
   position: relative;
-  /* border-radius: 45px; */
+  border-radius: 45px;
 }
 
 .gravity {
@@ -360,7 +373,7 @@ button:hover, a:hover {
 }
 
 .game {
-  animation: baby 5s forwards;
+  animation: baby 2s forwards;
 }
 
 @keyframes baby {
@@ -434,7 +447,8 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(270deg, #111, #000, #111);
+  background: white;
+  /* background: linear-gradient(270deg, #555, #222, #555); */
 }
 
 @keyframes gradient {

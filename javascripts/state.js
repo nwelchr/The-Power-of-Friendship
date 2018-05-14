@@ -30,8 +30,7 @@ class State {
 
     switch (this.level.levelId) {
       case 1:
-        this.frankieStatus = true;
-        if (this.player.pos.y < 30 && this.player.pos.y > 2) this.gravity = 0.8;
+        break;
       case 2:
         break;
       case 3:
@@ -180,8 +179,8 @@ class State {
     // if s is being pressed and wasn't already being pressed, AND if the current player isn't jumping/falling/etc (w this.player.speed.y === 0), switch player
     if (
       keys.switch &&
-      !this.switch &&
-      ![1, 7, 8, 9, 10, 11].includes(this.level.levelId)
+      !this.switch
+      // ![1, 7, 8, 9, 10, 11].includes(this.level.levelId)
     //   ![96, 62, 78, 58].includes(this.level.width)
     )
       return new State(
@@ -194,6 +193,7 @@ class State {
         this.finleyStatus,
         this.frankieStatus
       );
+
     let newState = new State(
       this.level,
       actors,
