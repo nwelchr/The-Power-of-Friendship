@@ -801,8 +801,8 @@ class Level {
 class Finley extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
         const finleySize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.7, 1.3);
-        const finleyXSpeed = xSpeed || 7;
-        const finleyJumpSpeed = jumpSpeed || 10;
+        const finleyXSpeed = xSpeed || 6;
+        const finleyJumpSpeed = jumpSpeed || 9;
         super(pos, ch, speed, finleySize, finleyXSpeed, finleyJumpSpeed);
     }
 }
@@ -822,7 +822,7 @@ class Finley extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 class Frankie extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
         const frankieSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](1.6, 1.6);
-        const frankieXSpeed = xSpeed || 5;
+        const frankieXSpeed = xSpeed || 4.5;
         const frankieJumpSpeed = jumpSpeed || 8;
         super(pos, ch, speed, frankieSize, frankieXSpeed, frankieJumpSpeed);
     }
@@ -1128,7 +1128,7 @@ class Forest extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
         const forestSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](2.5, .6);
         const forestXSpeed = xSpeed || 5;
-        const forestJumpSpeed = jumpSpeed || 8;
+        const forestJumpSpeed = jumpSpeed || 7;
         super(pos, ch, speed, forestSize, forestXSpeed, forestJumpSpeed);
     }
 }
@@ -1148,8 +1148,8 @@ class Forest extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 class Fe extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
         const feSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.5, .8);
-        const feXSpeed = xSpeed || 5;
-        const feJumpSpeed = jumpSpeed || 8;
+        const feXSpeed = xSpeed || 6.5;
+        const feJumpSpeed = jumpSpeed || 9.5;
         super(pos, ch, speed, feSize, feXSpeed, feJumpSpeed);
     }
 }
@@ -1168,9 +1168,9 @@ class Fe extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 
 class Fitz extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const fitzSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.6, 2);
-        const fitzXSpeed = xSpeed || 5;
-        const fitzJumpSpeed = jumpSpeed || 8;
+        const fitzSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.6, 3);
+        const fitzXSpeed = xSpeed || 5.5;
+        const fitzJumpSpeed = jumpSpeed || 13;
         super(pos, ch, speed, fitzSize, fitzXSpeed, fitzJumpSpeed);
     }
 }
