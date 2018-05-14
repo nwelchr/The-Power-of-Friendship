@@ -41,33 +41,25 @@
   background: purple;
 }
 
-.finleygoal, .frankiegoal {
+.finleygoal, .frankiegoal, .forestgoal, .fitzgoal, .fegoal {
   border: 2px dotted white;
   box-sizing: border-box;
   border-spacing: 2px;
-}
-
-.frankiegoal {
-  margin-bottom: -15px;
 }
 
 .player {
   background: rgb(111, 61, 150);
 }
 
-.lost .player, .lost .finley, .lost .frankie {
+.lost .player, .lost .finley, .lost .frankie, .lost .forest, .lost .fitz, .lost .fe {
   background: rgb(160, 64, 64);
 }
 
-.drowned .finley {
+.drowned .finley, .drowned .frankie, .drowned .forest, .drowned .fitz, .drowned .fe {
   background: #0d3831;
 }
 
-.drowned .frankie {
-  background: #0d613c;
-}
-
-.won .player, .won .finley, .won .frankie {
+.won .player, .won .finley, .won .frankie, .won .forest, .won .fitz, .won .fe {
   background: #fff;
 }
 
@@ -90,8 +82,12 @@
   background-color: #0f8822;
 }
 
-.fe {
+.fitz {
+  background-color: orange;
+}
 
+.fe {
+  background-color: #173592;
 }
 
 .instruction {
@@ -106,7 +102,7 @@
 }
 
 .zero:before {
-  content: 'welcome, finley. :)';
+  content: 'welcome. :)';
   margin-left: -30px;
 }
 
