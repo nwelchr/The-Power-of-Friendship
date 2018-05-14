@@ -15,16 +15,19 @@ class Player {
 
     moveX(time, state, keys, overlap) {
         this.speed.x = 0;
-        if (keys.left && this === state.player && !(overlap === 'rightOverlap')) this.speed.x -= this.xSpeed;
-        if (keys.right && this === state.player && !(overlap === 'leftOverlap')) this.speed.x += this.xSpeed;
+        if (keys.left && this === state.player && !(overlap.includes('rightOverlap'))) this.speed.x -= this.xSpeed;
+        if (keys.right && this === state.player && !(overlap.includes('leftOverlap'))) this.speed.x += this.xSpeed;
 
+        // what does this do?
         if (this !== state.player && ['topOverlap'].includes(overlap)) { 
             this.speed.x += state.player.speed.x;
          }
 
-
         const movedX = this.pos.plus(new Vector(this.speed.x * time, 0));
-        if (state.level.touching(movedX, this.size) !== 'wall') {
+        if ((overlap.includes('leftOverlap') && movedX < this.pos.x) 
+        || (overlap.includes('rightOverlap') && movedX > this.pos.x)) {
+            return;
+        } else if (state.level.touching(movedX, this.size) !== 'wall') {
             this.pos = movedX;
         }
     }
@@ -35,16 +38,16 @@ class Player {
         const newPos = this.pos.plus(motion); 
         const obstacle = state.level.touching(newPos, this.size);
         if (this.speed.y < -13) this.speed.y = -13;
-        if (obstacle || ['topOverlap', 'bottomOverlap'].includes(overlap) && (this === state.player || state.nonPlayers.includes(this))) {
+        if (obstacle || overlap.includes('topOverlap') || overlap.includes('bottomOverlap') && (this === state.player || state.nonPlayers.includes(this))) {
             if (['gravity', 'poison', 'instruction'].includes(obstacle)) {
                 this.pos = newPos;
-            } else if (overlap === 'topOverlap' && this.speed.y < 0) {
+            } else if (overlap.includes('topOverlap') && this.speed.y < 0) {
                 this.pos = newPos;
             } else if (obstacle === 'trampoline') {
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
                 this.speed.y = -(Math.floor(Math.random() * 2 + 12));
                 this.pos.y -= .1;
-            } else if (overlap === 'bottomOverlap') {
+            } else if (overlap.includes('bottomOverlap')) {
                 if (newPos < this.pos || !['water', 'wall'].includes(obstacle)) {
                     this.pos = newPos;
                 } else if (this.constructor.name === 'Frankie') {
@@ -53,7 +56,7 @@ class Player {
                     this.speed.y = this.jumpSpeed * .1;
                 }
             }
-            else if (keys.up && (this.speed.y >= 0 || overlap === 'topOverlap') && this === state.player) {
+            else if (keys.up && (this.speed.y >= 0 || overlap.includes('topOverlap')) && this === state.player) {
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();                
                 this.speed.y = -this.jumpSpeed;
                 if (obstacle === 'water') this.speed.y -= .5;
@@ -76,17 +79,29 @@ class Player {
     }
 
     update (time, state, keys) {
-        let overlap;
+        let overlap = [];
         for(let actor of state.actors) {
             if (!(this === actor)) {
-                overlap = state.overlap(this, actor);
-                if (overlap) break;
+                const currOverlap = state.overlap(this, actor);
+                if (currOverlap 
+                    && ['topOverlap', 'bottomOverlap', 'leftOverlap', 'rightOverlap'].includes(currOverlap)) {
+                        overlap.push(currOverlap);
+                    }
+                else if (currOverlap) { 
+                    overlap.push(currOverlap);
+                    break;
+                }
             }
         }
 
         if (state.status !== 'won') {
-        this.moveX(time, state, keys, overlap);
-        this.moveY(time, state, keys, overlap);
+            // if (overlap.includes('leftOverlap') && overlap.includes('rightOverlap')) {debugger;}
+            if (!(overlap.includes('leftOverlap') && overlap.includes('rightOverlap'))) {
+                this.moveX(time, state, keys, overlap);
+            }
+            if (!(overlap.includes('topOverlap') && overlap.includes('bottomOverlap'))) {        
+                this.moveY(time, state, keys, overlap);
+            }
         }
 
         const Actor = this.constructor;

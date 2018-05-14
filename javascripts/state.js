@@ -177,6 +177,8 @@ class State {
         return "rightOverlap";
       }
 
+      return false;
+
     } else {
       return (
         player.pos.x + player.size.x > actor.pos.x &&
