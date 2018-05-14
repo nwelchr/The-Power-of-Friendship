@@ -817,7 +817,7 @@ class Finley extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
         const finleySize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.7, 1.3);
         const finleyXSpeed = xSpeed || 6;
-        const finleyJumpSpeed = jumpSpeed || 9;
+        const finleyJumpSpeed = jumpSpeed || 10;
         super(pos, ch, speed, finleySize, finleyXSpeed, finleyJumpSpeed);
     }
 }
