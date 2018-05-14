@@ -13,7 +13,7 @@ export class FrankieGoal {
     }
 
     collide(state) {
-        return new State(state.level, state.actors, state.status, state.player, state.switchKey, state.gravity, state.finleyStatus, true);
+        return new State(Object.assign({}, state, { frankieStatus: true }));
     }
 }
 
@@ -29,6 +29,23 @@ export class FinleyGoal {
     }
 
     collide(state) {
-        return new State(state.level, state.actors, state.status, state.player, state.switchKey, state.gravity, true, state.frankieStatus);
+        debugger;
+        return new State(Object.assign({}, state, { finleyStatus: true }));
+    }
+}
+
+export class ForestGoal {
+    constructor(pos, ch) {
+        this.pos = pos.plus(new Vector(0, 0));
+        this.ch = ch;
+        this.size = new Vector(2.5, .8);
+    }
+
+    update() {
+        return this;
+    }
+
+    collide(state) {
+        return new State(Object.assign({}, state, { forestStatus: true }));      
     }
 }

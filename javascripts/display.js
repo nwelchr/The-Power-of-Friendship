@@ -50,10 +50,12 @@ class Display {
         const wrapper = createElement('div');
 
         const currPlayer = state.player;
+        const currLevel = state.level.levelId;
 
         for (let actor of state.actors) {
             const currPlayerStatus = currPlayer === actor ? 'curr-player' : '';
-            const el = wrapper.appendChild(createElement('div', `actor ${actor.constructor.name.toLowerCase()} ${currPlayerStatus}`)); // actor.constructor.name finds the name of the class of the actor
+            const currLevelStatus = currLevel === 1 ? 'finley-tut' : '';
+            const el = wrapper.appendChild(createElement('div', `actor ${actor.constructor.name.toLowerCase()} ${currPlayerStatus} ${currLevelStatus}`)); // actor.constructor.name finds the name of the class of the actor
             el.style.width = `${actor.size.x * scale}px`;
             el.style.height = `${actor.size.y * scale}px`;
             el.style.left = `${actor.pos.x * scale}px`;

@@ -1,16 +1,18 @@
 import Vector from "./vector";
 import Finley from './finley';
 import Frankie from './frankie';
+import Forest from './forest';
 import Poison from './poison';
 import Player from "./player";
-import { FinleyGoal, FrankieGoal } from './goals';
+import { FinleyGoal, FrankieGoal, ForestGoal } from './goals';
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 const actorChars = {
     'i': Finley,
     'r': Frankie,
+    'o': Forest,
     '=': Poison, '|': Poison, 'v': Poison, 'p': Poison,
-    '!': FinleyGoal, '@': FrankieGoal,
+    '!': FinleyGoal, '@': FrankieGoal, 'O': ForestGoal,
 };
 
 const instructionChars = {

@@ -197,11 +197,22 @@ class Player {
 // unsure how to manage current player
 
 class State {
-  constructor(level, actors, status, player, switchKey, gravity, finleyStatus, frankieStatus) {
+  constructor({
+    level,
+    actors,
+    status,
+    player,
+    nonPlayers,
+    switchKey,
+    gravity,
+    finleyStatus,
+    frankieStatus
+  }) {
     this.level = level;
     this.actors = actors;
+
     this.player = this.actors.find(actor => actor.constructor.name === player.constructor.name);
-    this.nonPlayers = this.actors.filter(actor => Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === "Player" && actor !== this.player);
+    this.nonPlayers = nonPlayers || this.actors.filter(actor => Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === "Player" && actor !== this.player);
     this.status = status;
     this.finleyStatus = finleyStatus;
     this.frankieStatus = frankieStatus;
@@ -241,16 +252,23 @@ class State {
         break;
     }
 
-    if (this.finleyStatus === true && this.frankieStatus === true) {
-      return new State(this.level, this.actors, "won", this.player);
-    }
-
     // to check whether switch is currently being pressed to prevent repeat switching on update
     this.switch = switchKey;
+    console.log(this.switch, switchKey);
+
+    if (this.finleyStatus === true && this.frankieStatus === true && this.status !== 'won') {
+      return new State(Object.assign({}, this, { status: "won" }));
+    }
   }
 
   static start(level) {
-    return new State(level, level.actors, "playing", level.actors.find(a => a.constructor.name === "Finley"));
+    const newLevelState = {
+      level: level,
+      actors: level.actors,
+      status: "playing",
+      player: level.actors.find(a => a.constructor.name === "Finley")
+    };
+    return new State(newLevelState);
   }
 
   overlap(player, actor) {
@@ -290,24 +308,50 @@ class State {
     let actors = this.actors.map(actor => actor.update(time, this, keys));
 
     // if s is being pressed and wasn't already being pressed, AND if the current player isn't jumping/falling/etc (w this.player.speed.y === 0), switch player
-    if (keys.switch && !this.switch
-    // ![1, 7, 8, 9, 10, 11].includes(this.level.levelId)
-    //   ![96, 62, 78, 58].includes(this.level.width)
-    ) return new State(this.level, actors, this.status, this.nonPlayers[0], keys.switch, this.gravity, this.finleyStatus, this.frankieStatus);
+    if (keys.switch && !this.switch && ![1].includes(this.level.levelId)) {
+      const newPlayer = this.nonPlayers.shift();
+      this.nonPlayers.push(this.player);
+      const newState = Object.assign({}, this, { switchKey: true, actors, player: newPlayer, nonPlayers: this.nonPlayers });
+      return new State(newState);
+    }
 
-    let newState = new State(this.level, actors, this.status, this.player, keys.switch, null, this.finleyStatus, this.frankieStatus);
-    if (!newState.status.includes("playing")) return newState;
+    let newState = new State(Object.assign({}, this, { actors, switchKey: false }));
+    // new State(
+    //   this.level,
+    //   actors,
+    //   this.status,
+    //   this.player,
+    //   keys.switch,
+    //   null,
+    //   this.finleyStatus,
+    //   this.frankieStatus
+    // );
+    const levelOver = !newState.status.includes("playing");
+    if (levelOver) return newState;
 
     let player = newState.player;
 
     switch (this.level.touching(player.pos, player.size)) {
       case "poison":
-        if (player.size.x === 0.8) return new State(this.level, actors, "lost", this.player);
+        // return new State(this.level, actors, "lost", this.player);
+        return new State(Object.assign({}, this, { status: "lost" }));
       case "water":
-        if (player.size.x === 0.8 && this.level.levelId !== 9) return new State(this.level, actors, "lost drowned", this.player);
+        if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
+          // return new State(this.level, actors, "lost drowned", this.player);
+          return new State(Object.assign({}, this, { status: "lost drowned" }));
+        }
         break;
       case "trampoline":
-        return new State(this.level, actors, "playing", this.player, keys.switch, -this.gravity * 1.5, this.finleyStatus, this.frankieStatus);
+        return new State(Object.assign({}, this, { gravity: -this.gravity * 1.5 }));
+      //   this.level,
+      //   actors,
+      //   "playing",
+      //   this.player,
+      //   keys.switch,
+      //   -this.gravity * 1.5,
+      //   this.finleyStatus,
+      //   this.frankieStatus
+      // );
       default:
         break;
     }
@@ -549,11 +593,13 @@ const game = new Game();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vector__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__finley__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__frankie__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__poison__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__player__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__goals__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_constants__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_constants___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_constants__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__forest__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__poison__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__player__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__goals__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_constants__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_constants___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_constants__);
+
 
 
 
@@ -565,8 +611,9 @@ const game = new Game();
 const actorChars = {
     'i': __WEBPACK_IMPORTED_MODULE_1__finley__["a" /* default */],
     'r': __WEBPACK_IMPORTED_MODULE_2__frankie__["a" /* default */],
-    '=': __WEBPACK_IMPORTED_MODULE_3__poison__["a" /* default */], '|': __WEBPACK_IMPORTED_MODULE_3__poison__["a" /* default */], 'v': __WEBPACK_IMPORTED_MODULE_3__poison__["a" /* default */], 'p': __WEBPACK_IMPORTED_MODULE_3__poison__["a" /* default */],
-    '!': __WEBPACK_IMPORTED_MODULE_5__goals__["a" /* FinleyGoal */], '@': __WEBPACK_IMPORTED_MODULE_5__goals__["b" /* FrankieGoal */]
+    'o': __WEBPACK_IMPORTED_MODULE_3__forest__["a" /* default */],
+    '=': __WEBPACK_IMPORTED_MODULE_4__poison__["a" /* default */], '|': __WEBPACK_IMPORTED_MODULE_4__poison__["a" /* default */], 'v': __WEBPACK_IMPORTED_MODULE_4__poison__["a" /* default */], 'p': __WEBPACK_IMPORTED_MODULE_4__poison__["a" /* default */],
+    '!': __WEBPACK_IMPORTED_MODULE_6__goals__["a" /* FinleyGoal */], '@': __WEBPACK_IMPORTED_MODULE_6__goals__["c" /* FrankieGoal */], 'O': __WEBPACK_IMPORTED_MODULE_6__goals__["b" /* ForestGoal */]
 };
 
 const instructionChars = {};
@@ -744,7 +791,7 @@ class Finley extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 
 class Frankie extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const frankieSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](1.5, .8);
+        const frankieSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](1.5, 1.5);
         const frankieXSpeed = xSpeed || 5;
         const frankieJumpSpeed = jumpSpeed || 8;
         super(pos, ch, speed, frankieSize, frankieXSpeed, frankieJumpSpeed);
@@ -787,7 +834,8 @@ class Poison {
     }
 
     collide(state) {
-        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](state.level, state.actors, 'lost', state.player);
+        // return new State(state.level, state.actors, 'lost', state.player);
+        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](Object.assign({}, state, { status: "lost" }));
     }
 
     update(time, state) {
@@ -827,10 +875,10 @@ class FrankieGoal {
     }
 
     collide(state) {
-        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](state.level, state.actors, state.status, state.player, state.switchKey, state.gravity, state.finleyStatus, true);
+        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](Object.assign({}, state, { frankieStatus: true }));
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["b"] = FrankieGoal;
+/* harmony export (immutable) */ __webpack_exports__["c"] = FrankieGoal;
 
 
 class FinleyGoal {
@@ -845,10 +893,29 @@ class FinleyGoal {
     }
 
     collide(state) {
-        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](state.level, state.actors, state.status, state.player, state.switchKey, state.gravity, true, state.frankieStatus);
+        debugger;
+        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](Object.assign({}, state, { finleyStatus: true }));
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = FinleyGoal;
+
+
+class ForestGoal {
+    constructor(pos, ch) {
+        this.pos = pos.plus(new __WEBPACK_IMPORTED_MODULE_0__vector__["a" /* default */](0, 0));
+        this.ch = ch;
+        this.size = new __WEBPACK_IMPORTED_MODULE_0__vector__["a" /* default */](2.5, .8);
+    }
+
+    update() {
+        return this;
+    }
+
+    collide(state) {
+        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](Object.assign({}, state, { forestStatus: true }));
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = ForestGoal;
 
 
 /***/ }),
@@ -914,10 +981,12 @@ class Display {
         const wrapper = createElement('div');
 
         const currPlayer = state.player;
+        const currLevel = state.level.levelId;
 
         for (let actor of state.actors) {
             const currPlayerStatus = currPlayer === actor ? 'curr-player' : '';
-            const el = wrapper.appendChild(createElement('div', `actor ${actor.constructor.name.toLowerCase()} ${currPlayerStatus}`)); // actor.constructor.name finds the name of the class of the actor
+            const currLevelStatus = currLevel === 1 ? 'finley-tut' : '';
+            const el = wrapper.appendChild(createElement('div', `actor ${actor.constructor.name.toLowerCase()} ${currPlayerStatus} ${currLevelStatus}`)); // actor.constructor.name finds the name of the class of the actor
             el.style.width = `${actor.size.x * scale}px`;
             el.style.height = `${actor.size.y * scale}px`;
             el.style.left = `${actor.pos.x * scale}px`;
@@ -977,9 +1046,30 @@ class Display {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-const levelMaps = [['                              r           ', '                              @       ', '                       xxxxxxxxxxxx', '      xxxxxxxxxx                       ', '      x 0      x         ', '      x        x          ', '      x        x           ', '      x i      x         ', '      x     !  x         ', '      xxxxxxxxxx        ', '                       ', '       1                ', '                       ', '                       ', '                       ', '                       '], ['                                                               ', '                                                                 ', '                                                                   ', '                                                 x                   ', '        0                                   x                              ', '                                       x                                     ', '      x                           x                                ', '      x i r    x            x                                   ', '      x      xx                                      !    @       ', '      xxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppxxxxxxxxxxxxxx  ', '      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 ', '                       ', '                       ', '                       ', '                       ', '                       '], ["xxxxxxxxxxxxxxx                                                    ", "x             x                                          ", "x   i         x                                         ", "x             x                               r         ", "x             x                               @          ", "x             x                                         ", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         0   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         1   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         !   x", "xxxxxxxxxxxxxxx", "       2       ", "               ", "               "], ["                                                                ", "                      ", "                     ", " x                                x          x", " x                                x          x", " x                                x          x ", " x                                x          x         x", " x                               !x          x         x", " x                                x          x         x", " x   3                     4      x          x         x", " x                              xxx          x         x", " x i                              xxxxxxxxxxxx      r  x", " x                              @                      x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                        ", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                       ! @                        x", " x   5           xxxxxxxxxxxxxxxxxx                 x", " x               xxxxxxxxxxxxxxxxxx                 x", " x i          xxxxxxxxxxxxxxxxxxxxxxxx           r  x", " x            xxxxxxxxxxxxxxxxxxxxxxxx              x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x                                                                                                      ", "x             x                                          ", "x             x                                                                                  ", "x             x                                                                                    ", "x             x                                                                                  ", "x             x                                                                       xxxxxxxxxxxxxxx              ", "x             x                                                                       x             x           ", "x             x                                                                       x   !   @     x      ", "x             x      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              xxxxxxxxxxxxxxxxx             x      ", "x             x      x                                 x              x                             x ", "x             x      x                      7          x              x                             x  ", "x             x      x                                 x              x                             x   ", "x             x      x                                 x              x                   t   t     x   ", "x             x      x       xxxxxxxxxxxxxxxxxxx       x              x ggggg xxxxxxxxxxxxxxxxxxxxxxx     ", "x             x      x ggggg x                 x       x              x ggggg x      ", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x ", "x             xxxxxxxx ggggg x                 x       xxxxxxxxxxxxxxxx ggggg x", "x                      ggggg x                 x                        ggggg x                                       x", "x   i  r         6     ggggg x                 x                        ggggg x", "x                            x                 x                        ggggg x", "x                            x                 x                        ggggg x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                             ", " x                                                                  x        x", " x                                                                  x         x", " x   8                                                              x         x", " x                                                                  x        x", " x   i    r                                                         x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    ! @ x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwww9wwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x             x                                            ", "x    i    r   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "xp  ppppppppppx", "x             x", "x   ~         x", "x             x          #", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                |   v   |   v   |   v  =|   |   v =   x", "x                  v   v    v   v   v  =v   |   v   =  x", "x     !                                            @   x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                                             r  ", " x                                                                                        x  @ x", " x                                                                                        xxxxxx", " x                                                               x", " x               x                                x              x", " x                              x                          x     x", " x           x                            x                      x", " x                      x                            x           x", " x                                           x                   x", " x               $                  x                            x", " x                            x                           x      x", " x i                                                             x", " x                                                           !   x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                           r  ", " x                                     x                x  @ x", " x                                     x                xxxxxx", " x                                     x", " x              xhh ! hhx              x", " x             xhhhh hhhhx     t       x", " x             xhhhhhhhhhx             x", " x             xxhhhhhhhxx             x", " x              xxhhhhhxx              x", " x   %           xxhhhxx    t          x", " x                xxhxx                x", " x i               xxx                 x", " x                                     x", " x                             t       x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                          r      ", " x                                                                  x     @     x", " x                                                                  x   xxxxxxxxx         x", " x   ^                                                              x         x", " x                                                                  x        x", " x   i                                                              x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    !   x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["xxxxxxxxxxxxxxxxxx                                                       ", "x                x                                          ", "x      !         x                                         ", "x                x                               r         ", "x                x                               @          ", "x                x                                         ", "x                x", "x                x                                          ", "x                x                                        ", "x                x", "x                x", "x                x", "x                x", "x   i    &       x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                xxxxxxxxxxxxxxxx", "x               *               x", "x                               x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], [" )                                                      @ ", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                                         x", "x                                      !  x", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x    i    r   x", "x (           x", "xxxxxxxxxxxxxxx"]];
+const levelMaps = [['                              r           ', '                              @       ', '                       xxxxxxxxxxxx', '      xxxxxxxxxx                       ', '      x 0      x         ', '      x        x          ', '      x        x           ', '      x i      x         ', '      x     !  x         ', '      xxxxxxxxxx        ', '                       ', '       1                ', '                       ', '                       ', '                       ', '                       '], ['                                                               ', '                                                                 ', '                                                                   ', '                                                 x                   ', '        0                                   x                              ', '                                       x                                     ', '      x      o                     x                                ', '      x i r    x            x                                   ', '      x      xx                                      !    @   O    ', '      xxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppxxxxxxxxxxxxxx  ', '      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 ', '                       ', '                       ', '                       ', '                       ', '                       '], ["xxxxxxxxxxxxxxx                                                    ", "x             x                                          ", "x   i         x                                         ", "x             x                               r         ", "x             x                               @          ", "x             x                                         ", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         0   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         1   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         !   x", "xxxxxxxxxxxxxxx", "       2       ", "               ", "               "], ["                                                                ", "                      ", "                     ", " x                                x          x", " x                                x          x", " x                                x          x ", " x                                x          x         x", " x                               !x          x         x", " x                                x          x         x", " x   3                     4      x          x         x", " x                              xxx          x         x", " x i                              xxxxxxxxxxxx      r  x", " x                              @                      x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                        ", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                       ! @                        x", " x   5           xxxxxxxxxxxxxxxxxx                 x", " x               xxxxxxxxxxxxxxxxxx                 x", " x i          xxxxxxxxxxxxxxxxxxxxxxxx           r  x", " x            xxxxxxxxxxxxxxxxxxxxxxxx              x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x                                                                                                      ", "x             x                                          ", "x             x                                                                                  ", "x             x                                                                                    ", "x             x                                                                                  ", "x             x                                                                       xxxxxxxxxxxxxxx              ", "x             x                                                                       x             x           ", "x             x                                                                       x   !   @     x      ", "x             x      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              xxxxxxxxxxxxxxxxx             x      ", "x             x      x                                 x              x                             x ", "x             x      x                      7          x              x                             x  ", "x             x      x                                 x              x                             x   ", "x             x      x                                 x              x                   t   t     x   ", "x             x      x       xxxxxxxxxxxxxxxxxxx       x              x ggggg xxxxxxxxxxxxxxxxxxxxxxx     ", "x             x      x ggggg x                 x       x              x ggggg x      ", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x ", "x             xxxxxxxx ggggg x                 x       xxxxxxxxxxxxxxxx ggggg x", "x                      ggggg x                 x                        ggggg x                                       x", "x   i  r         6     ggggg x                 x                        ggggg x", "x                            x                 x                        ggggg x", "x                            x                 x                        ggggg x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                             ", " x                                                                  x        x", " x                                                                  x         x", " x   8                                                              x         x", " x                                                                  x        x", " x   i    r                                                         x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    ! @ x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwww9wwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x             x                                            ", "x    i    r   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "xp  ppppppppppx", "x             x", "x   ~         x", "x             x          #", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                |   v   |   v   |   v  =|   |   v =   x", "x                  v   v    v   v   v  =v   |   v   =  x", "x     !                                            @   x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                                             r  ", " x                                                                                        x  @ x", " x                                                                                        xxxxxx", " x                                                               x", " x               x                                x              x", " x                              x                          x     x", " x           x                            x                      x", " x                      x                            x           x", " x                                           x                   x", " x               $                  x                            x", " x                            x                           x      x", " x i                                                             x", " x                                                           !   x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                           r  ", " x                                     x                x  @ x", " x                                     x                xxxxxx", " x                                     x", " x              xhh ! hhx              x", " x             xhhhh hhhhx     t       x", " x             xhhhhhhhhhx             x", " x             xxhhhhhhhxx             x", " x              xxhhhhhxx              x", " x   %           xxhhhxx    t          x", " x                xxhxx                x", " x i               xxx                 x", " x                                     x", " x                             t       x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                          r      ", " x                                                                  x     @     x", " x                                                                  x   xxxxxxxxx         x", " x   ^                                                              x         x", " x                                                                  x        x", " x   i                                                              x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    !   x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["xxxxxxxxxxxxxxxxxx                                                       ", "x                x                                          ", "x      !         x                                         ", "x                x                               r         ", "x                x                               @          ", "x                x                                         ", "x                x", "x                x                                          ", "x                x                                        ", "x                x", "x                x", "x                x", "x                x", "x   i    &       x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                xxxxxxxxxxxxxxxx", "x               *               x", "x                               x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], [" )                                                      @ ", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                                         x", "x                                      !  x", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x    i    r   x", "x (           x", "xxxxxxxxxxxxxxx"]];
 
 /* harmony default export */ __webpack_exports__["a"] = (levelMaps);
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vector__ = __webpack_require__(0);
+
+
+
+class Forest extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
+    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
+        const forestSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](2.5, .8);
+        const forestXSpeed = xSpeed || 5;
+        const forestJumpSpeed = jumpSpeed || 8;
+        super(pos, ch, speed, forestSize, forestXSpeed, forestJumpSpeed);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Forest);
 
 /***/ })
 /******/ ]);

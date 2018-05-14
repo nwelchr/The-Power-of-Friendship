@@ -83,7 +83,15 @@
 }
 
 .frankie {
-  background-color: #27a25d;
+  background-color: #b91e87;
+}
+
+.forest {
+  background-color: #0f8822;
+}
+
+.fe {
+
 }
 
 .instruction {
@@ -199,8 +207,8 @@ button:hover, a:hover {
   transform: scale(1.05);
 }
 
-.curr-player {
-  content: 'Finley';
+.curr-player:before {
+  content: '';
   height: 0;
   width: 0;
   position: absolute;
@@ -214,16 +222,19 @@ button:hover, a:hover {
   border-top: 10px solid #fff;
 }
 
-.finley-tut, .curr-player.finley-tut {
+.finley-tut.curr-player:before  {
   content: 'Finley';
   height: 0;
   width: 0;
   position: absolute;
   z-index: 9999;
-  top: -20px;
-  left: calc(50% - 8px);
-  font-size: 20px;
-  font: 15px 'HelveticaNeue-UltraLight' white;
+  top: -25px;
+  left: calc(50% - 22px);
+  font-size: 20fpx;
+  letter-spacing: 1px;
+  border: 0;
+  font-family: 'HelveticaNeue-UltraLight';
+  color: white;
 }
 
 .promotion {

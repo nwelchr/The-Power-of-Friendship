@@ -3,22 +3,24 @@ import Vector from "./vector";
 // unsure how to manage current player
 
 class State {
-  constructor(
+  constructor({
     level,
     actors,
     status,
     player,
+    nonPlayers,
     switchKey,
     gravity,
     finleyStatus,
     frankieStatus
-  ) {
+  }) {
     this.level = level;
     this.actors = actors;
+
     this.player = this.actors.find(
       actor => actor.constructor.name === player.constructor.name
     );
-    this.nonPlayers = this.actors.filter(
+    this.nonPlayers = nonPlayers || this.actors.filter(
       actor =>
         Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
           "Player" && actor !== this.player
@@ -62,22 +64,24 @@ class State {
         break;
     }
 
-
-    if (this.finleyStatus === true && this.frankieStatus === true) {
-      return new State(this.level, this.actors, "won", this.player);
-    }
-
     // to check whether switch is currently being pressed to prevent repeat switching on update
     this.switch = switchKey;
+    console.log(this.switch, switchKey);
+
+    if (this.finleyStatus === true && this.frankieStatus === true && this.status !== 'won') {
+      return new State(Object.assign({}, this, { status: "won" }));
+    }
+
   }
 
   static start(level) {
-    return new State(
-      level,
-      level.actors,
-      "playing",
-      level.actors.find(a => a.constructor.name === "Finley")
-    );
+    const newLevelState = {
+      level: level,
+      actors: level.actors,
+      status: "playing",
+      player: level.actors.find(a => a.constructor.name === "Finley")
+    };
+    return new State(newLevelState);
   }
 
   overlap(player, actor) {
@@ -179,54 +183,52 @@ class State {
     // if s is being pressed and wasn't already being pressed, AND if the current player isn't jumping/falling/etc (w this.player.speed.y === 0), switch player
     if (
       keys.switch &&
-      !this.switch
-      // ![1, 7, 8, 9, 10, 11].includes(this.level.levelId)
-    //   ![96, 62, 78, 58].includes(this.level.width)
-    )
-      return new State(
-        this.level,
-        actors,
-        this.status,
-        this.nonPlayers[0],
-        keys.switch,
-        this.gravity,
-        this.finleyStatus,
-        this.frankieStatus
-      );
+      !this.switch &&
+      ![1].includes(this.level.levelId)
+    ) {
+      const newPlayer = this.nonPlayers.shift();
+      this.nonPlayers.push(this.player);
+      const newState = Object.assign({}, this, { switchKey: true, actors, player: newPlayer, nonPlayers: this.nonPlayers });
+      return new State(newState);
+    }
 
-    let newState = new State(
-      this.level,
-      actors,
-      this.status,
-      this.player,
-      keys.switch,
-      null,
-      this.finleyStatus,
-      this.frankieStatus
-    );
-    if (!newState.status.includes("playing")) return newState;
+    let newState = new State(Object.assign({}, this, { actors, switchKey: false }));
+    // new State(
+    //   this.level,
+    //   actors,
+    //   this.status,
+    //   this.player,
+    //   keys.switch,
+    //   null,
+    //   this.finleyStatus,
+    //   this.frankieStatus
+    // );
+    const levelOver = !newState.status.includes("playing");
+    if (levelOver) return newState;
 
     let player = newState.player;
 
     switch (this.level.touching(player.pos, player.size)) {
       case "poison":
-        if (player.size.x === 0.8)
-          return new State(this.level, actors, "lost", this.player);
+          // return new State(this.level, actors, "lost", this.player);
+          return new State(Object.assign({}, this, { status: "lost" }));
       case "water":
-        if (player.size.x === 0.8 && this.level.levelId !== 9)
-          return new State(this.level, actors, "lost drowned", this.player);
-        break;
+        if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
+          // return new State(this.level, actors, "lost drowned", this.player);
+          return new State(Object.assign({}, this, { status: "lost drowned" }));
+        }
+          break;
       case "trampoline":
-        return new State(
-          this.level,
-          actors,
-          "playing",
-          this.player,
-          keys.switch,
-          -this.gravity * 1.5,
-          this.finleyStatus,
-          this.frankieStatus
-        );
+        return new State(Object.assign({}, this, { gravity: -this.gravity * 1.5 }));
+        //   this.level,
+        //   actors,
+        //   "playing",
+        //   this.player,
+        //   keys.switch,
+        //   -this.gravity * 1.5,
+        //   this.finleyStatus,
+        //   this.frankieStatus
+        // );
       default:
         break;
     }
