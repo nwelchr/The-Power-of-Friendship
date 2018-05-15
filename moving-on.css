@@ -98,11 +98,11 @@
 .instruction:before {
   color: white;
   font-size: 30px;
-  font-family: 'lato', 'helveticaneue-light', 'helvetica';
+  font-family: 'Lato', 'HelveticaNeue-Light';
 }
 
 .zero:before {
-  content: 'welcome. :)';
+  content: 'welcome, finley. :)';
   margin-left: -30px;
 }
 
@@ -112,16 +112,13 @@
 }
 
 .two:before {
-  content: 'use the arrow keys to move and jump.';
-  position: absolute;
-  width: 300px;
-  left: -80px;
+  content: 'hello, frankie.';
+  margin-left: 25px;
 }
 
 .three:before {
-  content: 'you needed him.';
-  position: absolute;
-  white-space: nowrap;
+  content: 'press s.';
+  margin-left: 15px;
 }
 
 .four:before {
@@ -218,7 +215,7 @@ button:hover, a:hover {
   border-top: 10px solid #fff;
 }
 
-.finley-tut.curr-player:before  {
+/* .finley-tut.curr-player:before  {
   content: 'Finley';
   height: 0;
   width: 0;
@@ -231,7 +228,7 @@ button:hover, a:hover {
   border: 0;
   font-family: 'HelveticaNeue-UltraLight';
   color: white;
-}
+} */
 
 .promotion {
   width: 100%;

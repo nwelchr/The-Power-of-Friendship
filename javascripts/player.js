@@ -57,6 +57,20 @@ class Player {
                 }
             }
             else if (keys.up && (this.speed.y >= 0 || overlap.includes('topOverlap')) && this === state.player) {
+                // switch (state.player.constructor.name) {
+                //     case "Finley":
+                //         break; 
+                //     case "Frankie":
+                //         break;
+                //     case "Forest":
+                //         break;
+                //     case "Fe":
+                //         break;
+                //     case "Fitz":
+                //         break;
+                //     default:
+                //         break;
+                // }
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();                
                 this.speed.y = -this.jumpSpeed;
                 if (obstacle === 'water') this.speed.y -= .5;

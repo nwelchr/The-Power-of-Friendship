@@ -18,16 +18,6 @@ class State {
     feStatus,
   }) {
     this.level = level;
-    this.actors = actors;
-
-    this.player = this.actors.find(
-      actor => actor.constructor.name === player.constructor.name
-    );
-    this.nonPlayers = nonPlayers || this.actors.filter(
-      actor =>
-        Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
-          "Player" && actor !== this.player
-    );
     this.status = status;
     this.finleyStatus = finleyStatus;
     this.frankieStatus = frankieStatus;
@@ -37,14 +27,31 @@ class State {
 
     this.gravity = gravity || 20;
 
+    let players, goals, startingPlayer;
+
     switch (this.level.levelId) {
       case 1:
+      // console.log(this.player.pos.y);
+      //   this.gravity = this.player.pos.y < 12 ? 2 : 10;
+      //   break;
+        players = ['Finley'];
+        goals = ['FinleyGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 2:
+        players = ['Finley'];
+        goals = ['FinleyGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 3:
+        players = ['Finley'];
+        goals = ['FinleyGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 4:
+        players = ['Finley', 'Frankie'];
+        goals = ['FinleyGoal', 'FrankieGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 5:
         break;
@@ -69,7 +76,15 @@ class State {
         this.gravity = this.player.pos.x > 20 ? 10 : -1;
         if (status !== 'won') this.status = "playing last-level";
         break;
+      default:
+        break;
     }
+
+    this.actors = actors.filter(actor => chars.includes(actor.constructor.name));
+    this.player = this.actors.find(actor => actor.constructor.name === startingPlayer);
+    this.nonPlayers = nonPlayers || this.actors.filter(actor =>
+      Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
+        "Player" && actor !== this.player);
 
     // to check whether switch is currently being pressed to prevent repeat switching on update
     this.switchKeyPressed = switchKeyPressed;

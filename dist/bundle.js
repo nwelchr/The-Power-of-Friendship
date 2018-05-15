@@ -149,6 +149,20 @@ class Player {
                     this.speed.y = this.jumpSpeed * .1;
                 }
             } else if (keys.up && (this.speed.y >= 0 || overlap.includes('topOverlap')) && this === state.player) {
+                // switch (state.player.constructor.name) {
+                //     case "Finley":
+                //         break; 
+                //     case "Frankie":
+                //         break;
+                //     case "Forest":
+                //         break;
+                //     case "Fe":
+                //         break;
+                //     case "Fitz":
+                //         break;
+                //     default:
+                //         break;
+                // }
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
                 this.speed.y = -this.jumpSpeed;
                 if (obstacle === 'water') this.speed.y -= .5;
@@ -225,10 +239,6 @@ class State {
     feStatus
   }) {
     this.level = level;
-    this.actors = actors;
-
-    this.player = this.actors.find(actor => actor.constructor.name === player.constructor.name);
-    this.nonPlayers = nonPlayers || this.actors.filter(actor => Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === "Player" && actor !== this.player);
     this.status = status;
     this.finleyStatus = finleyStatus;
     this.frankieStatus = frankieStatus;
@@ -238,14 +248,31 @@ class State {
 
     this.gravity = gravity || 20;
 
+    let players, goals, startingPlayer;
+
     switch (this.level.levelId) {
       case 1:
+        // console.log(this.player.pos.y);
+        //   this.gravity = this.player.pos.y < 12 ? 2 : 10;
+        //   break;
+        players = ['Finley'];
+        goals = ['FinleyGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 2:
+        players = ['Finley'];
+        goals = ['FinleyGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 3:
+        players = ['Finley'];
+        goals = ['FinleyGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 4:
+        players = ['Finley', 'Frankie'];
+        goals = ['FinleyGoal', 'FrankieGoal'];
+        startingPlayer = ['Finley'];
         break;
       case 5:
         break;
@@ -270,7 +297,13 @@ class State {
         this.gravity = this.player.pos.x > 20 ? 10 : -1;
         if (status !== 'won') this.status = "playing last-level";
         break;
+      default:
+        break;
     }
+
+    this.actors = actors.filter(actor => chars.includes(actor.constructor.name));
+    this.player = this.actors.find(actor => actor.constructor.name === startingPlayer);
+    this.nonPlayers = nonPlayers || this.actors.filter(actor => Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === "Player" && actor !== this.player);
 
     // to check whether switch is currently being pressed to prevent repeat switching on update
     this.switchKeyPressed = switchKeyPressed;
@@ -442,8 +475,8 @@ class State {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__level__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__display__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__level_maps__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__display__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__level_maps__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__state__ = __webpack_require__(2);
 
 
@@ -632,13 +665,13 @@ const game = new Game();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vector__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__finley__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__frankie__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__forest__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__fitz__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__fe__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__poison__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__forest__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__fitz__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__fe__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__poison__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__player__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__goals__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_constants__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__goals__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_constants__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_constants___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_constants__);
 
 
@@ -850,6 +883,69 @@ class Frankie extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vector__ = __webpack_require__(0);
+
+
+
+class Forest extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
+    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
+        const forestSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](2.5, .6);
+        const forestXSpeed = xSpeed || 5;
+        const forestJumpSpeed = jumpSpeed || 7;
+        super(pos, ch, speed, forestSize, forestXSpeed, forestJumpSpeed);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Forest);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vector__ = __webpack_require__(0);
+
+
+
+class Fitz extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
+    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
+        const fitzSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.6, 3);
+        const fitzXSpeed = xSpeed || 5.5;
+        const fitzJumpSpeed = jumpSpeed || 13;
+        super(pos, ch, speed, fitzSize, fitzXSpeed, fitzJumpSpeed);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Fitz);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vector__ = __webpack_require__(0);
+
+
+
+class Fe extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
+    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
+        const feSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.5, .8);
+        const feXSpeed = xSpeed || 6.5;
+        const feJumpSpeed = jumpSpeed || 9.5;
+        super(pos, ch, speed, feSize, feXSpeed, feJumpSpeed);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Fe);
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vector__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__state__ = __webpack_require__(2);
 
@@ -898,7 +994,7 @@ class Poison {
 /* harmony default export */ __webpack_exports__["a"] = (Poison);
 
 /***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -998,13 +1094,13 @@ class FeGoal {
 
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = {"O_RDONLY":0,"O_WRONLY":1,"O_RDWR":2,"S_IFMT":61440,"S_IFREG":32768,"S_IFDIR":16384,"S_IFCHR":8192,"S_IFBLK":24576,"S_IFIFO":4096,"S_IFLNK":40960,"S_IFSOCK":49152,"O_CREAT":512,"O_EXCL":2048,"O_NOCTTY":131072,"O_TRUNC":1024,"O_APPEND":8,"O_DIRECTORY":1048576,"O_NOFOLLOW":256,"O_SYNC":128,"O_SYMLINK":2097152,"O_NONBLOCK":4,"S_IRWXU":448,"S_IRUSR":256,"S_IWUSR":128,"S_IXUSR":64,"S_IRWXG":56,"S_IRGRP":32,"S_IWGRP":16,"S_IXGRP":8,"S_IRWXO":7,"S_IROTH":4,"S_IWOTH":2,"S_IXOTH":1,"E2BIG":7,"EACCES":13,"EADDRINUSE":48,"EADDRNOTAVAIL":49,"EAFNOSUPPORT":47,"EAGAIN":35,"EALREADY":37,"EBADF":9,"EBADMSG":94,"EBUSY":16,"ECANCELED":89,"ECHILD":10,"ECONNABORTED":53,"ECONNREFUSED":61,"ECONNRESET":54,"EDEADLK":11,"EDESTADDRREQ":39,"EDOM":33,"EDQUOT":69,"EEXIST":17,"EFAULT":14,"EFBIG":27,"EHOSTUNREACH":65,"EIDRM":90,"EILSEQ":92,"EINPROGRESS":36,"EINTR":4,"EINVAL":22,"EIO":5,"EISCONN":56,"EISDIR":21,"ELOOP":62,"EMFILE":24,"EMLINK":31,"EMSGSIZE":40,"EMULTIHOP":95,"ENAMETOOLONG":63,"ENETDOWN":50,"ENETRESET":52,"ENETUNREACH":51,"ENFILE":23,"ENOBUFS":55,"ENODATA":96,"ENODEV":19,"ENOENT":2,"ENOEXEC":8,"ENOLCK":77,"ENOLINK":97,"ENOMEM":12,"ENOMSG":91,"ENOPROTOOPT":42,"ENOSPC":28,"ENOSR":98,"ENOSTR":99,"ENOSYS":78,"ENOTCONN":57,"ENOTDIR":20,"ENOTEMPTY":66,"ENOTSOCK":38,"ENOTSUP":45,"ENOTTY":25,"ENXIO":6,"EOPNOTSUPP":102,"EOVERFLOW":84,"EPERM":1,"EPIPE":32,"EPROTO":100,"EPROTONOSUPPORT":43,"EPROTOTYPE":41,"ERANGE":34,"EROFS":30,"ESPIPE":29,"ESRCH":3,"ESTALE":70,"ETIME":101,"ETIMEDOUT":60,"ETXTBSY":26,"EWOULDBLOCK":35,"EXDEV":18,"SIGHUP":1,"SIGINT":2,"SIGQUIT":3,"SIGILL":4,"SIGTRAP":5,"SIGABRT":6,"SIGIOT":6,"SIGBUS":10,"SIGFPE":8,"SIGKILL":9,"SIGUSR1":30,"SIGSEGV":11,"SIGUSR2":31,"SIGPIPE":13,"SIGALRM":14,"SIGTERM":15,"SIGCHLD":20,"SIGCONT":19,"SIGSTOP":17,"SIGTSTP":18,"SIGTTIN":21,"SIGTTOU":22,"SIGURG":16,"SIGXCPU":24,"SIGXFSZ":25,"SIGVTALRM":26,"SIGPROF":27,"SIGWINCH":28,"SIGIO":23,"SIGSYS":12,"SSL_OP_ALL":2147486719,"SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION":262144,"SSL_OP_CIPHER_SERVER_PREFERENCE":4194304,"SSL_OP_CISCO_ANYCONNECT":32768,"SSL_OP_COOKIE_EXCHANGE":8192,"SSL_OP_CRYPTOPRO_TLSEXT_BUG":2147483648,"SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS":2048,"SSL_OP_EPHEMERAL_RSA":0,"SSL_OP_LEGACY_SERVER_CONNECT":4,"SSL_OP_MICROSOFT_BIG_SSLV3_BUFFER":32,"SSL_OP_MICROSOFT_SESS_ID_BUG":1,"SSL_OP_MSIE_SSLV2_RSA_PADDING":0,"SSL_OP_NETSCAPE_CA_DN_BUG":536870912,"SSL_OP_NETSCAPE_CHALLENGE_BUG":2,"SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG":1073741824,"SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG":8,"SSL_OP_NO_COMPRESSION":131072,"SSL_OP_NO_QUERY_MTU":4096,"SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION":65536,"SSL_OP_NO_SSLv2":16777216,"SSL_OP_NO_SSLv3":33554432,"SSL_OP_NO_TICKET":16384,"SSL_OP_NO_TLSv1":67108864,"SSL_OP_NO_TLSv1_1":268435456,"SSL_OP_NO_TLSv1_2":134217728,"SSL_OP_PKCS1_CHECK_1":0,"SSL_OP_PKCS1_CHECK_2":0,"SSL_OP_SINGLE_DH_USE":1048576,"SSL_OP_SINGLE_ECDH_USE":524288,"SSL_OP_SSLEAY_080_CLIENT_DH_BUG":128,"SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG":0,"SSL_OP_TLS_BLOCK_PADDING_BUG":512,"SSL_OP_TLS_D5_BUG":256,"SSL_OP_TLS_ROLLBACK_BUG":8388608,"ENGINE_METHOD_DSA":2,"ENGINE_METHOD_DH":4,"ENGINE_METHOD_RAND":8,"ENGINE_METHOD_ECDH":16,"ENGINE_METHOD_ECDSA":32,"ENGINE_METHOD_CIPHERS":64,"ENGINE_METHOD_DIGESTS":128,"ENGINE_METHOD_STORE":256,"ENGINE_METHOD_PKEY_METHS":512,"ENGINE_METHOD_PKEY_ASN1_METHS":1024,"ENGINE_METHOD_ALL":65535,"ENGINE_METHOD_NONE":0,"DH_CHECK_P_NOT_SAFE_PRIME":2,"DH_CHECK_P_NOT_PRIME":1,"DH_UNABLE_TO_CHECK_GENERATOR":4,"DH_NOT_SUITABLE_GENERATOR":8,"NPN_ENABLED":1,"RSA_PKCS1_PADDING":1,"RSA_SSLV23_PADDING":2,"RSA_NO_PADDING":3,"RSA_PKCS1_OAEP_PADDING":4,"RSA_X931_PADDING":5,"RSA_PKCS1_PSS_PADDING":6,"POINT_CONVERSION_COMPRESSED":2,"POINT_CONVERSION_UNCOMPRESSED":4,"POINT_CONVERSION_HYBRID":6,"F_OK":0,"R_OK":4,"W_OK":2,"X_OK":1,"UV_UDP_REUSEADDR":4}
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1121,76 +1217,100 @@ class Display {
 /* harmony default export */ __webpack_exports__["a"] = (Display);
 
 /***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const levelMaps = [['                                          ', '                                             ', '                         z    r    o   e     ', '                         Z    @    O   E ', '                       xxxxxxxxxxxxxxxxx', '      xxxxxxxxxx                       ', '      x 0      x         ', '      x        x          ', '      x        x           ', '      x  i     x         ', '      x     !  x         ', '      xxxxxxxxxx        ', '                       ', '       1                ', '                       ', '                       ', '                       ', '                       '], ['                                                               ', '                                                                 ', '                                                                   ', '                                                 x                   ', '        0                                   x                              ', '         e  z                            x                                     ', '      x      o                     x                                ', '      x i r               x                                   ', '      x         ! Z @ F E O                                       ', '      xxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppxxxxxxxxxxxxxx  ', '      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 ', '                       ', '                       ', '                       ', '                       ', '                       '], ["xxxxxxxxxxxxxxx                                                    ", "x             x                                          ", "x   i         x                                         ", "x             x                               r         ", "x             x                               @          ", "x             x                                         ", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         0   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         1   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         !   x", "xxxxxxxxxxxxxxx", "       2       ", "               ", "               "], ["                                                                ", "                      ", "                     ", " x                                x          x", " x                                x          x", " x                                x          x ", " x                                x          x         x", " x                               !x          x         x", " x                                x          x         x", " x   3                     4      x          x         x", " x                              xxx          x         x", " x i                              xxxxxxxxxxxx      r  x", " x                              @                      x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                        ", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                       ! @                        x", " x   5           xxxxxxxxxxxxxxxxxx                 x", " x               xxxxxxxxxxxxxxxxxx                 x", " x i          xxxxxxxxxxxxxxxxxxxxxxxx           r  x", " x            xxxxxxxxxxxxxxxxxxxxxxxx              x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x                                                                                                      ", "x             x                                          ", "x             x                                                                                  ", "x             x                                                                                    ", "x             x                                                                                  ", "x             x                                                                       xxxxxxxxxxxxxxx              ", "x             x                                                                       x             x           ", "x             x                                                                       x   !   @     x      ", "x             x      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              xxxxxxxxxxxxxxxxx             x      ", "x             x      x                                 x              x                             x ", "x             x      x                      7          x              x                             x  ", "x             x      x                                 x              x                             x   ", "x             x      x                                 x              x                   t   t     x   ", "x             x      x       xxxxxxxxxxxxxxxxxxx       x              x ggggg xxxxxxxxxxxxxxxxxxxxxxx     ", "x             x      x ggggg x                 x       x              x ggggg x      ", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x ", "x             xxxxxxxx ggggg x                 x       xxxxxxxxxxxxxxxx ggggg x", "x                      ggggg x                 x                        ggggg x                                       x", "x   i  r         6     ggggg x                 x                        ggggg x", "x                            x                 x                        ggggg x", "x                            x                 x                        ggggg x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                             ", " x                                                                  x        x", " x                                                                  x         x", " x   8                                                              x         x", " x                                                                  x        x", " x   i    r                                                         x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    ! @ x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwww9wwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x             x                                            ", "x    i    r   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "xp  ppppppppppx", "x             x", "x   ~         x", "x             x          #", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                |   v   |   v   |   v  =|   |   v =   x", "x                  v   v    v   v   v  =v   |   v   =  x", "x     !                                            @   x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                                             r  ", " x                                                                                        x  @ x", " x                                                                                        xxxxxx", " x                                                               x", " x               x                                x              x", " x                              x                          x     x", " x           x                            x                      x", " x                      x                            x           x", " x                                           x                   x", " x               $                  x                            x", " x                            x                           x      x", " x i                                                             x", " x                                                           !   x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                           r  ", " x                                     x                x  @ x", " x                                     x                xxxxxx", " x                                     x", " x              xhh ! hhx              x", " x             xhhhh hhhhx     t       x", " x             xhhhhhhhhhx             x", " x             xxhhhhhhhxx             x", " x              xxhhhhhxx              x", " x   %           xxhhhxx    t          x", " x                xxhxx                x", " x i               xxx                 x", " x                                     x", " x                             t       x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                          r      ", " x                                                                  x     @     x", " x                                                                  x   xxxxxxxxx         x", " x   ^                                                              x         x", " x                                                                  x        x", " x   i                                                              x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    !   x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["xxxxxxxxxxxxxxxxxx                                                       ", "x                x                                          ", "x      !         x                                         ", "x                x                               r         ", "x                x                               @          ", "x                x                                         ", "x                x", "x                x                                          ", "x                x                                        ", "x                x", "x                x", "x                x", "x                x", "x   i    &       x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                xxxxxxxxxxxxxxxx", "x               *               x", "x                               x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], [" )                                                      @ ", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                                         x", "x                                      !  x", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x    i    r   x", "x (           x", "xxxxxxxxxxxxxxx"]];
-
-/* harmony default export */ __webpack_exports__["a"] = (levelMaps);
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vector__ = __webpack_require__(0);
-
-
-
-class Forest extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
-    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const forestSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](2.5, .6);
-        const forestXSpeed = xSpeed || 5;
-        const forestJumpSpeed = jumpSpeed || 7;
-        super(pos, ch, speed, forestSize, forestXSpeed, forestJumpSpeed);
-    }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Forest);
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vector__ = __webpack_require__(0);
-
-
-
-class Fe extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
-    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const feSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.5, .8);
-        const feXSpeed = xSpeed || 6.5;
-        const feJumpSpeed = jumpSpeed || 9.5;
-        super(pos, ch, speed, feSize, feXSpeed, feJumpSpeed);
-    }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Fe);
-
-/***/ }),
 /* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vector__ = __webpack_require__(0);
+const levelMaps = [
+// ['                                          ',
+// '                                             ',
+//  '                         z    r    o   e     ',
+//   '                         Z    @    O   E ',
+//   '                       xxxxxxxxxxxxxxxxx',
+//   '      xxxxxxxxxx                                ',
+//   '      x      i x                  ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x 0      x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',
+//   '      x        x                   ',  
+//   '      x        xxxxxxxxxxxxxxxxxx                    ',
+//   '      x                         x   ',
+//   '      x                      !  x   ',
+//   '      xxxxxxxxxxxxxxxxxxxxxxxxxxx   ',
+//   '                       ',
+//   '       1               ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+// ],
 
+// ['                                                    ',
+// '                                   z                  ',
+//   'x                    x                r    o   e     ',
+//   'x                    x             Z  @    O   E ',
+//   'x                    x         xxxxxxxxxxxxxxxxxxxxxxx',
+//   'x             !      x             ',
+//   'x                    x       ',
+//   'xx i                 x    ',
+//   'xx         xx   xxx  x        ',
+//   'xxxxxx               x',
+//   'xxxxxx               x   ',
+//   'xxxxxxxxxxxxxxxxxxxxxx   ',
+//   '                         ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+// ],
 
+// [ '   xxxxxxxxxx             z                 ',
+//   '   x        x                r    o   e     ',
+//   '   x        x             Z  @    O   E     ',
+//   '   x     x! x         xxxxxxxxxxxxxxxxxxxxxxx',
+//   '   x     xxxx             ',
+//   '   x x      x             ',
+//   '   x        x             ',
+//   '   x  x     x             ',
+//   '   x        x             ',
+//   '   x       xx             ',
+//   '   x        x             ',
+//   '   x  x     x             ',
+//   '   x        x             ',
+//   '   x       xx             ',
+//   '   x        x             ',
+//   '   x    x   x       ',
+//   '   x        x    ',
+//   '   xx       x        ',
+//   '   x        x   ',
+//   '   xxx      x   ',
+//   '   x       xx    ',
+//   '   x        x        ',
+//   '   xxxx     x',
+//   '   x i    xxx   ',
+//   '   x      xxx   ',
+//   '   xxxxxxxxxx   ',
+//   '                         ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+//   '                       ',
+// ],
 
-class Fitz extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
-    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const fitzSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.6, 3);
-        const fitzXSpeed = xSpeed || 5.5;
-        const fitzJumpSpeed = jumpSpeed || 13;
-        super(pos, ch, speed, fitzSize, fitzXSpeed, fitzJumpSpeed);
-    }
-}
+['                                                    ', '                                    z                  ', 'x                xxxxxx                     o   e     ', 'x                xxxxxx             Z       O   E ', 'x                xxxxxx         xxxxxxxxxxxxxxxxxxxxxxx', 'x                xxxxxx             ', 'x      2         xxxxxx             ', 'x                xxxxxx             ', 'x                xxxxxx             ', 'x   i        r   xxxxxx      ', 'x                xxxxxx    ', 'xxxxxx      xxxxxxxxxxx     x        ', 'xxxxxx      xxxxxxxxxxx  ', 'xxxxxx @  ! xxxxxxxxxxx     ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', '        3            ', '                       ', '                       ', '                       ', '                       ', '                       '], ['                                                               ', '                                                                 ', '                                                                   ', '                                                 x                   ', '        0                                   x                              ', '         e  z                            x                                     ', '      x      o                     x                                ', '      x i r               x                                   ', '      x         ! Z @ F E O                                       ', '      xxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppxxxxxxxxxxxxxx  ', '      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 ', '                       ', '                       ', '                       ', '                       ', '                       '], ["xxxxxxxxxxxxxxx                                                    ", "x             x                                          ", "x   i         x                                         ", "x             x                               r         ", "x             x                               @          ", "x             x                                         ", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         0   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         1   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         !   x", "xxxxxxxxxxxxxxx", "       2       ", "               ", "               "], ["                                                                ", "                      ", "                     ", " x                                x          x", " x                                x          x", " x                                x          x ", " x                                x          x         x", " x                               !x          x         x", " x                                x          x         x", " x   3                     4      x          x         x", " x                              xxx          x         x", " x i                              xxxxxxxxxxxx      r  x", " x                              @                      x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                        ", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                       ! @                        x", " x   5           xxxxxxxxxxxxxxxxxx                 x", " x               xxxxxxxxxxxxxxxxxx                 x", " x i          xxxxxxxxxxxxxxxxxxxxxxxx           r  x", " x            xxxxxxxxxxxxxxxxxxxxxxxx              x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x                                                                                                      ", "x             x                                          ", "x             x                                                                                  ", "x             x                                                                                    ", "x             x                                                                                  ", "x             x                                                                       xxxxxxxxxxxxxxx              ", "x             x                                                                       x             x           ", "x             x                                                                       x   !   @     x      ", "x             x      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              xxxxxxxxxxxxxxxxx             x      ", "x             x      x                                 x              x                             x ", "x             x      x                      7          x              x                             x  ", "x             x      x                                 x              x                             x   ", "x             x      x                                 x              x                   t   t     x   ", "x             x      x       xxxxxxxxxxxxxxxxxxx       x              x ggggg xxxxxxxxxxxxxxxxxxxxxxx     ", "x             x      x ggggg x                 x       x              x ggggg x      ", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x ", "x             xxxxxxxx ggggg x                 x       xxxxxxxxxxxxxxxx ggggg x", "x                      ggggg x                 x                        ggggg x                                       x", "x   i  r         6     ggggg x                 x                        ggggg x", "x                            x                 x                        ggggg x", "x                            x                 x                        ggggg x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                             ", " x                                                                  x        x", " x                                                                  x         x", " x   8                                                              x         x", " x                                                                  x        x", " x   i    r                                                         x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    ! @ x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwww9wwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x             x                                            ", "x    i    r   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "xp  ppppppppppx", "x             x", "x   ~         x", "x             x          #", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                |   v   |   v   |   v  =|   |   v =   x", "x                  v   v    v   v   v  =v   |   v   =  x", "x     !                                            @   x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                                             r  ", " x                                                                                        x  @ x", " x                                                                                        xxxxxx", " x                                                               x", " x               x                                x              x", " x                              x                          x     x", " x           x                            x                      x", " x                      x                            x           x", " x                                           x                   x", " x               $                  x                            x", " x                            x                           x      x", " x i                                                             x", " x                                                           !   x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                           r  ", " x                                     x                x  @ x", " x                                     x                xxxxxx", " x                                     x", " x              xhh ! hhx              x", " x             xhhhh hhhhx     t       x", " x             xhhhhhhhhhx             x", " x             xxhhhhhhhxx             x", " x              xxhhhhhxx              x", " x   %           xxhhhxx    t          x", " x                xxhxx                x", " x i               xxx                 x", " x                                     x", " x                             t       x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                          r      ", " x                                                                  x     @     x", " x                                                                  x   xxxxxxxxx         x", " x   ^                                                              x         x", " x                                                                  x        x", " x   i                                                              x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    !   x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["xxxxxxxxxxxxxxxxxx                                                       ", "x                x                                          ", "x      !         x                                         ", "x                x                               r         ", "x                x                               @          ", "x                x                                         ", "x                x", "x                x                                          ", "x                x                                        ", "x                x", "x                x", "x                x", "x                x", "x   i    &       x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                xxxxxxxxxxxxxxxx", "x               *               x", "x                               x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], [" )                                                      @ ", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                                         x", "x                                      !  x", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x    i    r   x", "x (           x", "xxxxxxxxxxxxxxx"]];
 
-/* harmony default export */ __webpack_exports__["a"] = (Fitz);
+/* harmony default export */ __webpack_exports__["a"] = (levelMaps);
 
 /***/ })
 /******/ ]);
