@@ -255,24 +255,24 @@ class State {
         // console.log(this.player.pos.y);
         //   this.gravity = this.player.pos.y < 12 ? 2 : 10;
         //   break;
-        players = ['Finley'];
-        goals = ['FinleyGoal'];
-        startingPlayer = ['Finley'];
+        this.players = ['Finley', 'Frankie'];
+        goals = ['FinleyGoal', 'FrankieGoal'];
+        startingPlayer = 'Finley';
         break;
       case 2:
-        players = ['Finley'];
+        this.players = ['Finley'];
         goals = ['FinleyGoal'];
-        startingPlayer = ['Finley'];
+        startingPlayer = 'Finley';
         break;
       case 3:
-        players = ['Finley'];
+        this.players = ['Finley'];
         goals = ['FinleyGoal'];
-        startingPlayer = ['Finley'];
+        startingPlayer = 'Finley';
         break;
       case 4:
-        players = ['Finley', 'Frankie'];
+        this.players = ['Finley', 'Frankie'];
         goals = ['FinleyGoal', 'FrankieGoal'];
-        startingPlayer = ['Finley'];
+        startingPlayer = 'Finley';
         break;
       case 5:
         break;
@@ -301,15 +301,14 @@ class State {
         break;
     }
 
-    this.actors = actors.filter(actor => chars.includes(actor.constructor.name));
-    this.player = this.actors.find(actor => actor.constructor.name === startingPlayer);
-    this.nonPlayers = nonPlayers || this.actors.filter(actor => Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === "Player" && actor !== this.player);
+    this.switchKeyPressed = switchKeyPressed;
+    this.actors = actors;
+    this.player = player || this.actors.find(actor => actor.constructor.name === startingPlayer);
+    this.nonPlayers = nonPlayers || this.actors.filter(actor => this.players.includes(actor.constructor.name) && actor !== this.player);
 
     // to check whether switch is currently being pressed to prevent repeat switching on update
-    this.switchKeyPressed = switchKeyPressed;
 
     if (this.finleyStatus === true && this.frankieStatus === true && this.forestStatus === true && this.fitzStatus === true && this.feStatus === true && this.status !== 'won') {
-      console.log('heyyyyy');
       return new State(Object.assign({}, this, { status: "won" }));
     }
   }
@@ -318,10 +317,8 @@ class State {
     const newLevelState = {
       level: level,
       actors: level.actors,
-      status: "playing",
-      player: level.actors.find(a => a.constructor.name === "Finley")
+      status: "playing"
     };
-    console.log('hi');
     return new State(newLevelState);
   }
 
@@ -369,12 +366,20 @@ class State {
     ) {
         const newPlayer = this.nonPlayers.shift();
         this.nonPlayers.push(this.player);
-        const newState = Object.assign({}, this, { actors, player: newPlayer, nonPlayers: this.nonPlayers, switchKeyPressed: keys.switch });
-        console.log(newState.switchKeyPressed);
+        const newState = Object.assign({}, this, {
+          actors,
+          player: actors.find(actor => actor.constructor.name === newPlayer.constructor.name),
+          nonPlayers: this.nonPlayers,
+          switchKeyPressed: keys.switch });
         return new State(newState);
       }
 
-    let newState = new State(Object.assign({}, this, { actors, switchKeyPressed: keys.switch }));
+    let newState = new State(Object.assign({}, this, {
+      actors,
+      player: actors.find(actor => actor.constructor.name === this.player.constructor.name),
+      nonPlayers: this.nonPlayers,
+      switchKeyPressed: keys.switch //idk if i need to put this at false or keys.switch
+    }));
     // new State(
     //   this.level,
     //   actors,
@@ -393,17 +398,14 @@ class State {
     switch (this.level.touching(player.pos, player.size)) {
       case "poison":
         // return new State(this.level, actors, "lost", this.player);
-        console.log(this.switchKeyPressed);
         return new State(Object.assign({}, newState, { status: "lost" }));
       case "water":
         if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
           // return new State(this.level, actors, "lost drowned", this.player);
-          console.log(this);
           return new State(Object.assign({}, newState, { status: "lost drowned" }));
         }
         break;
       case "trampoline":
-        console.log(this);
 
         return new State(Object.assign({}, newState, { gravity: -this.gravity * 1.5 }));
       //   this.level,
