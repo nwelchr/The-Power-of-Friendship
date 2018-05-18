@@ -115,20 +115,20 @@
   content: 'press esc and click restart if you\'re stuck.';
 }
 
-/* .two:before {
+.three:before {
   content: 'hello, frankie.';
   margin-left: 25px;
-} */
-
-.three:before {
-  content: 'press s.';
-  margin-left: 15px;
 }
 
 .four:before {
   content: 'press s.';
-  position: absolute;
-  white-space: nowrap;
+  margin-left: 15px;
+  animation: fadein-s 10s ease;
+}
+
+@keyframes fadein-s {
+  0%, 50% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .five:before {
