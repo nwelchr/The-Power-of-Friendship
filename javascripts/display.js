@@ -1,4 +1,4 @@
-const scale = 50; // scale units into pixels
+const scale = 20; // scale units into pixels
 
 // helper function to create an element in the dom and give it a class;
 

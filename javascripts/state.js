@@ -25,19 +25,16 @@ class State {
     this.fitzStatus = fitzStatus;
     this.feStatus = feStatus;
 
-    this.gravity = gravity || 20;
+    this.gravity = gravity || 25;
 
     let players, goals, startingPlayer;
 
     switch (this.level.levelId) {
-      case 1:
-      // console.log(this.player.pos.y);
-      //   this.gravity = this.player.pos.y < 12 ? 2 : 10;
+      // case 1:
+      //   this.players = ['Finley'];
+      //   goals = ['FinleyGoal'];
+      //   startingPlayer = 'Finley';
       //   break;
-        this.players = ['Finley', 'Frankie'];
-        goals = ['FinleyGoal', 'FrankieGoal'];
-        startingPlayer = 'Finley';
-        break;
       case 2:
         this.players = ['Finley'];
         goals = ['FinleyGoal'];
@@ -53,7 +50,10 @@ class State {
         goals = ['FinleyGoal', 'FrankieGoal'];
         startingPlayer = 'Finley';
         break;
-      case 5:
+      case 1:
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
+        startingPlayer = 'Finley';
         break;
       case 6:
         break;
@@ -64,17 +64,8 @@ class State {
       case 9:
         break;
       case 10:
-        this.frankieStatus = true;
-        if (this.player.pos.y < 80 && this.player.pos.y > 5) this.gravity = 2;
-        const wrapper = document.getElementById("game-wrapper");
-        if (wrapper.classList.contains("rotated")) {
-          this.gravity = -5;
-        }
         break;
       case 11:
-        this.frankieStatus = true;
-        this.gravity = this.player.pos.x > 20 ? 10 : -1;
-        if (status !== 'won') this.status = "playing last-level";
         break;
       default:
         break;
@@ -85,6 +76,42 @@ class State {
     this.player = player || this.actors.find(actor => actor.constructor.name === startingPlayer);
     this.nonPlayers = nonPlayers || this.actors.filter(actor => 
       this.players.includes(actor.constructor.name) && actor !== this.player);
+
+
+      switch (this.level.levelId) {
+        // case 1:
+        //   this.gravity = this.player.pos.y < 12 ? 4 : 20;
+        //   break;
+        case 2:
+          break;
+        case 3:
+          break;
+        case 4:
+          break;
+        case 5:
+          break;
+        case 6:
+          break;
+        case 7:
+          break;
+        case 8:
+          break;
+        case 9:
+          break;
+        case 10:
+          if (this.player.pos.y < 80 && this.player.pos.y > 5) this.gravity = 2;
+          const wrapper = document.getElementById("game-wrapper");
+          if (wrapper.classList.contains("rotated")) {
+            this.gravity = -10;
+          }
+          break;
+        case 11:
+          this.gravity = this.player.pos.x > 20 ? 10 : -1;
+          if (status !== 'won') this.status = "playing last-level";
+          break;
+        default:
+          break;
+      }
 
     // to check whether switch is currently being pressed to prevent repeat switching on update
 
@@ -155,6 +182,7 @@ class State {
           (player.pos.x > actor.pos.x &&
             player.pos.x + player.size.x < actor.pos.x + actor.size.x))
       ) {
+        console.log('hi');
         return "bottomOverlap";
       }
 
@@ -209,7 +237,8 @@ class State {
     // if s is being pressed and wasn't already being pressed, AND if the current player isn't jumping/falling/etc (w this.player.speed.y === 0), switch player
     if (
       keys.switch &&
-      !this.switchKeyPressed 
+      !this.switchKeyPressed &&
+      this.nonPlayers.length > 0
       // ![1].includes(this.level.levelId)
     ) {
       const newPlayer = this.nonPlayers.shift();

@@ -1,6 +1,21 @@
 import Vector from "./vector";
 import State from "./state";
 
+export class FinleyGoal {
+    constructor(pos, ch) {
+        this.pos = pos.plus(new Vector(0, -1.9));
+        this.ch = ch;
+        this.size = new Vector(1.5, 2.9);
+    }
+
+    update() {
+        return this;
+    }
+
+    collide(state) {
+        return new State(Object.assign({}, state, { finleyStatus: true }));
+    }
+}
 export class FrankieGoal {
     constructor(pos, ch) {
         this.pos = pos.plus(new Vector(0, -.5));
@@ -17,21 +32,6 @@ export class FrankieGoal {
     }
 }
 
-export class FinleyGoal {
-    constructor(pos, ch) {
-        this.pos = pos.plus(new Vector(0, -.5));
-        this.ch = ch;
-        this.size = new Vector(.8, 1.5);
-    }
-
-    update() {
-        return this;
-    }
-
-    collide(state) {
-        return new State(Object.assign({}, state, { finleyStatus: true }));
-    }
-}
 
 export class ForestGoal {
     constructor(pos, ch) {

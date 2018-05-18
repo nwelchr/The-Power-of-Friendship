@@ -246,19 +246,16 @@ class State {
     this.fitzStatus = fitzStatus;
     this.feStatus = feStatus;
 
-    this.gravity = gravity || 20;
+    this.gravity = gravity || 25;
 
     let players, goals, startingPlayer;
 
     switch (this.level.levelId) {
-      case 1:
-        // console.log(this.player.pos.y);
-        //   this.gravity = this.player.pos.y < 12 ? 2 : 10;
-        //   break;
-        this.players = ['Finley', 'Frankie'];
-        goals = ['FinleyGoal', 'FrankieGoal'];
-        startingPlayer = 'Finley';
-        break;
+      // case 1:
+      //   this.players = ['Finley'];
+      //   goals = ['FinleyGoal'];
+      //   startingPlayer = 'Finley';
+      //   break;
       case 2:
         this.players = ['Finley'];
         goals = ['FinleyGoal'];
@@ -274,6 +271,42 @@ class State {
         goals = ['FinleyGoal', 'FrankieGoal'];
         startingPlayer = 'Finley';
         break;
+      case 1:
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
+        startingPlayer = 'Finley';
+        break;
+      case 6:
+        break;
+      case 7:
+        break;
+      case 8:
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      case 11:
+        break;
+      default:
+        break;
+    }
+
+    this.switchKeyPressed = switchKeyPressed;
+    this.actors = actors;
+    this.player = player || this.actors.find(actor => actor.constructor.name === startingPlayer);
+    this.nonPlayers = nonPlayers || this.actors.filter(actor => this.players.includes(actor.constructor.name) && actor !== this.player);
+
+    switch (this.level.levelId) {
+      // case 1:
+      //   this.gravity = this.player.pos.y < 12 ? 4 : 20;
+      //   break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
       case 5:
         break;
       case 6:
@@ -285,26 +318,19 @@ class State {
       case 9:
         break;
       case 10:
-        this.frankieStatus = true;
         if (this.player.pos.y < 80 && this.player.pos.y > 5) this.gravity = 2;
         const wrapper = document.getElementById("game-wrapper");
         if (wrapper.classList.contains("rotated")) {
-          this.gravity = -5;
+          this.gravity = -10;
         }
         break;
       case 11:
-        this.frankieStatus = true;
         this.gravity = this.player.pos.x > 20 ? 10 : -1;
         if (status !== 'won') this.status = "playing last-level";
         break;
       default:
         break;
     }
-
-    this.switchKeyPressed = switchKeyPressed;
-    this.actors = actors;
-    this.player = player || this.actors.find(actor => actor.constructor.name === startingPlayer);
-    this.nonPlayers = nonPlayers || this.actors.filter(actor => this.players.includes(actor.constructor.name) && actor !== this.player);
 
     // to check whether switch is currently being pressed to prevent repeat switching on update
 
@@ -337,6 +363,7 @@ class State {
       }
 
       if (verticalOverlap >= verticalDistance - 0.1 && verticalOverlap <= verticalDistance + 0.1 && (player.pos.x + player.size.x > actor.pos.x && player.pos.x + player.size.x < actor.pos.x + actor.size.x || player.pos.x > actor.pos.x && player.pos.x < actor.pos.x + actor.size.x || player.pos.x < actor.pos.x && player.pos.x + player.size.x > actor.pos.x + actor.size.x || player.pos.x > actor.pos.x && player.pos.x + player.size.x < actor.pos.x + actor.size.x)) {
+        console.log('hi');
         return "bottomOverlap";
       }
 
@@ -361,7 +388,7 @@ class State {
     let actors = this.actors.map(actor => actor.update(time, this, keys));
 
     // if s is being pressed and wasn't already being pressed, AND if the current player isn't jumping/falling/etc (w this.player.speed.y === 0), switch player
-    if (keys.switch && !this.switchKeyPressed
+    if (keys.switch && !this.switchKeyPressed && this.nonPlayers.length > 0
     // ![1].includes(this.level.levelId)
     ) {
         const newPlayer = this.nonPlayers.shift();
@@ -850,9 +877,9 @@ class Level {
 
 class Finley extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const finleySize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.7, 1.3);
-        const finleyXSpeed = xSpeed || 6;
-        const finleyJumpSpeed = jumpSpeed || 10;
+        const finleySize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](1.5, 2.9);
+        const finleyXSpeed = xSpeed || 15;
+        const finleyJumpSpeed = jumpSpeed || 60;
         super(pos, ch, speed, finleySize, finleyXSpeed, finleyJumpSpeed);
     }
 }
@@ -871,9 +898,9 @@ class Finley extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 
 class Frankie extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const frankieSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](1.6, 1.6);
-        const frankieXSpeed = xSpeed || 4.5;
-        const frankieJumpSpeed = jumpSpeed || 8;
+        const frankieSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](3.5, 3.5);
+        const frankieXSpeed = xSpeed || 12;
+        const frankieJumpSpeed = jumpSpeed || 40;
         super(pos, ch, speed, frankieSize, frankieXSpeed, frankieJumpSpeed);
     }
 }
@@ -892,9 +919,9 @@ class Frankie extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 
 class Forest extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const forestSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](2.5, .6);
-        const forestXSpeed = xSpeed || 5;
-        const forestJumpSpeed = jumpSpeed || 7;
+        const forestSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](1.2, 6);
+        const forestXSpeed = xSpeed || 14;
+        const forestJumpSpeed = jumpSpeed || 80;
         super(pos, ch, speed, forestSize, forestXSpeed, forestJumpSpeed);
     }
 }
@@ -914,8 +941,8 @@ class Forest extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 class Fitz extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
         const fitzSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.6, 3);
-        const fitzXSpeed = xSpeed || 5.5;
-        const fitzJumpSpeed = jumpSpeed || 13;
+        const fitzXSpeed = xSpeed || 10;
+        const fitzJumpSpeed = jumpSpeed || 20;
         super(pos, ch, speed, fitzSize, fitzXSpeed, fitzJumpSpeed);
     }
 }
@@ -934,9 +961,9 @@ class Fitz extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
 
 class Fe extends __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */] {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
-        const feSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](.5, .8);
-        const feXSpeed = xSpeed || 6.5;
-        const feJumpSpeed = jumpSpeed || 9.5;
+        const feSize = size || new __WEBPACK_IMPORTED_MODULE_1__vector__["a" /* default */](1.2, 2);
+        const feXSpeed = xSpeed || 20;
+        const feJumpSpeed = jumpSpeed || 50;
         super(pos, ch, speed, feSize, feXSpeed, feJumpSpeed);
     }
 }
@@ -1005,6 +1032,23 @@ class Poison {
 
 
 
+class FinleyGoal {
+    constructor(pos, ch) {
+        this.pos = pos.plus(new __WEBPACK_IMPORTED_MODULE_0__vector__["a" /* default */](0, -1.9));
+        this.ch = ch;
+        this.size = new __WEBPACK_IMPORTED_MODULE_0__vector__["a" /* default */](1.5, 2.9);
+    }
+
+    update() {
+        return this;
+    }
+
+    collide(state) {
+        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](Object.assign({}, state, { finleyStatus: true }));
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = FinleyGoal;
+
 class FrankieGoal {
     constructor(pos, ch) {
         this.pos = pos.plus(new __WEBPACK_IMPORTED_MODULE_0__vector__["a" /* default */](0, -.5));
@@ -1021,24 +1065,6 @@ class FrankieGoal {
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["e"] = FrankieGoal;
-
-
-class FinleyGoal {
-    constructor(pos, ch) {
-        this.pos = pos.plus(new __WEBPACK_IMPORTED_MODULE_0__vector__["a" /* default */](0, -.5));
-        this.ch = ch;
-        this.size = new __WEBPACK_IMPORTED_MODULE_0__vector__["a" /* default */](.8, 1.5);
-    }
-
-    update() {
-        return this;
-    }
-
-    collide(state) {
-        return new __WEBPACK_IMPORTED_MODULE_1__state__["a" /* default */](Object.assign({}, state, { finleyStatus: true }));
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["b"] = FinleyGoal;
 
 
 class ForestGoal {
@@ -1106,7 +1132,7 @@ module.exports = {"O_RDONLY":0,"O_WRONLY":1,"O_RDWR":2,"S_IFMT":61440,"S_IFREG":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-const scale = 50; // scale units into pixels
+const scale = 20; // scale units into pixels
 
 // helper function to create an element in the dom and give it a class;
 
@@ -1223,94 +1249,7 @@ class Display {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-const levelMaps = [
-// ['                                          ',
-// '                                             ',
-//  '                         z    r    o   e     ',
-//   '                         Z    @    O   E ',
-//   '                       xxxxxxxxxxxxxxxxx',
-//   '      xxxxxxxxxx                                ',
-//   '      x      i x                  ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x 0      x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',
-//   '      x        x                   ',  
-//   '      x        xxxxxxxxxxxxxxxxxx                    ',
-//   '      x                         x   ',
-//   '      x                      !  x   ',
-//   '      xxxxxxxxxxxxxxxxxxxxxxxxxxx   ',
-//   '                       ',
-//   '       1               ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-// ],
-
-// ['                                                    ',
-// '                                   z                  ',
-//   'x                    x                r    o   e     ',
-//   'x                    x             Z  @    O   E ',
-//   'x                    x         xxxxxxxxxxxxxxxxxxxxxxx',
-//   'x             !      x             ',
-//   'x                    x       ',
-//   'xx i                 x    ',
-//   'xx         xx   xxx  x        ',
-//   'xxxxxx               x',
-//   'xxxxxx               x   ',
-//   'xxxxxxxxxxxxxxxxxxxxxx   ',
-//   '                         ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-// ],
-
-// [ '   xxxxxxxxxx             z                 ',
-//   '   x        x                r    o   e     ',
-//   '   x        x             Z  @    O   E     ',
-//   '   x     x! x         xxxxxxxxxxxxxxxxxxxxxxx',
-//   '   x     xxxx             ',
-//   '   x x      x             ',
-//   '   x        x             ',
-//   '   x  x     x             ',
-//   '   x        x             ',
-//   '   x       xx             ',
-//   '   x        x             ',
-//   '   x  x     x             ',
-//   '   x        x             ',
-//   '   x       xx             ',
-//   '   x        x             ',
-//   '   x    x   x       ',
-//   '   x        x    ',
-//   '   xx       x        ',
-//   '   x        x   ',
-//   '   xxx      x   ',
-//   '   x       xx    ',
-//   '   x        x        ',
-//   '   xxxx     x',
-//   '   x i    xxx   ',
-//   '   x      xxx   ',
-//   '   xxxxxxxxxx   ',
-//   '                         ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-//   '                       ',
-// ],
-
-['                                                    ', '                                    z                  ', 'x                xxxxxx                     o   e     ', 'x                xxxxxx             Z       O   E ', 'x                xxxxxx         xxxxxxxxxxxxxxxxxxxxxxx', 'x                xxxxxx             ', 'x      2         xxxxxx             ', 'x                xxxxxx             ', 'x                xxxxxx             ', 'x   i        r   xxxxxx      ', 'x                xxxxxx    ', 'xxxxxx      xxxxxxxxxxx     x        ', 'xxxxxx      xxxxxxxxxxx  ', 'xxxxxx @  ! xxxxxxxxxxx     ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', '        3            ', '                       ', '                       ', '                       ', '                       ', '                       '], ['                                                               ', '                                                                 ', '                                                                   ', '                                                 x                   ', '        0                                   x                              ', '         e  z                            x                                     ', '      x      o                     x                                ', '      x i r               x                                   ', '      x         ! Z @ F E O                                       ', '      xxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppxxxxxxxxxxxxxx  ', '      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 ', '                       ', '                       ', '                       ', '                       ', '                       '], ["xxxxxxxxxxxxxxx                                                    ", "x             x                                          ", "x   i         x                                         ", "x             x                               r         ", "x             x                               @          ", "x             x                                         ", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         0   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         1   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         !   x", "xxxxxxxxxxxxxxx", "       2       ", "               ", "               "], ["                                                                ", "                      ", "                     ", " x                                x          x", " x                                x          x", " x                                x          x ", " x                                x          x         x", " x                               !x          x         x", " x                                x          x         x", " x   3                     4      x          x         x", " x                              xxx          x         x", " x i                              xxxxxxxxxxxx      r  x", " x                              @                      x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                        ", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                       ! @                        x", " x   5           xxxxxxxxxxxxxxxxxx                 x", " x               xxxxxxxxxxxxxxxxxx                 x", " x i          xxxxxxxxxxxxxxxxxxxxxxxx           r  x", " x            xxxxxxxxxxxxxxxxxxxxxxxx              x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x                                                                                                      ", "x             x                                          ", "x             x                                                                                  ", "x             x                                                                                    ", "x             x                                                                                  ", "x             x                                                                       xxxxxxxxxxxxxxx              ", "x             x                                                                       x             x           ", "x             x                                                                       x   !   @     x      ", "x             x      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              xxxxxxxxxxxxxxxxx             x      ", "x             x      x                                 x              x                             x ", "x             x      x                      7          x              x                             x  ", "x             x      x                                 x              x                             x   ", "x             x      x                                 x              x                   t   t     x   ", "x             x      x       xxxxxxxxxxxxxxxxxxx       x              x ggggg xxxxxxxxxxxxxxxxxxxxxxx     ", "x             x      x ggggg x                 x       x              x ggggg x      ", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x ", "x             xxxxxxxx ggggg x                 x       xxxxxxxxxxxxxxxx ggggg x", "x                      ggggg x                 x                        ggggg x                                       x", "x   i  r         6     ggggg x                 x                        ggggg x", "x                            x                 x                        ggggg x", "x                            x                 x                        ggggg x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                             ", " x                                                                  x        x", " x                                                                  x         x", " x   8                                                              x         x", " x                                                                  x        x", " x   i    r                                                         x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    ! @ x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwww9wwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x             x                                            ", "x    i    r   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "xp  ppppppppppx", "x             x", "x   ~         x", "x             x          #", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                |   v   |   v   |   v  =|   |   v =   x", "x                  v   v    v   v   v  =v   |   v   =  x", "x     !                                            @   x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                                             r  ", " x                                                                                        x  @ x", " x                                                                                        xxxxxx", " x                                                               x", " x               x                                x              x", " x                              x                          x     x", " x           x                            x                      x", " x                      x                            x           x", " x                                           x                   x", " x               $                  x                            x", " x                            x                           x      x", " x i                                                             x", " x                                                           !   x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                           r  ", " x                                     x                x  @ x", " x                                     x                xxxxxx", " x                                     x", " x              xhh ! hhx              x", " x             xhhhh hhhhx     t       x", " x             xhhhhhhhhhx             x", " x             xxhhhhhhhxx             x", " x              xxhhhhhxx              x", " x   %           xxhhhxx    t          x", " x                xxhxx                x", " x i               xxx                 x", " x                                     x", " x                             t       x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                          r      ", " x                                                                  x     @     x", " x                                                                  x   xxxxxxxxx         x", " x   ^                                                              x         x", " x                                                                  x        x", " x   i                                                              x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    !   x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["xxxxxxxxxxxxxxxxxx                                                       ", "x                x                                          ", "x      !         x                                         ", "x                x                               r         ", "x                x                               @          ", "x                x                                         ", "x                x", "x                x                                          ", "x                x                                        ", "x                x", "x                x", "x                x", "x                x", "x   i    &       x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                xxxxxxxxxxxxxxxx", "x               *               x", "x                               x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], [" )                                                      @ ", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                                         x", "x                                      !  x", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x    i    r   x", "x (           x", "xxxxxxxxxxxxxxx"]];
+const levelMaps = [['                                                                          ', '                                             ', '                z    r    o   e     ', '                                                        ', '               Z    @    O   E ', '                                                        ', '               xxxxxxxxxxxxxxxxx', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '                                                        ', '               xxxxxxxxxxxxxxxxxxxxxx                                ', '               x   0                x                  ', '               x                    x                   ', '               x                    x                   ', '               x       i            x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    x                   ', '               x                    xxxxxxxxxxxxxxxxxx                   ', '               x                                     x                   ', '               x                                     x                   ', '               x                                     x                   ', '               x                                     x                    ', '               x                                     x   ', '               x                           !         x   ', '               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   ', '                       ', '       1               ', '                       ', '                       ', '                       ', '                       '], ['xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                ', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xx  2                                                                xxx                             ', 'xx                                                                   xxx                             ', 'xx                                                                   xxx                             ', 'xx                                                                   xxx                             ', 'xx                                                                   xxx                            ', 'xx                                                                   xxx          z                  ', 'xx                                                                   xxx                r    o   e     ', 'xx                                                                   xxx             Z  @    O   E ', 'xx       i                                                        !  xxx           xxxxxxxxxxxxxxxxxxxxxxx', 'xx                                                                   xxx             ', 'xx                                                                   xxx       ', 'xx                                                                   xxx    ', 'xx                     xxxxx       xxx                xxx            xxx        ', 'xx                     xxxxx                                         xxx', 'xx                     xxxxx                                         xxx   ', 'xx                 xxxxxxxxx                                         xxx   ', 'xxxxxx             xxxxxxxxx                                         xxx   ', 'xxxxxx             xxxxxxxxx                                         xxx   ', 'xxxxxx             xxxxxxxxx                                         xxx   ', 'xxxxxx             xxxxxxxxx                                         xxx   ', 'xxxxxx             xxxxxxxxx                                         xxx   ', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'], ['xxxxxxxxxxxxxx       z    r   o   e                xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx         Z  @   O   E                xxxxxxxxxx', 'xxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxxxxxxx        xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx          h                          xxxxxxxxxx', 'xxxxxxxxxxxxxx     h          h          h         xxxxxxxxxx', 'xxxxxxxxxxxxxx        h    h       h            h  xxxxxxxxxx', 'xxxxxxxxxxxxxx   h                      h          xxxxxxxxxx', 'xxxxxxxxxxxxxx           h     h    h              xxxxxxxxxx', 'xxxxxxxxxxxxxx     h             h         h   h   xxxxxxxxxx', 'xxxxxxxxxxxxxx              h        h             xxxxxxxxxx', 'xxxxxxxxxxxxxx    h   h         h        h         xxxxxxxxxx', 'xxxxxxxxxxxxxx      h         h    h          h    xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx          !                          xxxxxxxxxx', 'xxxxxxxxxxxx            xx                         xxxxxxxxxx', 'xxxxxxxxxxxx            xx                         xxxxxxxxxx', 'xxxxxxxxxxxx                                       xxxxxxxxxx', 'xxxxxxxxxxxx                                       xxxxxxxxxx', 'xxxxxxxxxxxxxx                                       xxxxxxxx', 'xxxxxxxxxxxxxx                                       xxxxxxxx', 'xxxxxxxxxxxxxx                           xx          xxxxxxxx', 'xxxxxxxxxxxxxx  xx                       xx          xxxxxxxx', 'xxxxxxxxxxxxxx  xx               xx                  xxxxxxxx', 'xxxxxxxxxxxxxx                   xx                xxxxxxxxxx', 'xxxxxxxxxxxxxx       xx                            xxxxxxxxxx', 'xxxxxxxxxxxxxx       xx                            xxxxxxxxxx', 'xxxxxxxxxxxxxx                                 xxxxxxxxxxxxxx', 'xxxxxxxxxxxxxx                                 xxxxxxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                      xx             xxxxxxxxxx', 'xxxxxxxxxxxxxx                      xx             xxxxxxxxxx', 'xxxxxxxxxxxxxx              xx                     xxxxxxxxxx', 'xxxxxxxxxxxxxx              xx                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx    xx                               xxxxxxxxxx', 'xxxxxxxxxxxxxx    xx                               xxxxxxxxxx', 'xxxxxxxxxxxxxx                       xx            xxxxxxxxxx', 'xxxxxxxxxxxxxx            xx         xx            xxxxxxxxxx', 'xxxxxxxxxxxxxx            xx                       xxxxxxxxxx', 'xxxxxxxxxxxxxx                                     xxxxxxxxxx', 'xxxxxxxxxxxxxx                          i        xxxxxxxxxxxx', 'xxxxxxxxxxxxxx                                   xxxxxxxxxxxx', 'xxxxxxxxxxxxxx                                   xxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'], ['                                                    ', '                                    z                  ', 'x                xxxxxx                     o   e     ', 'x                xxxxxx             Z       O   E ', 'x                xxxxxx         xxxxxxxxxxxxxxxxxxxxxxx', 'x                xxxxxx             ', 'x      2         xxxxxx             ', 'x                xxxxxx             ', 'x                xxxxxx             ', 'x   i        r   xxxxxx      ', 'x                xxxxxx    ', 'xxxxxx      xxxxxxxxxxx     x        ', 'xxxxxx      xxxxxxxxxxx  ', 'xxxxxx @  ! xxxxxxxxxxx     ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', 'xxxxxxxxxxxxxxxxxxxxxxx   ', '        3            ', '                       ', '                       ', '                       ', '                       ', '                       '], ['                                                               ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                 ', '                                                                   ', '                                                 x                   ', '        0                                   x                              ', '        i er  z                            x                                     ', '      x      o                     x                                ', '      x                     x                                   ', '      x         ! Z @ F E O                                       ', '      xxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppxxxxxxxxxxxxxx  ', '      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 ', '                       ', '                       ', '                       ', '                       ', '                       '], ["xxxxxxxxxxxxxxx                                                    ", "x             x                                          ", "x   i         x                                         ", "x             x                               r         ", "x             x                               @          ", "x             x                                         ", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         0   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         1   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x         !   x", "xxxxxxxxxxxxxxx", "       2       ", "               ", "               "], ["                                                                ", "                      ", "                     ", " x                                x          x", " x                                x          x", " x                                x          x ", " x                                x          x         x", " x                               !x          x         x", " x                                x          x         x", " x   3                     4      x          x         x", " x                              xxx          x         x", " x i                              xxxxxxxxxxxx      r  x", " x                              @                      x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                        ", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                                                  x", " x                       ! @                        x", " x   5           xxxxxxxxxxxxxxxxxx                 x", " x               xxxxxxxxxxxxxxxxxx                 x", " x i          xxxxxxxxxxxxxxxxxxxxxxxx           r  x", " x            xxxxxxxxxxxxxxxxxxxxxxxx              x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x                                                                                                      ", "x             x                                          ", "x             x                                                                                  ", "x             x                                                                                    ", "x             x                                                                                  ", "x             x                                                                       xxxxxxxxxxxxxxx              ", "x             x                                                                       x             x           ", "x             x                                                                       x   !   @     x      ", "x             x      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              xxxxxxxxxxxxxxxxx             x      ", "x             x      x                                 x              x                             x ", "x             x      x                      7          x              x                             x  ", "x             x      x                                 x              x                             x   ", "x             x      x                                 x              x                   t   t     x   ", "x             x      x       xxxxxxxxxxxxxxxxxxx       x              x ggggg xxxxxxxxxxxxxxxxxxxxxxx     ", "x             x      x ggggg x                 x       x              x ggggg x      ", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x", "x             x      x ggggg x                 x       x              x ggggg x ", "x             xxxxxxxx ggggg x                 x       xxxxxxxxxxxxxxxx ggggg x", "x                      ggggg x                 x                        ggggg x                                       x", "x   i  r         6     ggggg x                 x                        ggggg x", "x                            x                 x                        ggggg x", "x                            x                 x                        ggggg x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                 x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               x                        ggggg x", "                                               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                             ", " x                                                                  x        x", " x                                                                  x         x", " x   8                                                              x         x", " x                                                                  x        x", " x   i    r                                                         x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    ! @ x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwww9wwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["x             x                                            ", "x    i    r   x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "xp  ppppppppppx", "x             x", "x   ~         x", "x             x          #", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                |   v   |   v   |   v  =|   |   v =   x", "x                  v   v    v   v   v  =v   |   v   =  x", "x     !                                            @   x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                                             r  ", " x                                                                                        x  @ x", " x                                                                                        xxxxxx", " x                                                               x", " x               x                                x              x", " x                              x                          x     x", " x           x                            x                      x", " x                      x                            x           x", " x                                           x                   x", " x               $                  x                            x", " x                            x                           x      x", " x i                                                             x", " x                                                           !   x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                           r  ", " x                                     x                x  @ x", " x                                     x                xxxxxx", " x                                     x", " x              xhh ! hhx              x", " x             xhhhh hhhhx     t       x", " x             xhhhhhhhhhx             x", " x             xxhhhhhhhxx             x", " x              xxhhhhhxx              x", " x   %           xxhhhxx    t          x", " x                xxhxx                x", " x i               xxx                 x", " x                                     x", " x                             t       x", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["                                                                          r      ", " x                                                                  x     @     x", " x                                                                  x   xxxxxxxxx         x", " x   ^                                                              x         x", " x                                                                  x        x", " x   i                                                              x            x", " x                                                                  x        x", " xxxxxxxxxxxxx           xxx             xxx                    !   x                    x", " xxxxxxxxxxxxx                                              xxxxxxxxx                     x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx                   x", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxxxxxxxxxxx", " xxxxxxxxxxxxxppppppppppppppppppppppppppppppppppppppppppxxxxxxxxxxxxx", " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], ["xxxxxxxxxxxxxxxxxx                                                       ", "x                x                                          ", "x      !         x                                         ", "x                x                               r         ", "x                x                               @          ", "x                x                                         ", "x                x", "x                x                                          ", "x                x                                        ", "x                x", "x                x", "x                x", "x                x", "x   i    &       x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                x", "x                xxxxxxxxxxxxxxxx", "x               *               x", "x                               x", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"], [" )                                                      @ ", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x                                         x", "x                                      !  x", "x             xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x             x", "x    i    r   x", "x (           x", "xxxxxxxxxxxxxxx"]];
 
 /* harmony default export */ __webpack_exports__["a"] = (levelMaps);
 

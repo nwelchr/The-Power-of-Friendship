@@ -21,7 +21,7 @@
 }
 
 .wall {
-  background: rgb(120, 120, 120);
+  background: rgb(80, 80, 100);
 }
 
 .water {
@@ -112,9 +112,13 @@
 }
 
 .two:before {
+  content: 'press esc and click restart if you\'re stuck.';
+}
+
+/* .two:before {
   content: 'hello, frankie.';
   margin-left: 25px;
-}
+} */
 
 .three:before {
   content: 'press s.';
