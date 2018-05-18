@@ -18,9 +18,9 @@ export class FinleyGoal {
 }
 export class FrankieGoal {
     constructor(pos, ch) {
-        this.pos = pos.plus(new Vector(0, -.5));
+        this.pos = pos.plus(new Vector(0, -2.5));
         this.ch = ch;
-        this.size = new Vector(1.5, 1.5);
+        this.size = new Vector(3.5, 3.5);
     }
 
     update() {
@@ -35,9 +35,9 @@ export class FrankieGoal {
 
 export class ForestGoal {
     constructor(pos, ch) {
-        this.pos = pos.plus(new Vector(0, .2));
+        this.pos = pos.plus(new Vector(0, -5));
         this.ch = ch;
-        this.size = new Vector(2.5, .8);
+        this.size = new Vector(1.2, 6);
     }
 
     update() {
@@ -49,11 +49,27 @@ export class ForestGoal {
     }
 }
 
+
+export class FeGoal {
+    constructor(pos, ch) {
+        this.pos = pos.plus(new Vector(0, -1));
+        this.ch = ch;
+        this.size = new Vector(1.2, 2);
+    }
+    
+    update() {
+        return this;
+    }
+    
+    collide(state) {
+        return new State(Object.assign({}, state, { feStatus: true }));
+    }
+}
 export class FitzGoal {
     constructor(pos, ch) {
-        this.pos = pos.plus(new Vector(0, -1.5));
+        this.pos = pos.plus(new Vector(0, 0));
         this.ch = ch;
-        this.size = new Vector(.6, 2.5);
+        this.size = new Vector(6, 1);
     }
 
     update() {
@@ -62,21 +78,5 @@ export class FitzGoal {
 
     collide(state) {
         return new State(Object.assign({}, state, { fizStatus: true }));
-    }
-}
-
-export class FeGoal {
-    constructor(pos, ch) {
-        this.pos = pos.plus(new Vector(0, .2));
-        this.ch = ch;
-        this.size = new Vector(.5, .8);
-    }
-
-    update() {
-        return this;
-    }
-
-    collide(state) {
-        return new State(Object.assign({}, state, { feStatus: true }));
     }
 }
