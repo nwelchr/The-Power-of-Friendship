@@ -30,11 +30,11 @@ class State {
     let players, goals, startingPlayer;
 
     switch (this.level.levelId) {
-      // case 1:
-      //   this.players = ['Finley'];
-      //   goals = ['FinleyGoal'];
-      //   startingPlayer = 'Finley';
-      //   break;
+      case 1:
+        this.players = ['Finley'];
+        goals = ['FinleyGoal'];
+        startingPlayer = 'Finley';
+        break;
       case 2:
         this.players = ['Finley'];
         goals = ['FinleyGoal'];
@@ -50,10 +50,10 @@ class State {
         goals = ['FinleyGoal', 'FrankieGoal'];
         startingPlayer = 'Finley';
         break;
-      case 1:
-        this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
-        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
-        startingPlayer = 'Finley';
+      case 5:
+      this.players = ['Finley', 'Frankie'];
+        goals = ['FinleyGoal', 'FrankieGoal'];
+        startingPlayer = 'Frankie';
         break;
       case 6:
         break;
@@ -68,6 +68,9 @@ class State {
       case 11:
         break;
       default:
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
+        startingPlayer = 'Finley';
         break;
     }
 
@@ -145,7 +148,7 @@ class State {
       );
     } else if (
       Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
-      "Player"
+      "Player" || actor.constructor.name === "Platform"
     ) {
       const horizontalOverlap =
         player.pos.x + player.size.x / 2 - (actor.pos.x + actor.size.x / 2);
@@ -182,7 +185,6 @@ class State {
           (player.pos.x > actor.pos.x &&
             player.pos.x + player.size.x < actor.pos.x + actor.size.x))
       ) {
-        console.log('hi');
         return "bottomOverlap";
       }
 
@@ -317,7 +319,7 @@ class State {
       const overlap = this.overlap(player, actor);
       if (
         overlap &&
-        !(actor.constructor.name === "Poison" && player.size.x === 1.5)
+        !(["Poison", "Platform"].includes(actor.constructor.name))
       )
         return actor.collide(newState);
     }

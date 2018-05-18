@@ -43,6 +43,9 @@ class Player {
                 this.pos = newPos;
             } else if (overlap.includes('topOverlap') && this.speed.y < 0) {
                 this.pos = newPos;
+            } else if (overlap.includes('Platform')) {
+                const platform = overlap.find(overlapType => typeof overlapType === 'object').platform;
+                this.pos.y = platform.pos.y - this.size.y;
             } else if (obstacle === 'trampoline') {
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
                 this.speed.y = -(Math.floor(Math.random() * 2 + 12));
@@ -57,20 +60,6 @@ class Player {
                 }
             }
             else if (keys.up && (this.speed.y >= 0 || overlap.includes('topOverlap')) && this === state.player) {
-                // switch (state.player.constructor.name) {
-                //     case "Finley":
-                //         break; 
-                //     case "Frankie":
-                //         break;
-                //     case "Forest":
-                //         break;
-                //     case "Fe":
-                //         break;
-                //     case "Fitz":
-                //         break;
-                //     default:
-                //         break;
-                // }
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();                
                 this.speed.y = -this.jumpSpeed;
                 if (obstacle === 'water') this.speed.y -= .5;
@@ -97,6 +86,7 @@ class Player {
         for(let actor of state.actors) {
             if (!(this === actor)) {
                 const currOverlap = state.overlap(this, actor);
+                if (currOverlap === 'topOverlap' && actor.constructor.name === "Platform") overlap.push('Platform', { platform: actor });
                 if (currOverlap 
                     && ['topOverlap', 'bottomOverlap', 'leftOverlap', 'rightOverlap'].includes(currOverlap)) {
                         overlap.push(currOverlap);

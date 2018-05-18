@@ -6,6 +6,7 @@ import Fitz from './fitz';
 import Fe from './fe';
 import Poison from './poison';
 import Player from "./player";
+import Platform from './platform';
 import { FinleyGoal, FrankieGoal, ForestGoal, FeGoal, FitzGoal } from './goals';
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
@@ -16,6 +17,7 @@ const actorChars = {
     'z': Fitz,
     'e': Fe,
     '=': Poison, '|': Poison, 'v': Poison, 'p': Poison,
+    'L': Platform,
     '!': FinleyGoal, '@': FrankieGoal, 'O': ForestGoal, 'Z': FitzGoal, 'E': FeGoal,
 };
 

@@ -28,6 +28,10 @@
   background: #0af;
 }
 
+.platform {
+  background: rgba(30, 30, 30, 1);
+}
+
 .actor {
   position: absolute;
 }
