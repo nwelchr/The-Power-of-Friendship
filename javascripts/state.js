@@ -90,47 +90,49 @@ class State {
     this.switchKeyPressed = switchKeyPressed;
     this.actors = actors;
     this.player = player || this.actors.find(actor => actor.constructor.name === startingPlayer);
-    this.nonPlayers = nonPlayers || this.actors.filter(actor => 
+    this.nonPlayers = nonPlayers || this.actors.filter(actor =>
       this.players.includes(actor.constructor.name) && actor !== this.player);
 
 
-      switch (this.level.levelId) {
-        case 1:
-          this.player.gravity = this.player.pos.y < 50 ? 4 : 25;
-          break;
-        case 2:
-          break;
-        case 3:
-          break;
-        case 4:
-          break;
-        case 5:
-          break;
-        case 6:
-          break;
-        case 7:
-          break;
-        case 8:
-          break;
-        case 9:
-          break;
-        case 10:
-          break;
-        case 11:
+    switch (this.level.levelId) {
+      case 1:
+        this.player.gravity = this.player.pos.y < 50 ? 4 : 25;
         break;
-        default:
-          break;
-      }
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
+      case 6:
+        break;
+      case 7:
+        break;
+      case 8:
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      case 11:
+        break;
+      default:
+        break;
+    }
 
     // to check whether switch is currently being pressed to prevent repeat switching on update
 
-    if (this.finleyStatus === true 
-      && this.frankieStatus === true 
-      && this.forestStatus === true 
-      && this.fitzStatus === true 
-      && this.feStatus === true 
-      && this.status !== 'won') {
-      return new State(Object.assign({}, this, { status: "won" }));
+    if (this.finleyStatus === true &&
+      this.frankieStatus === true &&
+      this.forestStatus === true &&
+      this.fitzStatus === true &&
+      this.feStatus === true &&
+      this.status !== 'won') {
+      return new State(Object.assign({}, this, {
+        status: "won"
+      }));
     }
 
   }
@@ -158,7 +160,7 @@ class State {
     ) {
 
       const distFactor = Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
-      "Player" ? .1 : .2;
+        "Player" ? .1 : .2;
 
       const horizontalOverlap =
         player.pos.x + player.size.x / 2 - (actor.pos.x + actor.size.x / 2);
@@ -168,11 +170,10 @@ class State {
         player.pos.y + player.size.y / 2 - (actor.pos.y + actor.size.y / 2);
       const verticalDistance = player.size.y / 2 + actor.size.y / 2;
 
-      if (
-        -verticalOverlap >= verticalDistance - distFactor &&
+      if (-verticalOverlap >= verticalDistance - distFactor &&
         -verticalOverlap <= verticalDistance + distFactor &&
         ((player.pos.x + player.size.x > actor.pos.x &&
-          player.pos.x + player.size.x < actor.pos.x + actor.size.x) ||
+            player.pos.x + player.size.x < actor.pos.x + actor.size.x) ||
           (player.pos.x > actor.pos.x &&
             player.pos.x < actor.pos.x + actor.size.x) ||
           (player.pos.x < actor.pos.x &&
@@ -187,7 +188,7 @@ class State {
         verticalOverlap >= verticalDistance - distFactor &&
         verticalOverlap <= verticalDistance + distFactor &&
         ((player.pos.x + player.size.x > actor.pos.x &&
-          player.pos.x + player.size.x < actor.pos.x + actor.size.x) ||
+            player.pos.x + player.size.x < actor.pos.x + actor.size.x) ||
           (player.pos.x > actor.pos.x &&
             player.pos.x < actor.pos.x + actor.size.x) ||
           (player.pos.x < actor.pos.x &&
@@ -198,11 +199,10 @@ class State {
         return "bottomOverlap";
       }
 
-      if (
-        -horizontalOverlap >= horizontalDistance - distFactor &&
+      if (-horizontalOverlap >= horizontalDistance - distFactor &&
         -horizontalOverlap <= horizontalDistance + distFactor &&
         ((player.pos.y + player.size.y > actor.pos.y &&
-          player.pos.y + player.size.y < actor.pos.y + actor.size.y) ||
+            player.pos.y + player.size.y < actor.pos.y + actor.size.y) ||
           (player.pos.y > actor.pos.y &&
             player.pos.y < actor.pos.y + actor.size.y) ||
           (player.pos.y < actor.pos.y &&
@@ -217,7 +217,7 @@ class State {
         horizontalOverlap >= horizontalDistance - distFactor &&
         horizontalOverlap <= horizontalDistance + distFactor &&
         ((player.pos.y + player.size.y > actor.pos.y &&
-          player.pos.y + player.size.y < actor.pos.y + actor.size.y) ||
+            player.pos.y + player.size.y < actor.pos.y + actor.size.y) ||
           (player.pos.y > actor.pos.y &&
             player.pos.y < actor.pos.y + actor.size.y) ||
           (player.pos.y < actor.pos.y &&
@@ -254,27 +254,24 @@ class State {
       // ![1].includes(this.level.levelId)
     ) {
       const newPlayer = this.nonPlayers.shift();
-      this..nonPlayers.push(this.player);
-      const newState = Object.assign(
-        {}, 
-        this, 
-        { 
+      this.nonPlayers.push(this.player);
+      const newState = Object.assign({},
+        this, {
           actors,
-          player: actors.find(actor => actor.constructor.name === newPlayer.constructor.name), 
-          nonPlayers: this.nonPlayers, 
-          switchKeyPressed: keys.switch }
-        );
+          player: actors.find(actor => actor.constructor.name === newPlayer.constructor.name),
+          nonPlayers: this.nonPlayers,
+          switchKeyPressed: keys.switch
+        }
+      );
       return new State(newState);
     }
 
-    let newState = new State(Object.assign(
-      {}, 
-      this, 
-      { 
-        actors, 
-        player: actors.find(actor => actor.constructor.name === this.player.constructor.name), 
-        nonPlayers: this.nonPlayers, 
-        switchKeyPressed: keys.switch 
+    let newState = new State(Object.assign({},
+      this, {
+        actors,
+        player: actors.find(actor => actor.constructor.name === this.player.constructor.name),
+        nonPlayers: this.nonPlayers,
+        switchKeyPressed: keys.switch
       }
     ));
     const levelOver = !newState.status.includes("playing");
@@ -284,15 +281,17 @@ class State {
 
     switch (this.level.touching(player.pos, player.size)) {
       case "poison":
-          return new State(Object.assign({}, newState, { status: "lost" }));
-      // case "water":
-      //   if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
-      //     // return new State(this.level, actors, "lost drowned", this.player);
-      //     return new State(Object.assign({}, newState, { status: "lost drowned" }));
-      //   }
-          // break;
+        return new State(Object.assign({}, newState, {
+          status: "lost"
+        }));
+        // case "water":
+        //   if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
+        //     // return new State(this.level, actors, "lost drowned", this.player);
+        //     return new State(Object.assign({}, newState, { status: "lost drowned" }));
+        //   }
+        // break;
       case "trampoline":
-        newState.player.gravity = -newState.player.gravity * 1.5;   
+        newState.player.gravity = -newState.player.gravity * 1.5;
         return new State(newState);
       default:
         break;
@@ -300,19 +299,30 @@ class State {
 
     let overlapActors = actors.filter(
       actor =>
-        !(
-          Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor
-            .name === "Player" ||
-          ["FinleyGoal", "FrankieGoal", "ForestGoal", "FitzGoal", "FeGoal"].includes(actor.constructor.name)
-        )
-    );
-    for (let actor of overlapActors) {
-      const overlap = this.overlap(player, actor);
-      if (
-        overlap &&
-        !(["Platform"].includes(actor.constructor.name))
+      !(
+        Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor
+        .name === "Player" || ["FinleyGoal", "FrankieGoal", "ForestGoal", "FitzGoal", "FeGoal"].includes(actor.constructor.name)
       )
-        return actor.collide(newState);
+    );
+
+
+    // allows for all players to be checked at any given moment
+    let players = [];
+    this.players.forEach(playerStr => {
+      players.push(this.actors.find(actor => actor.constructor.name === playerStr));
+    });
+    for (let actor of overlapActors) {
+      for (let playerChar of players) {
+        const overlap = this.overlap(playerChar, actor);
+        if (overlap && ["Poison"].includes(actor.constructor.name)) {
+          console.log('hi');
+        }
+        if (
+          overlap &&
+          !(["Platform"].includes(actor.constructor.name))
+        )
+          return actor.collide(newState);
+      }
     }
 
     const frankieGoal = actors.find(actor => actor.constructor.name === "FrankieGoal");
