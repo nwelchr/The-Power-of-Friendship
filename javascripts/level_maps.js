@@ -649,6 +649,7 @@ const levelMaps = [
     ],
 
   [ '                                                                                     ',    
+    'xxxxxxxx                                z                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
@@ -669,8 +670,7 @@ const levelMaps = [
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
-    'xxxxxxxx                                                                     xxxxxxxx',                                                               
-    'xxxxxxxx                                z                                    xxxxxxxx',                                                               
+    'xxxxxxxx                                                                    xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'x                                                                                   x',                                                               

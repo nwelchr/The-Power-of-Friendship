@@ -151,9 +151,8 @@ class Level {
             return "poison";
         }
 
-
+        let fieldType;
         for (let y = yStart; y < yEnd; y++) {
-            let fieldType;
             for (let x = xStart; x < xEnd; x++) {
                 fieldType = this.rows[y][x];
                 if (fieldType) return fieldType;

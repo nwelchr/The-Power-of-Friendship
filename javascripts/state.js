@@ -254,12 +254,12 @@ class State {
       // ![1].includes(this.level.levelId)
     ) {
       const newPlayer = this.nonPlayers.shift();
-      this.nonPlayers.push(this.player);
+      this..nonPlayers.push(this.player);
       const newState = Object.assign(
         {}, 
         this, 
         { 
-          actors, 
+          actors,
           player: actors.find(actor => actor.constructor.name === newPlayer.constructor.name), 
           nonPlayers: this.nonPlayers, 
           switchKeyPressed: keys.switch }
@@ -274,18 +274,9 @@ class State {
         actors, 
         player: actors.find(actor => actor.constructor.name === this.player.constructor.name), 
         nonPlayers: this.nonPlayers, 
-        switchKeyPressed: keys.switch  //idk if i need to put this at false or keys.switch
-      }));
-    // new State(
-    //   this.level,
-    //   actors,
-    //   this.status,
-    //   this.player,
-    //   keys.switch,
-    //   null,
-    //   this.finleyStatus,
-    //   this.frankieStatus
-    // );
+        switchKeyPressed: keys.switch 
+      }
+    ));
     const levelOver = !newState.status.includes("playing");
     if (levelOver) return newState;
 
@@ -293,28 +284,16 @@ class State {
 
     switch (this.level.touching(player.pos, player.size)) {
       case "poison":
-          // return new State(this.level, actors, "lost", this.player);
           return new State(Object.assign({}, newState, { status: "lost" }));
-      case "water":
-        if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
-          // return new State(this.level, actors, "lost drowned", this.player);
-          return new State(Object.assign({}, newState, { status: "lost drowned" }));
-        }
-          break;
+      // case "water":
+      //   if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
+      //     // return new State(this.level, actors, "lost drowned", this.player);
+      //     return new State(Object.assign({}, newState, { status: "lost drowned" }));
+      //   }
+          // break;
       case "trampoline":
-
-        newState.player.gravity = -newState.player.gravity * 1.5;
-      
+        newState.player.gravity = -newState.player.gravity * 1.5;   
         return new State(newState);
-        //   this.level,
-        //   actors,
-        //   "playing",
-        //   this.player,
-        //   keys.switch,
-        //   -this.gravity * 1.5,
-        //   this.finleyStatus,
-        //   this.frankieStatus
-        // );
       default:
         break;
     }
@@ -331,7 +310,7 @@ class State {
       const overlap = this.overlap(player, actor);
       if (
         overlap &&
-        !(["Poison", "Platform"].includes(actor.constructor.name))
+        !(["Platform"].includes(actor.constructor.name))
       )
         return actor.collide(newState);
     }
@@ -352,19 +331,6 @@ class State {
     newState.forestStatus = this.overlap(forest, forestGoal) ? true : false;
     newState.fitzStatus = this.overlap(fitz, fitzGoal) ? true : false;
     newState.feStatus = this.overlap(fe, feGoal) ? true : false;
-
-    // attempting to do swimming in water level
-    // if (this.level.touching(this.player.pos, this.player.size) === 'water' && this.level.width === 77) {
-    //     newState.gravity = -Math.abs(newState.gravity) * 2;
-    // } else {
-    //     newState.gravity = Math.abs(newState.gravity);
-    // }
-
-    // const overlap = this.overlap(player, actor);
-    // if (overlap && Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name !== 'Player') {
-    //     newState = actor.collide(newState);
-    // }
-    // }
 
     return new State(newState);
   }

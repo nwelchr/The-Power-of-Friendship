@@ -1,4 +1,5 @@
 import Vector from './vector';
+import State from './state';
 
 const finleyJumpAudio = document.getElementById('finley-jump');
 const frankieJumpAudio = document.getElementById('frankie-jump');
@@ -34,7 +35,6 @@ class Player {
     }
 
     moveY(time, state, keys, overlap) {
-        console.log(this.gravity);
         this.speed.y += time * this.gravity;
         const motion = new Vector(0, this.speed.y * time);
         const newPos = this.pos.plus(motion); 
@@ -43,7 +43,7 @@ class Player {
             this.gravity = -25;
             this.pos = newPos;
         } else {
-            this.gravity = -25;
+            this.gravity = 25;
         }
         if (obstacle || overlap.includes('topOverlap') || overlap.includes('bottomOverlap') && (this === state.player || state.nonPlayers.includes(this))) {
              if (['gravity', 'poison', 'instruction'].includes(obstacle)) {
@@ -100,6 +100,11 @@ class Player {
         for(let actor of state.actors) {
             if (!(this === actor)) {
                 const currOverlap = state.overlap(this, actor);
+                // if (Object.getPrototypeOf(Object.getPrototypeOf(this)).constructor.name === 'Player'
+                //     && actor.constructor.name === 'Poison'
+                //     && currOverlap) {
+                //         actor.collide(state);
+                //     }
                 if (currOverlap === 'topOverlap' && actor.constructor.name === "Platform") overlap.push('Platform', { platform: actor });
                 overlap.push(currOverlap);
                 // if (currOverlap 
@@ -114,7 +119,6 @@ class Player {
         }
 
         if (state.status !== 'won') {
-            // if (overlap.includes('leftOverlap') && overlap.includes('rightOverlap')) {debugger;}
             if (!(overlap.includes('leftOverlap') && overlap.includes('rightOverlap'))) {
                 this.moveX(time, state, keys, overlap);
             }
