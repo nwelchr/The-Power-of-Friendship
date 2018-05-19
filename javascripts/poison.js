@@ -9,13 +9,13 @@ class Poison {
         
         switch(ch) {
             case '=':
-                this.speed = speed || new Vector(2, 0); // sideways lava
+                this.speed = speed || new Vector(6, 0); // sideways lava
                 break;
             case '|':
-                this.speed = speed || new Vector(0, 2); // speed in terms of vector, up & down
+                this.speed = speed || new Vector(0, 6); // speed in terms of vector, up & down
                 break;
             case 'v':
-                this.speed = speed || new Vector(0, 3);
+                this.speed = speed || new Vector(0, 8);
                 this.resetPos = resetPos || pos; // original starting position
                 break;
             default:

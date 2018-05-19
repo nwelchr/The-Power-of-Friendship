@@ -41,8 +41,9 @@ class Player {
         const obstacle = state.level.touching(newPos, this.size);
         if (['gravity'].includes(obstacle)) { 
             this.gravity = -25;
+            this.pos = newPos;
         } else {
-            this.gravity = 25;
+            this.gravity = -25;
         }
         if (obstacle || overlap.includes('topOverlap') || overlap.includes('bottomOverlap') && (this === state.player || state.nonPlayers.includes(this))) {
              if (['gravity', 'poison', 'instruction'].includes(obstacle)) {
