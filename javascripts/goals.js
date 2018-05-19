@@ -52,9 +52,9 @@ export class ForestGoal {
 
 export class FeGoal {
     constructor(pos, ch) {
-        this.pos = pos.plus(new Vector(0, -1));
+        this.pos = pos.plus(new Vector(0, -.8));
         this.ch = ch;
-        this.size = new Vector(1.2, 2);
+        this.size = new Vector(1.2, 1.8);
     }
     
     update() {

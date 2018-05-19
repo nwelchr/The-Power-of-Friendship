@@ -66,8 +66,14 @@ class State {
         startingPlayer = 'Finley';
         break;
       case 8:
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
+        startingPlayer = 'Finley';
         break;
       case 9:
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
+        startingPlayer = 'Finley';
         break;
       case 10:
         break;

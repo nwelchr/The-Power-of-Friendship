@@ -94,54 +94,6 @@
   background-color: #173592;
 }
 
-.instruction {
-  position: absolute;
-  z-index: 0;
-}
-
-.instruction:before {
-  color: white;
-  font-size: 30px;
-  font-family: 'Lato', 'HelveticaNeue-Light';
-}
-
-.zero:before {
-  content: 'welcome, finley. :)';
-  margin-left: -30px;
-}
-
-.one:before {
-  content: 'use the arrow keys to move and jump.';
-  margin-left: -30px;
-}
-
-.two:before {
-  content: 'press esc and click restart if you\'re stuck.';
-}
-
-.three:before {
-  content: 'hello, frankie.';
-  margin-left: 25px;
-}
-
-.four:before {
-  content: 'press s.';
-  margin-left: 15px;
-  animation: fadein-s 10s ease;
-}
-
-@keyframes fadein-s {
-  0%, 50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.five:before {
-  content: 'welcome, forest.';
-  background-color: rgb(80, 80, 100);
-  position: absolute;
-  white-space: nowrap;
-}
-
 .pause-modal, .title-screen  {
   border-radius: 45px;
   display: none;
@@ -258,8 +210,57 @@ button:hover, a:hover {
   100% { opacity: 1; }
 }
 
+.instruction {
+  position: absolute;
+  z-index: 0;
+}
+
+.instruction:before {
+  color: white;
+  font-size: 30px;
+  font-family: 'Lato', 'HelveticaNeue-Light';
+}
+
+.zero:before {
+  content: 'welcome, finley. :)';
+  margin-left: -30px;
+}
+
+.one:before {
+  content: 'use the arrow keys to move and jump.';
+  margin-left: -30px;
+}
+
+.two:before {
+  content: 'press esc and click restart if you\'re stuck.';
+}
+
+.three:before {
+  content: 'hello, frankie.';
+  margin-left: 25px;
+}
+
+.four:before {
+  content: 'press s.';
+  margin-left: 15px;
+  animation: fadein-s 10s ease;
+}
+
+@keyframes fadein-s {
+  0%, 50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.five:before {
+  content: 'welcome, forest.';
+  background-color: rgb(80, 80, 100);
+  position: absolute;
+  white-space: nowrap;
+}
+
 .six:before {
-  content: 'you\'ve been through ups...';
+  content: 'hey, fe.';
+  background-color: rgb(80, 80, 100);  
   position: absolute;
   white-space: nowrap;
 }
