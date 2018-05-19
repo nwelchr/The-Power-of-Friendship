@@ -23,9 +23,30 @@ class Display {
         this.drawActors = this.drawActors.bind(this);
     }
 
-    // drawn once
     drawBackground() { 
-        const table = createElement('table', 'background');
+        let background = 'background ';
+        switch (this.level.levelId) {
+            case 1:
+            case 2:
+                background += 'bg1';
+                break;
+            case 3:  
+            case 4:
+                background += 'bg2';
+                break;
+            case 5:
+            case 6:
+                background += 'bg3';
+                break;
+            case 7:
+            case 8:
+                background += 'bg4';
+                break;
+            case 9:
+                background += 'bg5';
+                break;
+        }
+        const table = createElement('table', background);
         table.style.width = `${this.level.width * scale}px`; // sets specifc style, doesn't change other inline styles
 
         // iterate over each row of the previously built out grid (full of just words)
