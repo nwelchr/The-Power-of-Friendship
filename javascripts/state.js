@@ -56,6 +56,9 @@ class State {
         startingPlayer = 'Frankie';
         break;
       case 6:
+      this.players = ['Finley', 'Frankie', 'Forest'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal'];
+        startingPlayer = 'Finley';
         break;
       case 7:
         break;
@@ -82,9 +85,9 @@ class State {
 
 
       switch (this.level.levelId) {
-        // case 1:
-        //   this.gravity = this.player.pos.y < 12 ? 4 : 20;
-        //   break;
+        case 1:
+          this.gravity = this.player.pos.y < 12 ? 4 : 20;
+          break;
         case 2:
           break;
         case 3:

@@ -136,7 +136,8 @@
 }
 
 .five:before {
-  content: 'he needed you too.';
+  content: 'welcome, forest.';
+  background-color: rgb(80, 80, 100);
   position: absolute;
   white-space: nowrap;
 }
