@@ -95,14 +95,13 @@
 }
 
 .pause-modal, .title-screen  {
-  border-radius: 45px;
+  /* border-radius: 45px; */
   display: none;
   position: absolute;
   z-index: 1;
   width: 900px;
   height: 600px;
-  background-color: green;
-  /* background-color: rgba(0, 0, 0, .4); */
+  background-color: rgba(0, 0, 0, .4);
 }
 
 .title-screen {
@@ -141,7 +140,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   border: 1px dotted white;
   background: 000;
   color: white;
@@ -380,7 +379,7 @@ button:hover, a:hover {
   max-width: 900px;
   max-height: 600px;
   position: relative;
-  border-radius: 45px;
+  /* border-radius: 45px; */
 }
 
 .gravity {
@@ -462,7 +461,8 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  background: white;
+  /* background: white; */
+  background: #222;
   /* background: linear-gradient(270deg, #555, #222, #555); */
 }
 

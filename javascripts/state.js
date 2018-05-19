@@ -39,8 +39,8 @@ class State {
         startingPlayer = 'Finley';
         break;
       case 3:
-        this.players = ['Finley'];
-        goals = ['FinleyGoal'];
+        this.players = ['Finley', 'Frankie'];
+        goals = ['FinleyGoal', 'FrankieGoal'];
         startingPlayer = 'Finley';
         break;
       case 4:
@@ -49,8 +49,8 @@ class State {
         startingPlayer = 'Finley';
         break;
       case 5:
-        this.players = ['Finley', 'Frankie'];
-        goals = ['FinleyGoal', 'FrankieGoal'];
+        this.players = ['Finley', 'Frankie', 'Forest'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal'];
         startingPlayer = 'Finley';
         break;
       case 6:
@@ -59,9 +59,9 @@ class State {
         startingPlayer = 'Finley';
         break;
       case 7:
-        this.players = ['Finley', 'Frankie', 'Forest'];
-        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal'];
-        startingPlayer = 'Finley';
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
+        startingPlayer = 'Fe';
         break;
       case 8:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
@@ -69,11 +69,6 @@ class State {
         startingPlayer = 'Fe';
         break;
       case 9:
-        this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
-        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
-        startingPlayer = 'Fe';
-        break;
-      case 10:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
         startingPlayer = 'Fitz';
@@ -96,7 +91,6 @@ class State {
 
     switch (this.level.levelId) {
       case 1:
-        this.player.gravity = this.player.pos.y < 50 ? 4 : 25;
         break;
       case 2:
         break;

@@ -91,7 +91,7 @@ class Game {
         audio.play();
     
         titleScreen.classList.remove('show');
-        this.levelId = 0;
+        this.levelId = 6;
         this.startLevel();
     }
 
@@ -170,8 +170,7 @@ class Game {
 
     restartLevel(e)  {
         this.ending = 0;
-
-        
+       
         this.display.clear('restart button clicked', this.state.status);
         this.togglePauseScreen();
         this.statusFunction('lost');
