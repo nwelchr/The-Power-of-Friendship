@@ -91,7 +91,7 @@ class Game {
         audio.play();
     
         titleScreen.classList.remove('show');
-        this.levelId = 7;
+        this.levelId = 9;
         this.startLevel();
     }
 
@@ -138,10 +138,10 @@ class Game {
         this.ending = 1;
     
         // Rotate on the 10th level after 10 seconds
-        if (level.levelId === 10) setTimeout(this.rotateLevel10, 10000);
-        else if (gameWrapper.classList.contains('rotated')) {
-            gameWrapper.classList.remove('rotated');
-        }
+        // if (level.levelId === 10) setTimeout(this.rotateLevel10, 10000);
+        // else if (gameWrapper.classList.contains('rotated')) {
+        //     gameWrapper.classList.remove('rotated');
+        // }
            
         this.runAnimation(this.frameFunction);
     }

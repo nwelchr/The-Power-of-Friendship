@@ -25,8 +25,6 @@ class State {
     this.fitzStatus = fitzStatus;
     this.feStatus = feStatus;
 
-    this.gravity = gravity || 25;
-
     let players, goals, startingPlayer;
 
     switch (this.level.levelId) {
@@ -76,6 +74,9 @@ class State {
         startingPlayer = 'Finley';
         break;
       case 10:
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
+        startingPlayer = 'Finley';
         break;
       case 11:
         break;
@@ -95,7 +96,7 @@ class State {
 
       switch (this.level.levelId) {
         case 1:
-          this.gravity = this.player.pos.y < 50 ? 4 : 25;
+          this.player.gravity = this.player.pos.y < 50 ? 4 : 25;
           break;
         case 2:
           break;
@@ -114,16 +115,9 @@ class State {
         case 9:
           break;
         case 10:
-          if (this.player.pos.y < 80 && this.player.pos.y > 5) this.gravity = 2;
-          const wrapper = document.getElementById("game-wrapper");
-          if (wrapper.classList.contains("rotated")) {
-            this.gravity = -10;
-          }
           break;
         case 11:
-          this.gravity = this.player.pos.x > 20 ? 10 : -1;
-          if (status !== 'won') this.status = "playing last-level";
-          break;
+        break;
         default:
           break;
       }
@@ -308,8 +302,10 @@ class State {
         }
           break;
       case "trampoline":
+
+        newState.player.gravity = -newState.player.gravity * 1.5;
       
-        return new State(Object.assign({}, newState, { gravity: -this.gravity * 1.5 }));
+        return new State(newState);
         //   this.level,
         //   actors,
         //   "playing",
@@ -356,13 +352,6 @@ class State {
     newState.forestStatus = this.overlap(forest, forestGoal) ? true : false;
     newState.fitzStatus = this.overlap(fitz, fitzGoal) ? true : false;
     newState.feStatus = this.overlap(fe, feGoal) ? true : false;
-
-    if (this.level.touching(this.player.pos, this.player.size) === "gravity") {
-      newState.gravity = -Math.abs(newState.gravity);
-    // } else if (![73, 67, 58].includes(this.level.width)) {
-    } else if (![1, 10, 11].includes(this.level.levelId)) {
-      newState.gravity = Math.abs(newState.gravity);
-    }
 
     // attempting to do swimming in water level
     // if (this.level.touching(this.player.pos, this.player.size) === 'water' && this.level.width === 77) {

@@ -5,12 +5,13 @@ const frankieJumpAudio = document.getElementById('frankie-jump');
 finleyJumpAudio.volume = .08;
 frankieJumpAudio.volume = .08;
 class Player {
-    constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
+    constructor(pos, ch, speed, size, xSpeed, jumpSpeed, gravity) {
         this.pos = pos;
         this.speed = speed || new Vector(0, 0); // initial speed
         this.size = size;
         this.xSpeed = xSpeed;
         this.jumpSpeed = jumpSpeed;
+        this.gravity = gravity || 25;
     }
 
     moveX(time, state, keys, overlap) {
@@ -33,13 +34,18 @@ class Player {
     }
 
     moveY(time, state, keys, overlap) {
-        this.speed.y += time * state.gravity;
+        console.log(this.gravity);
+        this.speed.y += time * this.gravity;
         const motion = new Vector(0, this.speed.y * time);
         const newPos = this.pos.plus(motion); 
         const obstacle = state.level.touching(newPos, this.size);
+        if (['gravity'].includes(obstacle)) { 
+            this.gravity = -25;
+        } else {
+            this.gravity = 25;
+        }
         if (obstacle || overlap.includes('topOverlap') || overlap.includes('bottomOverlap') && (this === state.player || state.nonPlayers.includes(this))) {
-            if (['gravity', 'poison', 'instruction'].includes(obstacle)) {
-                // jump through gravity, poison, and instructions
+             if (['gravity', 'poison', 'instruction'].includes(obstacle)) {
                 this.pos = newPos;    
             } else if (overlap.includes('Platform')) {
                 const platform = overlap.find(overlapType => typeof overlapType === 'object').platform;
@@ -52,7 +58,6 @@ class Player {
                     this.speed.y = Math.sin(platform.wobble) * .5;
                 }
             } else if (overlap.includes('topOverlap') && this.speed.y < 0) {
-                // 
                 this.pos = newPos;
             }  else if (obstacle === 'trampoline') {
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
@@ -118,7 +123,15 @@ class Player {
         }
 
         const Actor = this.constructor;
-        return new Actor(this.pos, null, new Vector(this.speed.x, this.speed.y));
+        return new Actor (
+            this.pos, 
+            null, 
+            new Vector(this.speed.x, this.speed.y), 
+            this.size, 
+            this.xSpeed, 
+            this.jumpSpeed, 
+            this.gravity
+        );
     }
 
 }
