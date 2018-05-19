@@ -95,14 +95,15 @@ class Player {
             if (!(this === actor)) {
                 const currOverlap = state.overlap(this, actor);
                 if (currOverlap === 'topOverlap' && actor.constructor.name === "Platform") overlap.push('Platform', { platform: actor });
-                if (currOverlap 
-                    && ['topOverlap', 'bottomOverlap', 'leftOverlap', 'rightOverlap'].includes(currOverlap)) {
-                        overlap.push(currOverlap);
-                    }
-                else if (currOverlap) { 
-                    overlap.push(currOverlap);
-                    break;
-                }
+                overlap.push(currOverlap);
+                // if (currOverlap 
+                //     && ['topOverlap', 'bottomOverlap', 'leftOverlap', 'rightOverlap'].includes(currOverlap)) {
+                //         overlap.push(currOverlap);
+                //     }
+                // else if (currOverlap) { 
+                //     overlap.push(currOverlap);
+                //     break;
+                // }
             }
         }
 

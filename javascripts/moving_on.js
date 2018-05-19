@@ -91,7 +91,7 @@ class Game {
         audio.play();
     
         titleScreen.classList.remove('show');
-        this.levelId = 5;
+        this.levelId = 0;
         this.startLevel();
     }
 
