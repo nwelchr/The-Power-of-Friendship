@@ -266,7 +266,7 @@ button:hover, a:hover {
 }
 
 .seven:before {
-  content: 'and downs together.';
+  content: 'what\'s up, fitz?.';
   position: absolute;
   white-space: nowrap;
 }
@@ -280,6 +280,7 @@ button:hover, a:hover {
 .nine {
   background-color: #0af;
 }
+
 .nine:before {
   content: 'he was the only thing keeping you afloat.';
   position: absolute;

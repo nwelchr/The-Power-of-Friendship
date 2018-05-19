@@ -51,7 +51,7 @@ class State {
       case 5:
         this.players = ['Finley', 'Frankie'];
         goals = ['FinleyGoal', 'FrankieGoal'];
-        startingPlayer = 'Frankie';
+        startingPlayer = 'Finley';
         break;
       case 6:
         this.players = ['Finley', 'Frankie', 'Forest'];
@@ -66,7 +66,7 @@ class State {
       case 8:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
-        startingPlayer = 'Finley';
+        startingPlayer = 'Fe';
         break;
       case 9:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
@@ -314,9 +314,6 @@ class State {
     for (let actor of overlapActors) {
       for (let playerChar of players) {
         const overlap = this.overlap(playerChar, actor);
-        if (overlap && ["Poison"].includes(actor.constructor.name)) {
-          console.log('hi');
-        }
         if (
           overlap &&
           !(["Platform"].includes(actor.constructor.name))
