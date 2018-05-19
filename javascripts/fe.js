@@ -5,7 +5,7 @@ class Fe extends Player {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed) {
         const feSize = size || new Vector(1.2, 2);
         const feXSpeed = xSpeed || 20;
-        const feJumpSpeed = jumpSpeed || 50;
+        const feJumpSpeed = jumpSpeed || 16;
         super(pos, ch, speed, feSize, feXSpeed, feJumpSpeed);
     }
 }

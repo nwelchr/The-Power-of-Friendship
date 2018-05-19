@@ -37,16 +37,24 @@ class Player {
         const motion = new Vector(0, this.speed.y * time);
         const newPos = this.pos.plus(motion); 
         const obstacle = state.level.touching(newPos, this.size);
-        if (this.speed.y < -13) this.speed.y = -13;
         if (obstacle || overlap.includes('topOverlap') || overlap.includes('bottomOverlap') && (this === state.player || state.nonPlayers.includes(this))) {
             if (['gravity', 'poison', 'instruction'].includes(obstacle)) {
-                this.pos = newPos;
-            } else if (overlap.includes('topOverlap') && this.speed.y < 0) {
-                this.pos = newPos;
+                // jump through gravity, poison, and instructions
+                this.pos = newPos;    
             } else if (overlap.includes('Platform')) {
                 const platform = overlap.find(overlapType => typeof overlapType === 'object').platform;
-                this.pos.y = platform.pos.y - this.size.y;
-            } else if (obstacle === 'trampoline') {
+                if (keys.up && this === state.player) {
+                    this.pos.y = platform.pos.y - this.size.y - .5;
+                    state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();                
+                    this.speed.y = -this.jumpSpeed;
+                } else {
+                    this.pos.y = platform.pos.y - this.size.y;
+                    this.speed.y = Math.sin(platform.wobble) * .5;
+                }
+            } else if (overlap.includes('topOverlap') && this.speed.y < 0) {
+                // 
+                this.pos = newPos;
+            }  else if (obstacle === 'trampoline') {
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
                 this.speed.y = -(Math.floor(Math.random() * 2 + 12));
                 this.pos.y -= .1;

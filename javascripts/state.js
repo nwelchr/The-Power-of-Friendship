@@ -150,6 +150,10 @@ class State {
       Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
       "Player" || actor.constructor.name === "Platform"
     ) {
+
+      const distFactor = Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
+      "Player" ? .1 : .2;
+
       const horizontalOverlap =
         player.pos.x + player.size.x / 2 - (actor.pos.x + actor.size.x / 2);
       const horizontalDistance = player.size.x / 2 + actor.size.x / 2;
@@ -159,8 +163,8 @@ class State {
       const verticalDistance = player.size.y / 2 + actor.size.y / 2;
 
       if (
-        -verticalOverlap >= verticalDistance - 0.1 &&
-        -verticalOverlap <= verticalDistance + 0.1 &&
+        -verticalOverlap >= verticalDistance - distFactor &&
+        -verticalOverlap <= verticalDistance + distFactor &&
         ((player.pos.x + player.size.x > actor.pos.x &&
           player.pos.x + player.size.x < actor.pos.x + actor.size.x) ||
           (player.pos.x > actor.pos.x &&
@@ -174,8 +178,8 @@ class State {
       }
 
       if (
-        verticalOverlap >= verticalDistance - 0.1 &&
-        verticalOverlap <= verticalDistance + 0.1 &&
+        verticalOverlap >= verticalDistance - distFactor &&
+        verticalOverlap <= verticalDistance + distFactor &&
         ((player.pos.x + player.size.x > actor.pos.x &&
           player.pos.x + player.size.x < actor.pos.x + actor.size.x) ||
           (player.pos.x > actor.pos.x &&
@@ -189,8 +193,8 @@ class State {
       }
 
       if (
-        -horizontalOverlap >= horizontalDistance - 0.1 &&
-        -horizontalOverlap <= horizontalDistance + 0.1 &&
+        -horizontalOverlap >= horizontalDistance - distFactor &&
+        -horizontalOverlap <= horizontalDistance + distFactor &&
         ((player.pos.y + player.size.y > actor.pos.y &&
           player.pos.y + player.size.y < actor.pos.y + actor.size.y) ||
           (player.pos.y > actor.pos.y &&
@@ -204,8 +208,8 @@ class State {
       }
 
       if (
-        horizontalOverlap >= horizontalDistance - 0.1 &&
-        horizontalOverlap <= horizontalDistance + 0.1 &&
+        horizontalOverlap >= horizontalDistance - distFactor &&
+        horizontalOverlap <= horizontalDistance + distFactor &&
         ((player.pos.y + player.size.y > actor.pos.y &&
           player.pos.y + player.size.y < actor.pos.y + actor.size.y) ||
           (player.pos.y > actor.pos.y &&

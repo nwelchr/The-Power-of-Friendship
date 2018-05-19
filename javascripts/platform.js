@@ -1,7 +1,7 @@
 import Vector from './vector';
 import State from './state';
 
-const wobbleSpeed = .5, wobbleDist = 15;
+const wobbleSpeed = .5, wobbleDist = 5;
 class Platform {
     constructor(pos, ch, basePos, size, wobble) {
         this.pos = pos;

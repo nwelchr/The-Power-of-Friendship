@@ -213,7 +213,7 @@ button:hover, a:hover {
   height: 0;
   width: 0;
   position: absolute;
-  z-index: 9999;
+  z-index: 100;
   top: -20px;
   left: calc(50% - 8px);
 
