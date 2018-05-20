@@ -334,7 +334,7 @@ button:active, a:active {
 .instruction:before {
   color: white;
   font-size: 30px;
-  font-family: 'Lato', 'HelveticaNeue-UltraLight';
+  font-family: 'Lato', 'Times New Roman';
 }
 
 .zero:before {
