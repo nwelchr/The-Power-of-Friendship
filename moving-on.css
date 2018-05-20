@@ -359,7 +359,7 @@ button:active, a:active {
 .four:before {
   content: 'press s.';
   margin-left: 15px;
-  animation: fadein-s 10s ease;
+  animation: fadein-s 8s ease;
 }
 
 @keyframes fadein-s {
