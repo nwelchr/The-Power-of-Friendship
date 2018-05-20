@@ -334,7 +334,8 @@ button:active, a:active {
 .instruction:before {
   color: white;
   font-size: 30px;
-  font-family: 'Comic Sans MS', 'Times New Roman';
+  font-family: 'Lato Thin', 'HelveticaNeue-UltraLight';
+  letter-spacing: 1px;
 }
 
 .zero:before {
