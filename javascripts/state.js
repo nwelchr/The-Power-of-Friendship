@@ -29,51 +29,39 @@ class State {
 
     switch (this.level.levelId) {
       case 1:
-        this.players = ['Finley'];
-        goals = ['FinleyGoal'];
-        startingPlayer = 'Finley';
-        break;
       case 2:
         this.players = ['Finley'];
         goals = ['FinleyGoal'];
         startingPlayer = 'Finley';
         break;
       case 3:
-        this.players = ['Finley', 'Frankie'];
-        goals = ['FinleyGoal', 'FrankieGoal'];
-        startingPlayer = 'Finley';
-        break;
       case 4:
         this.players = ['Finley', 'Frankie'];
         goals = ['FinleyGoal', 'FrankieGoal'];
         startingPlayer = 'Finley';
         break;
       case 5:
-        this.players = ['Finley', 'Frankie', 'Forest'];
-        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal'];
-        startingPlayer = 'Finley';
-        break;
       case 6:
         this.players = ['Finley', 'Frankie', 'Forest'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal'];
         startingPlayer = 'Finley';
         break;
       case 7:
-        this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
-        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
-        startingPlayer = 'Fe';
-        break;
       case 8:
+      case 9:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
-        startingPlayer = 'Fe';
+        startingPlayer = 'Finley';
         break;
-      case 9:
+      case 10:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
         startingPlayer = 'Fitz';
         break;
       case 11:
+        this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
+        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
+        startingPlayer = 'Fitz';
         break;
       default:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];

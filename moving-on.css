@@ -163,7 +163,7 @@
   z-index: 1;
   width: 900px;
   height: 600px;
-  background-color: rgba(0, 0, 0, .4);
+  background-color: rgba(0, 0, 0, .6);
 }
 
 .title-screen, .level-selector-menu {
@@ -193,10 +193,18 @@
 
 .level-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.level-buttons div {
+  display: flex;
   flex-direction: row;
+}
+
+.level-selector-menu h1 {
+  font-size: 50px;
 }
 
 .title-screen.show {
@@ -227,8 +235,8 @@
 
 .level-selector-menu button {
   margin: 10px;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
 
@@ -245,6 +253,10 @@
   justify-content: center;
   align-items: center;
   padding: 5px;
+}
+
+button, a {
+  background: rgba(0, 0, 0, .3)!important;
 }
 
 button:hover, a:hover {
@@ -350,9 +362,12 @@ button:active, a:active {
 
 .five:before {
   content: 'welcome, forest.';
+  width: 100px;
+  height: 100px;
   background-color: rgb(40, 40, 50);
   position: absolute;
   white-space: nowrap;
+  animation: fadeouttext 5s forwards;  
 }
 
 .six:before {
@@ -360,25 +375,35 @@ button:active, a:active {
   background-color: rgb(40, 40, 50);  
   position: absolute;
   white-space: nowrap;
+  animation: fadeouttext 5s forwards;  
 }
 
 .seven:before {
   content: 'what\'s up, fitz?.';
   position: absolute;
   white-space: nowrap;
+  background-color: rgb(40, 40, 50);  
   animation: fadeouttext 5s forwards;
 }
 
 @keyframes fadeouttext {
-  0% { opacity: 1; }
-  50% { opacity: 1; }
-  100% {opacity: 0;}
+  50% { color: white; }
+  100% { color: rgb(40, 40, 50) }
+}
+
+@keyframes fadeintext {
+  0% { color: rgb(40, 40, 50); }
+  50% { color: rgb(40, 40, 50); }
+  100% { color: white; }
 }
 
 .eight:before {
-  content: 'and sometimes...';
+  content: 'press up and down to swim.';
   position: absolute;
   white-space: nowrap;
+  color: rgb(40, 40, 50);
+  background-color: rgb(40, 40, 50);    
+  animation: fadeintext 5s forwards 2s;
 }
 
 .nine {

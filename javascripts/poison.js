@@ -32,7 +32,9 @@ class Poison {
     update(time, state) {
         const newPos = this.pos.plus(this.speed.times(time));
         // if poison touching a wall, just reset
-        if (!state.level.touching(newPos, this.size)) {
+
+        const obstacle = state.level.touching(newPos, this.size);
+        if (!obstacle || obstacle === "gravity") {
             return new Poison(newPos, this.ch, this.speed, this.resetPos);
         } else if (this.resetPos) {
             return new Poison(this.resetPos, this.ch, this.speed, this.resetPos);

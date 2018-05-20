@@ -40,9 +40,11 @@ class Display {
                 break;
             case 7:
             case 8:
+            case 9:
                 background += 'bg4';
                 break;
-            case 9:
+            case 10:
+            case 11:
                 background += 'bg5';
                 break;
         }

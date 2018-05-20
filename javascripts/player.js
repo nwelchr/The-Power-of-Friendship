@@ -3,8 +3,15 @@ import State from './state';
 
 const finleyJumpAudio = document.getElementById('finley-jump');
 const frankieJumpAudio = document.getElementById('frankie-jump');
+const forestJumpAudio = document.getElementById('forest-jump');
+const feJumpAudio = document.getElementById('fe-jump');
+const fitzJumpAudio = document.getElementById('fitz-jump');
 finleyJumpAudio.volume = .08;
 frankieJumpAudio.volume = .08;
+forestJumpAudio.volume = .08;
+feJumpAudio.volume = .08;
+fitzJumpAudio.volume = .08;
+
 class Player {
     constructor(pos, ch, speed, size, xSpeed, jumpSpeed, gravity) {
         this.pos = pos;
@@ -61,7 +68,7 @@ class Player {
             } else if (overlap.includes('topOverlap') && this.speed.y < 0) {
                 this.pos = newPos;
             }  else if (obstacle === 'trampoline') {
-                state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
+                this.playJumpAudio(state);
                 this.speed.y = -(Math.floor(Math.random() * 6 + this.jumpSpeed * 1.5));
                 this.pos.y -= .1;
             } else if (overlap.includes('bottomOverlap')) {
@@ -74,10 +81,17 @@ class Player {
                 }
             }
             else if (keys.up && ((this.speed.y >= 0 && !(this.speed.y <= 1.835 && obstacle === 'water')) || overlap.includes('topOverlap')) && this === state.player) {
-                state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();                
+                this.playJumpAudio(state);                
                 this.speed.y = -this.jumpSpeed;
-                if (obstacle === 'water') this.speed.y -= (Math.random() * 8 + 3);
-            } else if (obstacle === 'water') {
+                if (obstacle === 'water') this.speed.y -= (Math.random() * 8 + 3);               
+            } 
+            else if (keys.down && this.speed.y < 1 && obstacle === 'water' && this === state.player) {
+                this.pos = newPos;
+                console.log(this.speed.y);
+                this.playJumpAudio(state);                
+                this.speed.y += (Math.random() * 10 + 13);
+            } 
+            else if (obstacle === 'water') {
                     this.speed.y -= 1;
                     if (this.speed.y < 0) this.speed.y += 1.5;
                     // if (this.speed.y > 0) this.speed.y -= 1;
@@ -90,6 +104,28 @@ class Player {
             this.pos = newPos;
         }
 
+    }
+
+    playJumpAudio(state) {
+        switch (state.player.constructor.name) {
+            case "Finley":
+                finleyJumpAudio.play();
+                break;
+            case "Frankie":
+                frankieJumpAudio.play();
+                break;
+            case "Forest":
+                forestJumpAudio.play();
+                break;
+            case "Fe":
+                feJumpAudio.play();
+                break;
+            case "Fitz":
+                fitzJumpAudio.play();
+                break;
+            default:
+                break;
+        }
     }
 
     update (time, state, keys) {

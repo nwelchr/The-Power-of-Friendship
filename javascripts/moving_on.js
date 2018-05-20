@@ -7,6 +7,7 @@ const keyCodes = {
     37: 'left',
     38: 'up',
     39: 'right',
+    40: 'down',
     83: 'switch'
 };
 
@@ -38,6 +39,7 @@ class Game {
         this.state = {};
         this.ending = 0;
         this.lastTime = 0;
+        this.gameStarted = false;
 
         this.trackKeys = this.trackKeys.bind(this);
         this.restartLevel = this.restartLevel.bind(this);
@@ -72,7 +74,7 @@ class Game {
 
     handleLevelClick(e) {
         if (e.target.className === 'level-btn') {
-            this.levelId = parseInt(e.target.innerHTML) - 1;
+            this.levelId = e.target.innerHTML === "Final" ? 10 : parseInt(e.target.innerHTML) - 1
             levelSelectorMenu.classList.remove('show');  
             this.start();
         }
@@ -84,6 +86,8 @@ class Game {
     }
 
     togglePauseScreen(e) {
+        if (!this.gameStarted) return;
+        
         this.gameIsRunning = !this.gameIsRunning;
 
         // toggle music
@@ -113,6 +117,7 @@ class Game {
     }
 
     start() {
+        this.gameStarted = true;
         this.musicIsPlaying = true;
         audio.play();
     
@@ -196,9 +201,8 @@ class Game {
     restartLevel(e)  {
         this.ending = 0;
        
-        this.display.clear('restart button clicked', this.state.status);
         this.togglePauseScreen();
-        this.statusFunction('lost');
+        this.state.status = 'lost';
     }
 
 }
