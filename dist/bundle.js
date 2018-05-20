@@ -153,7 +153,7 @@ class Player {
                 const platform = overlap.find(overlapType => typeof overlapType === 'object').platform;
                 if (keys.up && this === state.player) {
                     this.pos.y = platform.pos.y - this.size.y - .5;
-                    state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
+                    this.playJumpAudio(state);
                     this.speed.y = -this.jumpSpeed;
                 } else {
                     this.pos.y = platform.pos.y - this.size.y;
