@@ -38,26 +38,22 @@ class State {
       case 4:
         this.players = ['Finley', 'Frankie'];
         goals = ['FinleyGoal', 'FrankieGoal'];
-        startingPlayer = 'Finley';
+        startingPlayer = 'Frankie';
         break;
       case 5:
       case 6:
         this.players = ['Finley', 'Frankie', 'Forest'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal'];
-        startingPlayer = 'Finley';
+        startingPlayer = 'Forest';
         break;
       case 7:
       case 8:
       case 9:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal'];
-        startingPlayer = 'Finley';
+        startingPlayer = 'Fe';
         break;
       case 10:
-        this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
-        goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];
-        startingPlayer = 'Fitz';
-        break;
       case 11:
         this.players = ['Finley', 'Frankie', 'Forest', 'Fe', 'Fitz'];
         goals = ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FeGoal', 'FitzGoal'];

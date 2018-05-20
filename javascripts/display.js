@@ -126,9 +126,10 @@ class Display {
 
     }
 
-    clear(text, stateStatus) {
+    clear() {
         // odd syntax to remove the wrapper because htmlelements are weird! DOESN'T WORK
-        this.wrapper.parentNode.removeChild(this.wrapper);
+        // this.wrapper.parentNode.removeChild(this.wrapper);
+        this.wrapper.remove();
     }
 }
 

@@ -103,6 +103,7 @@
   position: relative;
   width: 900px;
   height: 600px;
+  background-color: #222;
 }
 
 .finley {
@@ -593,6 +594,7 @@ body {
   height: 100vh;
   /* background: white; */
   background: #222;
+  background-image: url('https://steamusercontent-a.akamaihd.net/ugc/772778501267616228/943896502CE7357163BDEF5F6ACDFD24DB3D2015/');
   /* background: linear-gradient(270deg, #555, #222, #555); */
 }
 

@@ -26,6 +26,7 @@ const titleScreen = document.querySelector('.title-screen');
 const startButton = document.querySelector('.start');
 const levelSelectButton = document.querySelector('.level-select');
 const mainMenuButton = document.querySelector('.main-menu-btn');
+const mainMenuPauseButton = document.querySelector('.main-menu-pause-btn');
 const levelSelectorMenu = document.querySelector('.level-selector-menu');
 const gameWrapper = document.getElementById('game-wrapper');
 
@@ -56,12 +57,14 @@ class Game {
         this.handleLevelClick = this.handleLevelClick.bind(this);
         this.loadLevels = this.loadLevels.bind(this);
         this.goBackToMainMenu = this.goBackToMainMenu.bind(this);
+        this.goToMainMenuFromPause = this.goToMainMenuFromPause.bind(this);
 
         restartButton.addEventListener('click', this.restartLevel);
         startButton.addEventListener('click', this.start);
         levelSelectButton.addEventListener('click', this.loadLevels);
         levelSelectorMenu.addEventListener('click', this.handleLevelClick);
         mainMenuButton.addEventListener('click', this.goBackToMainMenu);
+        mainMenuPauseButton.addEventListener('click', this.goToMainMenuFromPause);
         pauseButton.addEventListener('click', this.togglePauseScreen);
         window.addEventListener('keydown', this.trackKeys);
         window.addEventListener('keyup', this.trackKeys);
@@ -82,6 +85,25 @@ class Game {
 
     goBackToMainMenu(e) {
         levelSelectorMenu.classList.remove('show');
+        titleScreen.classList.add('show');
+    }
+
+    goToMainMenuFromPause(e) {
+        this.statusFunction('lost');
+        this.display.clear();
+        const game = document.querySelector('.game');
+        game.remove();
+        audio.currentTime = 0;
+        this.musicIsPlaying = false;
+        this.gameIsRunning = true;
+        this.keys = Object.create(null);
+        this.levelId = 0;
+        this.display = {};
+        this.state = {};
+        this.ending = 0;
+        this.lastTime = 0;
+        this.gameStarted = false;
+        pauseModal.classList.remove('show');
         titleScreen.classList.add('show');
     }
 
@@ -156,9 +178,9 @@ class Game {
             this.ending -= time;
             return true;
         } else {
-            this.display.clear('else statement of runAnimation', this.state.status);
+            this.display.clear();
             this.statusFunction(this.state.status);
-            // return false;
+            return false;
         }
     }
 

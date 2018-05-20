@@ -80,7 +80,7 @@ class Player {
                     this.speed.y = this.jumpSpeed * .1;
                 }
             }
-            else if (keys.up && ((this.speed.y >= 0 && !(this.speed.y <= 1.835 && obstacle === 'water')) || overlap.includes('topOverlap')) && this === state.player) {
+            else if (keys.up && ((this.speed.y >= 0 && !(this.speed.y <= 1 && obstacle === 'water')) || overlap.includes('topOverlap')) && this === state.player) {
                 this.playJumpAudio(state);                
                 this.speed.y = -this.jumpSpeed;
                 if (obstacle === 'water') this.speed.y -= (Math.random() * 8 + 3);               
