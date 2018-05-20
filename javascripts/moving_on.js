@@ -24,7 +24,8 @@ const restartButton = document.querySelector('.restart');
 const titleScreen = document.querySelector('.title-screen');
 const startButton = document.querySelector('.start');
 const levelSelectButton = document.querySelector('.level-select');
-
+const mainMenuButton = document.querySelector('.main-menu-btn');
+const levelSelectorMenu = document.querySelector('.level-selector-menu');
 const gameWrapper = document.getElementById('game-wrapper');
 
 class Game {
@@ -50,19 +51,36 @@ class Game {
         this.frame = this.frame.bind(this);
         this.restartLevel = this.restartLevel.bind(this);
         this.togglePauseScreen = this.togglePauseScreen.bind(this);
+        this.handleLevelClick = this.handleLevelClick.bind(this);
+        this.loadLevels = this.loadLevels.bind(this);
+        this.goBackToMainMenu = this.goBackToMainMenu.bind(this);
 
         restartButton.addEventListener('click', this.restartLevel);
         startButton.addEventListener('click', this.start);
         levelSelectButton.addEventListener('click', this.loadLevels);
+        levelSelectorMenu.addEventListener('click', this.handleLevelClick);
+        mainMenuButton.addEventListener('click', this.goBackToMainMenu);
         pauseButton.addEventListener('click', this.togglePauseScreen);
         window.addEventListener('keydown', this.trackKeys);
         window.addEventListener('keyup', this.trackKeys);
     }
 
     loadLevels(e) {
-        const levelSelector = document.querySelector('.level-selector-menu');
-        levelSelector.classList.add('show');
+        levelSelectorMenu.classList.add('show');
         titleScreen.classList.remove('show');
+    }
+
+    handleLevelClick(e) {
+        if (e.target.className === 'level-btn') {
+            this.levelId = parseInt(e.target.innerHTML) - 1;
+            levelSelectorMenu.classList.remove('show');  
+            this.start();
+        }
+    }
+
+    goBackToMainMenu(e) {
+        levelSelectorMenu.classList.remove('show');
+        titleScreen.classList.add('show');
     }
 
     togglePauseScreen(e) {
@@ -99,7 +117,6 @@ class Game {
         audio.play();
     
         titleScreen.classList.remove('show');
-        this.levelId = 8;
         this.startLevel();
     }
 
