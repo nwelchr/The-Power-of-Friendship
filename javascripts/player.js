@@ -62,7 +62,7 @@ class Player {
                 this.pos = newPos;
             }  else if (obstacle === 'trampoline') {
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();
-                this.speed.y = -(Math.floor(Math.random() * 2 + 12));
+                this.speed.y = -(Math.floor(Math.random() * 6 + this.jumpSpeed * 1.5));
                 this.pos.y -= .1;
             } else if (overlap.includes('bottomOverlap')) {
                 if (newPos < this.pos || !['water', 'wall'].includes(obstacle)) {
@@ -73,18 +73,15 @@ class Player {
                     this.speed.y = this.jumpSpeed * .1;
                 }
             }
-            else if (keys.up && (this.speed.y >= 0 || overlap.includes('topOverlap')) && this === state.player) {
+            else if (keys.up && ((this.speed.y >= 0 && !(this.speed.y <= 1.835 && obstacle === 'water')) || overlap.includes('topOverlap')) && this === state.player) {
                 state.player.constructor.name === "Finley" ? finleyJumpAudio.play() : frankieJumpAudio.play();                
                 this.speed.y = -this.jumpSpeed;
-                if (obstacle === 'water') this.speed.y -= .5;
+                if (obstacle === 'water') this.speed.y -= (Math.random() * 8 + 3);
             } else if (obstacle === 'water') {
-                if (this.constructor.name === "Finley") {
                     this.speed.y -= 1;
                     if (this.speed.y < 0) this.speed.y += 1.5;
                     // if (this.speed.y > 0) this.speed.y -= 1;
                     this.pos = newPos;
-                }
-                else this.pos.y = 8.1;
             } 
             else {
                 this.speed.y = 0;

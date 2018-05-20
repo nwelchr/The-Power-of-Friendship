@@ -23,6 +23,7 @@ const pauseButton = document.querySelector('.unpause');
 const restartButton = document.querySelector('.restart');
 const titleScreen = document.querySelector('.title-screen');
 const startButton = document.querySelector('.start');
+const levelSelectButton = document.querySelector('.level-select');
 
 const gameWrapper = document.getElementById('game-wrapper');
 
@@ -52,9 +53,16 @@ class Game {
 
         restartButton.addEventListener('click', this.restartLevel);
         startButton.addEventListener('click', this.start);
+        levelSelectButton.addEventListener('click', this.loadLevels);
         pauseButton.addEventListener('click', this.togglePauseScreen);
         window.addEventListener('keydown', this.trackKeys);
         window.addEventListener('keyup', this.trackKeys);
+    }
+
+    loadLevels(e) {
+        const levelSelector = document.querySelector('.level-selector-menu');
+        levelSelector.classList.add('show');
+        titleScreen.classList.remove('show');
     }
 
     togglePauseScreen(e) {
@@ -91,7 +99,7 @@ class Game {
         audio.play();
     
         titleScreen.classList.remove('show');
-        this.levelId = 0;
+        this.levelId = 8;
         this.startLevel();
     }
 
