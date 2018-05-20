@@ -137,8 +137,7 @@ class State {
       "Player" || actor.constructor.name === "Platform"
     ) {
 
-      const distFactor = Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name ===
-        "Player" ? .1 : .2;
+      const distFactor = .25;
 
       const horizontalOverlap =
         player.pos.x + player.size.x / 2 - (actor.pos.x + actor.size.x / 2);
