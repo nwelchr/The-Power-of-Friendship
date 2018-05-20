@@ -163,7 +163,7 @@ class Player {
                 this.pos = newPos;
             } else if (obstacle === 'trampoline') {
                 this.playJumpAudio(state);
-                this.speed.y = -Math.floor(Math.random() * 6 + this.jumpSpeed * 1.5);
+                this.speed.y = -Math.floor(Math.random() * 3 + this.jumpSpeed * 1.8);
                 this.pos.y -= .1;
             } else if (overlap.includes('bottomOverlap')) {
                 if (newPos < this.pos || !['water', 'wall'].includes(obstacle)) {
