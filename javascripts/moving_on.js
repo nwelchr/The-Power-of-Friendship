@@ -57,14 +57,14 @@ class Game {
         this.handleLevelClick = this.handleLevelClick.bind(this);
         this.loadLevels = this.loadLevels.bind(this);
         this.goBackToMainMenu = this.goBackToMainMenu.bind(this);
-        this.goToMainMenuFromPause = this.goToMainMenuFromPause.bind(this);
+        this.goToMainMenu = this.goToMainMenu.bind(this);
 
         restartButton.addEventListener('click', this.restartLevel);
         startButton.addEventListener('click', this.start);
         levelSelectButton.addEventListener('click', this.loadLevels);
         levelSelectorMenu.addEventListener('click', this.handleLevelClick);
         mainMenuButton.addEventListener('click', this.goBackToMainMenu);
-        mainMenuPauseButton.addEventListener('click', this.goToMainMenuFromPause);
+        mainMenuPauseButton.addEventListener('click', () => this.goToMainMenu('pause'));
         pauseButton.addEventListener('click', this.togglePauseScreen);
         window.addEventListener('keydown', this.trackKeys);
         window.addEventListener('keyup', this.trackKeys);
@@ -88,11 +88,17 @@ class Game {
         titleScreen.classList.add('show');
     }
 
-    goToMainMenuFromPause(e) {
-        this.statusFunction('lost');
-        this.display.clear();
-        const game = document.querySelector('.game');
-        game.remove();
+    goToMainMenu(from) {
+        if (from === 'pause') {
+            this.statusFunction('lost');
+            this.display.clear();
+            const game = document.querySelector('.game');
+            game.remove();
+        } else if (from === 'win') {
+            startButton.innerHTML = "Play Again";
+            gameWrapper.classList.add('won');
+        }
+        audio.pause();
         audio.currentTime = 0;
         this.musicIsPlaying = false;
         this.gameIsRunning = true;
@@ -158,7 +164,7 @@ class Game {
             this.levelId += 1;
             this.startLevel();
         } else {
-            this.titleScreen.classList.add('show');
+            this.goToMainMenu('win');
         }
     }
 

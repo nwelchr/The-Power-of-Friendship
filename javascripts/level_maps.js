@@ -799,7 +799,7 @@ const levelMaps = [
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
-    'xxxxxxxx                                                                    xxxxxxxx',                                                               
+    'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'xxxxxxxx                                                                     xxxxxxxx',                                                               
     'x                                                                                   x',                                                               
