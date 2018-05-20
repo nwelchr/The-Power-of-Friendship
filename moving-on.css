@@ -599,7 +599,7 @@ body {
   width: 100vw;
   height: 100vh;
   /* background: white; */
-  background: #222;
+  background: #000;
   background-image: url('https://steamusercontent-a.akamaihd.net/ugc/772778501267616228/943896502CE7357163BDEF5F6ACDFD24DB3D2015/');
   /* background: linear-gradient(270deg, #555, #222, #555); */
 }
