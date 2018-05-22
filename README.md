@@ -1,7 +1,6 @@
-## **Moving On** - A Minimalist Puzzle Game
+## **The Power of Friendship** - A Minimalist Puzzle Game
 
-[Live](https://nwelchr.github.io/moving-on)<br />
-[Video Playthrough](https://www.youtube.com/watch?v=8KlIGm3vNsc)
+[Live](https://nwelchr.github.io/The-Power-of-Friendship)
 
 ### Background and Overview
 Inspired by the game *Thomas was Alone*, **The Power of Friendship** is a minimalist puzzle platformer where a single player controls multiple characters that must work together in order to reach their goal. Each character is gifted and hindered by their own individual characteristics. TODO: Add info
