@@ -1,5 +1,5 @@
 * {
-  user-select:none;
+  user-select: none;
 }
 
 .background {
@@ -54,7 +54,6 @@
   100% { background: blue!important; }
 } */
 
-
 .water {
   background: #0af;
 }
@@ -73,10 +72,14 @@
 }
 
 .trampoline {
-  background: purple;
+  background: #45d;
 }
 
-.finleygoal, .frankiegoal, .forestgoal, .fitzgoal, .fegoal {
+.finleygoal,
+.frankiegoal,
+.forestgoal,
+.fitzgoal,
+.fegoal {
   border: 2px dotted white;
   box-sizing: border-box;
   border-spacing: 2px;
@@ -86,15 +89,29 @@
   background: rgb(111, 61, 150);
 }
 
-.lost .player, .lost .finley, .lost .frankie, .lost .forest, .lost .fitz, .lost .fe {
+.lost .player,
+.lost .finley,
+.lost .frankie,
+.lost .forest,
+.lost .fitz,
+.lost .fe {
   background: rgb(160, 64, 64);
 }
 
-.drowned .finley, .drowned .frankie, .drowned .forest, .drowned .fitz, .drowned .fe {
+.drowned .finley,
+.drowned .frankie,
+.drowned .forest,
+.drowned .fitz,
+.drowned .fe {
   background: #0d3831;
 }
 
-.won .player, .won .finley, .won .frankie, .won .forest, .won .fitz, .won .fe {
+.won .player,
+.won .finley,
+.won .frankie,
+.won .forest,
+.won .fitz,
+.won .fe {
   background: #fff;
 }
 
@@ -107,9 +124,13 @@
 }
 
 #game-wrapper.won {
-  background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
-            linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
-            linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+  background: linear-gradient(
+      217deg,
+      rgba(255, 0, 0, 0.8),
+      rgba(255, 0, 0, 0) 70.71%
+    ),
+    linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
+    linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
 }
 
 .finley {
@@ -137,14 +158,24 @@
 } */
 
 @keyframes rotate {
-  0% {transform: rotate(0deg)}
-  100% {transform: rotate(360deg)}
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes wow {
-  0% {background-color: rgb(40, 40, 50);}
-  50% {background-color: rgb(60, 60, 80);}
-  100% {background-color: rgb(40, 40, 50);}
+  0% {
+    background-color: rgb(40, 40, 50);
+  }
+  50% {
+    background-color: rgb(60, 60, 80);
+  }
+  100% {
+    background-color: rgb(40, 40, 50);
+  }
 }
 
 .frankie {
@@ -163,17 +194,20 @@
   background-color: #173592;
 }
 
-.pause-modal, .title-screen, .level-selector-menu {
+.pause-modal,
+.title-screen,
+.level-selector-menu {
   /* border-radius: 45px; */
   display: none;
   position: absolute;
   z-index: 1;
   width: 900px;
   height: 600px;
-  background-color: rgba(0, 0, 0, .6);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-.title-screen, .level-selector-menu {
+.title-screen,
+.level-selector-menu {
   position: absolute;
   top: 0;
   left: 0;
@@ -182,7 +216,8 @@
   animation: fadein 1s linear;
 }
 
-.title-screen h1, .level-selector-menu h1 {
+.title-screen h1,
+.level-selector-menu h1 {
   color: white;
   font: 80px 'HelveticaNeue-UltraLight';
 }
@@ -218,7 +253,10 @@
   justify-content: space-between;
 }
 
-.pause-modal button, .title-screen button, .level-selector-menu button, .title-screen a {
+.pause-modal button,
+.title-screen button,
+.level-selector-menu button,
+.title-screen a {
   margin: 30px;
   width: 200px;
   height: 100px;
@@ -233,7 +271,7 @@
   font: 30px 'HelveticaNeue-UltraLight';
   outline: 0;
   animation: fadein 1s forwards;
-  transition: .2s ease;
+  transition: 0.2s ease;
   transform: scale(1);
   padding: 15px;
   backface-visibility: hidden;
@@ -262,19 +300,22 @@
   padding: 5px;
 }
 
-button, a {
-  background: rgba(0, 0, 0, .3)!important;
+button,
+a {
+  background: rgba(0, 0, 0, 0.3) !important;
 }
 
-button:hover, a:hover {
+button:hover,
+a:hover {
   padding: 15px;
-  background: rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, 0.1);
   transform: scale(1.05);
-  transition: .05s ease;
+  transition: 0.05s ease;
 }
 
-button:active, a:active {
-  transform: scale(.98);
+button:active,
+a:active {
+  transform: scale(0.98);
 }
 
 .curr-player:before {
@@ -288,7 +329,7 @@ button:active, a:active {
 
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  
+
   border-top: 10px solid #fff;
 }
 
@@ -322,8 +363,12 @@ button:active, a:active {
 }
 
 @keyframes fadein {
-  0% { opacity: .5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .instruction {
@@ -349,7 +394,7 @@ button:active, a:active {
 }
 
 .two:before {
-  content: 'press esc and click restart if you\'re stuck.';
+  content: "press esc and click restart if you're stuck.";
 }
 
 .three:before {
@@ -364,8 +409,13 @@ button:active, a:active {
 }
 
 @keyframes fadein-s {
-  0%, 50% { opacity: 0; }
-  100% { opacity: 1; }
+  0%,
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .five:before {
@@ -375,34 +425,44 @@ button:active, a:active {
   background-color: rgb(40, 40, 50);
   position: absolute;
   white-space: nowrap;
-  animation: fadeouttext 5s forwards;  
+  animation: fadeouttext 5s forwards;
 }
 
 .six:before {
   content: 'hey, fe.';
-  background-color: rgb(40, 40, 50);  
+  background-color: rgb(40, 40, 50);
   position: absolute;
   white-space: nowrap;
-  animation: fadeouttext 5s forwards;  
+  animation: fadeouttext 5s forwards;
 }
 
 .seven:before {
-  content: 'what\'s up, fitz?.';
+  content: "what's up, fitz?.";
   position: absolute;
   white-space: nowrap;
-  background-color: rgb(40, 40, 50);  
+  background-color: rgb(40, 40, 50);
   animation: fadeouttext 5s forwards;
 }
 
 @keyframes fadeouttext {
-  50% { color: white; }
-  100% { color: rgb(40, 40, 50) }
+  50% {
+    color: white;
+  }
+  100% {
+    color: rgb(40, 40, 50);
+  }
 }
 
 @keyframes fadeintext {
-  0% { color: rgb(40, 40, 50); }
-  50% { color: rgb(40, 40, 50); }
-  100% { color: white; }
+  0% {
+    color: rgb(40, 40, 50);
+  }
+  50% {
+    color: rgb(40, 40, 50);
+  }
+  100% {
+    color: white;
+  }
 }
 
 .eight:before {
@@ -410,7 +470,7 @@ button:active, a:active {
   position: absolute;
   white-space: nowrap;
   color: rgb(40, 40, 50);
-  background-color: rgb(40, 40, 50);    
+  background-color: rgb(40, 40, 50);
   animation: fadeintext 5s forwards 2s;
 }
 
@@ -444,7 +504,7 @@ button:active, a:active {
 }
 
 .thirteen:before {
-  content: 'it\'s ok.';
+  content: "it's ok.";
   position: absolute;
   white-space: nowrap;
 }
@@ -473,7 +533,7 @@ button:active, a:active {
 }
 
 .seventeen:before {
-  content: 'it\'s not your fault you stayed.';
+  content: "it's not your fault you stayed.";
   position: absolute;
   white-space: nowrap;
   margin-left: 30px;
@@ -486,7 +546,7 @@ button:active, a:active {
 }
 
 .nineteen:before {
-  content: 'you\'re free.';
+  content: "you're free.";
   position: absolute;
   white-space: nowrap;
 }
@@ -508,8 +568,12 @@ button:active, a:active {
 }
 
 @keyframes hello {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(180deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
 }
 
 .game {
@@ -529,8 +593,12 @@ button:active, a:active {
 }
 
 @keyframes baby {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* .last-level {
@@ -540,8 +608,12 @@ button:active, a:active {
 } */
 
 @keyframes fadeout {
-  0% { transform: scale(1); }
-  100% { transform: scale(0); }
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
 }
 
 /* .last-level:after {
@@ -572,7 +644,9 @@ button:active, a:active {
 } */
 
 @keyframes lastlevel {
-  100% {background-color: white;}
+  100% {
+    background-color: white;
+  }
 }
 
 /* .game:before {
