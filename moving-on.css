@@ -389,7 +389,7 @@ a:active {
 }
 
 .one:before {
-  content: 'use the arrow keys to move and jump.';
+  content: 'hold down the arrow keys to move and jump.';
   margin-left: -30px;
 }
 
