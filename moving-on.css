@@ -9,7 +9,7 @@
 }
 
 .background.bg1 {
-  background: linear-gradient(#0af, #196);
+  background: black;
 }
 
 .background.bg2 {
@@ -196,7 +196,8 @@
 
 .pause-modal,
 .title-screen,
-.level-selector-menu {
+.level-selector-menu,
+.instructions-menu {
   /* border-radius: 45px; */
   display: none;
   position: absolute;
@@ -207,7 +208,8 @@
 }
 
 .title-screen,
-.level-selector-menu {
+.level-selector-menu,
+.instructions-menu {
   position: absolute;
   top: 0;
   left: 0;
@@ -220,6 +222,11 @@
 .level-selector-menu h1 {
   color: white;
   font: 80px 'HelveticaNeue-UltraLight';
+}
+
+.instructions-menu h2 {
+  color: white;
+  font: 40px 'HelveticaNeue-UltraLight';
 }
 
 .hidden {
@@ -256,11 +263,11 @@
 .pause-modal button,
 .title-screen button,
 .level-selector-menu button,
+.instructions-menu button,
 .title-screen a {
-  margin: 30px;
   width: 200px;
-  height: 100px;
-  padding: 15px;
+  height: 70px;
+  margin: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -298,6 +305,10 @@
   justify-content: center;
   align-items: center;
   padding: 5px;
+}
+
+.instructions-menu {
+  color: white;
 }
 
 button,

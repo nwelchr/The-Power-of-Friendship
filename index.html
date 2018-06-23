@@ -1,65 +1,79 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <title>The Power of Friendship</title>
-    <link rel="stylesheet" href="moving-on.css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300" rel="stylesheet" />
-  </head>
-  
-  <body> 
-    <div id="game-wrapper">
-        <div class="title-screen show">
-            <h1>The Power of Friendship</h1>
-            <div class="start-button">
-              <button class="start">Start Game</button>
-              <button class="start level-select">Levels</button>
-            </div>
-            <div class="promotion">
-              <a href="https://github.com/nwelchr/The-Power-of-Friendship">Github</a>
-              <a style="width: 60px; font-size: 12px; text-align: center" href="https://nwelchr.github.io/moving-on/">Moving On</a>
-              <a href="http://nwelch.com/">Creator</a>
-            </div>  
-        </div>
+<head>
+  <title>The Power of Friendship</title>
+  <link rel="stylesheet" href="moving-on.css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300" rel="stylesheet" />
+</head>
 
-        <div class="level-selector-menu">
-          <h1>Choose your level</h1>
-          <div class="level-buttons">
-            <div>
-            <button class="level-btn">1</button>
-            <button class="level-btn">2</button>
-            <button class="level-btn">3</button>
-            <button class="level-btn">4</button>
-            <button class="level-btn">5</button>
-          </div>
-        <div>
-            <button class="level-btn">6</button>
-            <button class="level-btn">7</button>
-            <button class="level-btn">8</button>
-            <button class="level-btn">9</button>
-            <button class="level-btn">10</button>
-          </div>
-        <div>
-            <button class="level-btn">Final</button>
-          </div>
-          </div>
-          <button class="main-menu-btn">Main Menu</button>
-        </div>
-
-        <div class="pause-modal">
-            <button class="unpause">Unpause</button>
-            <button class="restart">Restart Level</button>
-            <button class="main-menu-pause-btn">Main Menu</button>
-        </div>
-        <audio id="intro" src="assets/intro.mp3" />
-        <audio id="finley-jump" src="assets/finley-jump.mp3" />
-        <audio id="frankie-jump" src="assets/frankie-jump.mp3" />
-        <audio id="forest-jump" src="assets/forest-jump.mp3" />
-        <audio id="fe-jump" src="assets/fe-jump.mp3" />
-        <audio id="fitz-jump" src="assets/fitz-jump.mp3" />
-    <audio id="level-finish" src="assets/level_finish.wav" />
+<body>
+  <div id="game-wrapper">
+    <div class="title-screen show">
+      <h1>The Power of Friendship</h1>
+      <div class="start-button">
+        <button class="start">Start Game</button>
+        <button class="level-select">Levels</button>
+        <button class="instructions">Instructions</button>
+      </div>
+      <div class="promotion">
+        <a href="https://github.com/nwelchr/The-Power-of-Friendship">Github</a>
+        <a style="width: 60px; font-size: 12px; text-align: center" href="https://nwelchr.github.io/moving-on/">Moving On</a>
+        <a href="http://nwelch.com/">Creator</a>
+      </div>
     </div>
-  </body>
-  
-  <script type="text/javascript" src="./dist/bundle.js"></script>
+
+    <div class="level-selector-menu">
+      <h1>Choose your level</h1>
+      <div class="level-buttons">
+        <div>
+          <button class="level-btn">1</button>
+          <button class="level-btn">2</button>
+          <button class="level-btn">3</button>
+          <button class="level-btn">4</button>
+          <button class="level-btn">5</button>
+        </div>
+        <div>
+          <button class="level-btn">6</button>
+          <button class="level-btn">7</button>
+          <button class="level-btn">8</button>
+          <button class="level-btn">9</button>
+          <button class="level-btn">10</button>
+        </div>
+        <div>
+          <button class="level-btn">Final</button>
+        </div>
+      </div>
+      <button class="main-menu-btn">Main Menu</button>
+    </div>
+
+    <div class="instructions-menu">
+      <div>
+        <h2>Hold the arrow keys to move.
+          <br />Press up to jump.</h2>
+        <img src="https://s3.us-east-2.amazonaws.com/power-of-friendship/movement.gif" style="width: 300px; top: 250px; position: absolute;"
+        />
+      </div>
+      <div>
+        <button class="main-menu-btn-2">Main Menu</button>
+      </div>
+    </div>
+
+    <div class="pause-modal">
+      <button class="unpause">Unpause</button>
+      <button class="restart">Restart Level</button>
+      <button class="main-menu-pause-btn">Main Menu</button>
+    </div>
+    <audio id="intro" src="assets/intro.mp3" />
+    <audio id="finley-jump" src="assets/finley-jump.mp3" />
+    <audio id="frankie-jump" src="assets/frankie-jump.mp3" />
+    <audio id="forest-jump" src="assets/forest-jump.mp3" />
+    <audio id="fe-jump" src="assets/fe-jump.mp3" />
+    <audio id="fitz-jump" src="assets/fitz-jump.mp3" />
+    <audio id="level-finish" src="assets/level_finish.wav" />
+  </div>
+</body>
+
+<script type="text/javascript" src="./dist/bundle.js"></script>
+
 </html>
