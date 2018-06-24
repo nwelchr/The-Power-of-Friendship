@@ -3,42 +3,138 @@
 [Live](https://nwelchr.github.io/The-Power-of-Friendship)
 
 ### Background and Overview
-Inspired by the game *Thomas was Alone*, **The Power of Friendship** is a minimalist puzzle platformer where a single player controls multiple characters that must work together in order to reach their goal. Each character is gifted and hindered by their own individual characteristics. TODO: Add info
 
-### Functionality and MVPs
+Inspired by the game _Thomas was Alone_, **The Power of Friendship** is a minimalist puzzle platformer. The goal is to have the player get each character into their respective goal. They must all work together in order to complete each level. Each level features different mechanics, including swimming, gravity chambers, trampolines, avoiding poison, and much more.
+
+### Technologies
+
+This game is built with standard JavaScript, HTML5, and CSS3. Scripts were bundled using Webpack.
+
+### Features
+
 **The Power of Friendship** features:
-- Two characters, Finley and Frankie, that you can switch between
-- Interface, instructions, and storyline incorporated into game
-- A camera that pans on the current character 
-- Multiple levels of puzzle goodness that test the brain!
 
-Current features:
-- Characters:
-    - Finley: Thinner and taller, jumps higher
-    - Frankie: Wider and shorter, jumps low, impervious to poison, can float on water
-- Obstacles:
-    - Poison: Vats of poison as well as flying and falling poison
-    - Water: Bodies of water that players must traverse to get to their goal
-    - Trampolines: Allow characters to bounce and reach their goalposts
-- Special Features:
-    - Gravity: While most of the game will operate under normal physics mechanics, certain areas of the game may trigger gravity to reverse or otherwise change.
-    - Audio: Background soundtrack as well as responsive audio to level completion and loss.
+- An in-depth tutorial to explain the rules of the game
+- A pause menu with a reminder of controls, as well as the ability to restart levels
+- Up to five characters at a time, all controlled by one player
+- 10+ levels of puzzle goodness!
 
-### Wireframes
+### Highlights
 
-![Level Example](/assets/wireframe.png)
+#### Camera
 
-### Architecture and Technologies
-This project was implemented with the following technologies:
+One of the features I was most excited about implementing was the camera. Because levels extend beyond the reach of the 'canvas', there needs to be a way to zoom in on the current player. The following method is called every frame after everything has been updated and redrawn. It finds the current player's position and scrolls my map to the proper location so as to center the player on the screen while giving a bit of leeway, so as to not have the screen constantly moving.
 
-- Vanilla JavaScript for game logic, HTML element creation, and DOM manipulation (no Canvas!)
-- CSS for styling
-- Webpack for compilation of javascripts
+```javascript
+    scrollPlayerIntoView(state) {
+        const width = this.wrapper.clientWidth;
+        const height = this.wrapper.clientHeight;
+        const margin = width / 3;
 
-### Bonus Features (to be implemented)
-- Audio that responds to collisions, jumps, coin collection, level completion, etc.
-- Visual responsiveness: bouncing effects, simulation of moving water, etc.
-- 2.5D background that moves dynamically to give a 3D-esque effect to gameplay
-- More characters, more features, more levels, more types of objects
-- Portals that teleport players to different areas of the level
-- Vastly DRYer and less glitchy code, as well as more robust physics engines (Phaser? Canvas?)
+        const left = this.wrapper.scrollLeft;
+        const right = left + width;
+        const top = this.wrapper.scrollTop;
+        const bottom = top + height;
+
+        const player = state.player;
+        const center = player.pos.plus(player.size.times(0.5)).times(scale);
+
+        // if we set scrollLeft or scrollTop to negative number, it will re-center to 0
+        // margin creates a "neutral" area to not force player into the center
+        if (center.x < left + margin) {
+            this.wrapper.scrollLeft = center.x - margin;
+        } else if (center.x > right - margin) {
+            this.wrapper.scrollLeft = center.x + margin - width;
+        }
+
+        if (center.y < top + margin) {
+            this.wrapper.scrollTop = center.y - margin;
+        } else if (center.y > bottom - margin) {
+            this.wrapper.scrollTop = center.y + margin - height;
+        }
+    }
+```
+
+#### Frame Function
+
+The meat of this game occurs in the `frameFunction`, called each frame (over 20 times per second). This function handles updating all of the current positions and statuses of each character, redraws new positions for each object, and delegates information about new states to allow for winning, losing, and restarting levels. State is updated in a flux pattern, ensuring that state is only mutated by a pure function that takes in a state and returns a new state.
+
+```javascript
+frameFunction(time) {
+    this.state = this.state.update(time, this.keys);
+    this.display.drawFrame(this.state);
+
+    if (this.state.status.includes('playing')) {
+      return true;
+    } else if (this.ending > 0) {
+      finish.play();
+      this.ending -= time;
+      return true;
+    } else {
+      this.display.clear();
+      this.statusFunction(this.state.status);
+      return false;
+    }
+  }
+```
+
+#### Level parsing
+
+To ensure optimal frame updating, I create a background layer that is drawn at the beginning of each level and is never updated, as well as an actors layer that is redrawn every frame. The actors layer only includes objects with changeable statuses that affect gameplay.
+
+```javascript
+class Display {
+  constructor(parent, level) {
+    // create wrapper for game
+    this.wrapper = parent.appendChild(createElement('div', 'game'));
+    // ...
+    this.wrapper.appendChild(this.drawBackground());
+    // ...
+  }
+
+  drawBackground() {
+    // ...
+    // iterate over each row of the previously built out grid (full of just words)
+    this.level.rows.forEach(row => {
+      // create row to append to the parent table
+      const rowElement = table.appendChild(createElement('tr'));
+      rowElement.style.height = `${scale}px`;
+      row.forEach(fieldType => {
+        // append individual tiles onto row
+        rowElement.appendChild(createElement('td', fieldType));
+      });
+    });
+    return table;
+  }
+
+  // drawn every time the display is updated with the given state
+  drawActors(state) {
+    // ...
+    for (let actor of state.actors) {
+      // ...
+      const el = wrapper.appendChild(
+        createElement('div', `actor ${actor.constructor.name.toLowerCase()} ${currPlayerStatus} ${currLevelStatus}`);
+      // ...
+    }
+    return wrapper;
+  }
+
+  drawFrame(state) {
+    // ...
+    this.actorLayer = this.drawActors(state);
+    this.wrapper.appendChild(this.actorLayer);
+    // ...
+    this.scrollPlayerIntoView(state);
+  }
+}
+```
+
+### Future plans
+
+- [x] ~~Tutorial~~
+- [x] ~~Responsive and personalized audio for each characters' jumps, as well as level completion~~
+- [x] ~~More characters~~ (previously 2, currently 5)
+- [x] ~~Better collision detection that allows for stacking of characters~~
+- [ ] Visual responsiveness: trampoline bouncing, simulation of moving water
+- [ ] Parallax scrolling: 2.5D background that gives a pseudo-3D effect
+- [ ] Portals that transport players to different parts of levels

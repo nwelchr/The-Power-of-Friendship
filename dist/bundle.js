@@ -222,21 +222,8 @@ class Player {
     for (let actor of state.actors) {
       if (!(this === actor)) {
         const currOverlap = state.overlap(this, actor);
-        // if (Object.getPrototypeOf(Object.getPrototypeOf(this)).constructor.name === 'Player'
-        //     && actor.constructor.name === 'Poison'
-        //     && currOverlap) {
-        //         actor.collide(state);
-        //     }
         if (currOverlap === 'topOverlap' && actor.constructor.name === 'Platform') overlap.push('Platform', { platform: actor });
         overlap.push(currOverlap);
-        // if (currOverlap
-        //     && ['topOverlap', 'bottomOverlap', 'leftOverlap', 'rightOverlap'].includes(currOverlap)) {
-        //         overlap.push(currOverlap);
-        //     }
-        // else if (currOverlap) {
-        //     overlap.push(currOverlap);
-        //     break;
-        // }
       }
     }
 
@@ -335,38 +322,9 @@ class State {
     this.player = player || this.actors.find(actor => actor.constructor.name === startingPlayer);
     this.nonPlayers = nonPlayers || this.actors.filter(actor => this.players.includes(actor.constructor.name) && actor !== this.player);
 
-    switch (this.level.levelId) {
-      case 1:
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
-      case 4:
-        break;
-      case 5:
-        break;
-      case 6:
-        break;
-      case 7:
-        break;
-      case 8:
-        break;
-      case 9:
-        break;
-      case 10:
-        break;
-      case 11:
-        break;
-      default:
-        break;
-    }
-
-    // to check whether switch is currently being pressed to prevent repeat switching on update
-
     if (this.finleyStatus === true && this.frankieStatus === true && this.forestStatus === true && this.fitzStatus === true && this.feStatus === true && this.status !== 'won') {
       return new State(Object.assign({}, this, {
-        status: "won"
+        status: 'won'
       }));
     }
   }
@@ -375,17 +333,16 @@ class State {
     const newLevelState = {
       level: level,
       actors: level.actors,
-      status: "playing"
+      status: 'playing'
     };
     return new State(newLevelState);
   }
 
   overlap(player, actor) {
-    if (["FinleyGoal", "FrankieGoal", "ForestGoal", "FitzGoal", "FeGoal"].includes(actor.constructor.name)) {
+    if (['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FitzGoal', 'FeGoal'].includes(actor.constructor.name)) {
       return player.pos.x + player.size.x / 2 > actor.pos.x && player.pos.x < actor.pos.x + actor.size.x / 2 && player.pos.y + player.size.y / 2 > actor.pos.y && player.pos.y < actor.pos.y + actor.size.y / 2;
-    } else if (Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === "Player" || actor.constructor.name === "Platform") {
-
-      const distFactor = .25;
+    } else if (Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === 'Player' || actor.constructor.name === 'Platform') {
+      const distFactor = 0.25;
 
       const horizontalOverlap = player.pos.x + player.size.x / 2 - (actor.pos.x + actor.size.x / 2);
       const horizontalDistance = player.size.x / 2 + actor.size.x / 2;
@@ -394,19 +351,19 @@ class State {
       const verticalDistance = player.size.y / 2 + actor.size.y / 2;
 
       if (-verticalOverlap >= verticalDistance - distFactor && -verticalOverlap <= verticalDistance + distFactor && (player.pos.x + player.size.x > actor.pos.x && player.pos.x + player.size.x < actor.pos.x + actor.size.x || player.pos.x > actor.pos.x && player.pos.x < actor.pos.x + actor.size.x || player.pos.x < actor.pos.x && player.pos.x + player.size.x > actor.pos.x + actor.size.x || player.pos.x > actor.pos.x && player.pos.x + player.size.x < actor.pos.x + actor.size.x)) {
-        return "topOverlap";
+        return 'topOverlap';
       }
 
       if (verticalOverlap >= verticalDistance - distFactor && verticalOverlap <= verticalDistance + distFactor && (player.pos.x + player.size.x > actor.pos.x && player.pos.x + player.size.x < actor.pos.x + actor.size.x || player.pos.x > actor.pos.x && player.pos.x < actor.pos.x + actor.size.x || player.pos.x < actor.pos.x && player.pos.x + player.size.x > actor.pos.x + actor.size.x || player.pos.x > actor.pos.x && player.pos.x + player.size.x < actor.pos.x + actor.size.x)) {
-        return "bottomOverlap";
+        return 'bottomOverlap';
       }
 
       if (-horizontalOverlap >= horizontalDistance - distFactor && -horizontalOverlap <= horizontalDistance + distFactor && (player.pos.y + player.size.y > actor.pos.y && player.pos.y + player.size.y < actor.pos.y + actor.size.y || player.pos.y > actor.pos.y && player.pos.y < actor.pos.y + actor.size.y || player.pos.y < actor.pos.y && player.pos.y + player.size.y > actor.pos.y + actor.size.y || player.pos.y > actor.pos.y && player.pos.y + player.size.y < actor.pos.y + actor.size.y)) {
-        return "leftOverlap";
+        return 'leftOverlap';
       }
 
       if (horizontalOverlap >= horizontalDistance - distFactor && horizontalOverlap <= horizontalDistance + distFactor && (player.pos.y + player.size.y > actor.pos.y && player.pos.y + player.size.y < actor.pos.y + actor.size.y || player.pos.y > actor.pos.y && player.pos.y < actor.pos.y + actor.size.y || player.pos.y < actor.pos.y && player.pos.y + player.size.y > actor.pos.y + actor.size.y || player.pos.y > actor.pos.y && player.pos.y + player.size.y < actor.pos.y + actor.size.y)) {
-        return "rightOverlap";
+        return 'rightOverlap';
       }
 
       return false;
@@ -422,52 +379,45 @@ class State {
     let actors = this.actors.map(actor => actor.update(time, this, keys));
 
     // if s is being pressed and wasn't already being pressed, AND if the current player isn't jumping/falling/etc (w this.player.speed.y === 0), switch player
-    if (keys.switch && !this.switchKeyPressed && this.nonPlayers.length > 0
-    // ![1].includes(this.level.levelId)
-    ) {
-        const newPlayer = this.nonPlayers.shift();
-        this.nonPlayers.push(this.player);
-        const newState = Object.assign({}, this, {
-          actors,
-          player: actors.find(actor => actor.constructor.name === newPlayer.constructor.name),
-          nonPlayers: this.nonPlayers,
-          switchKeyPressed: keys.switch
-        });
-        return new State(newState);
-      }
+    if (keys.switch && !this.switchKeyPressed && this.nonPlayers.length > 0) {
+      const newPlayer = this.nonPlayers.shift();
+      this.nonPlayers.push(this.player);
+      const newState = Object.assign({}, this, {
+        actors,
+        player: actors.find(actor => actor.constructor.name === newPlayer.constructor.name),
+        nonPlayers: this.nonPlayers,
+        switchKeyPressed: keys.switch
+      });
+      return new State(newState);
+    }
 
+    // generate copy state to modify
     let newState = new State(Object.assign({}, this, {
       actors,
       player: actors.find(actor => actor.constructor.name === this.player.constructor.name),
       nonPlayers: this.nonPlayers,
       switchKeyPressed: keys.switch
     }));
-    const levelOver = !newState.status.includes("playing");
+    const levelOver = !newState.status.includes('playing');
     if (levelOver) return newState;
 
     let player = newState.player;
 
     switch (this.level.touching(player.pos, player.size)) {
-      case "poison":
+      case 'poison':
         return new State(Object.assign({}, newState, {
-          status: "lost"
+          status: 'lost'
         }));
-      // case "water":
-      //   if (player.constructor.name === "Finley" && this.level.levelId !== 9) {
-      //     // return new State(this.level, actors, "lost drowned", this.player);
-      //     return new State(Object.assign({}, newState, { status: "lost drowned" }));
-      //   }
-      // break;
-      case "trampoline":
+      case 'trampoline':
         newState.player.gravity = -newState.player.gravity * 1.5;
         return new State(newState);
       default:
         break;
     }
 
-    let overlapActors = actors.filter(actor => !(Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === "Player" || ["FinleyGoal", "FrankieGoal", "ForestGoal", "FitzGoal", "FeGoal"].includes(actor.constructor.name)));
+    // checks collisions for all players
+    let overlapActors = actors.filter(actor => !(Object.getPrototypeOf(Object.getPrototypeOf(actor)).constructor.name === 'Player' || ['FinleyGoal', 'FrankieGoal', 'ForestGoal', 'FitzGoal', 'FeGoal'].includes(actor.constructor.name)));
 
-    // allows for all players to be checked at any given moment
     let players = [];
     this.players.forEach(playerStr => {
       players.push(this.actors.find(actor => actor.constructor.name === playerStr));
@@ -475,20 +425,21 @@ class State {
     for (let actor of overlapActors) {
       for (let playerChar of players) {
         const overlap = this.overlap(playerChar, actor);
-        if (overlap && !["Platform"].includes(actor.constructor.name)) return actor.collide(newState);
+        if (overlap && !['Platform'].includes(actor.constructor.name)) return actor.collide(newState);
       }
     }
 
-    const frankieGoal = actors.find(actor => actor.constructor.name === "FrankieGoal");
-    const frankie = actors.find(actor => actor.constructor.name === "Frankie");
-    const finleyGoal = actors.find(actor => actor.constructor.name === "FinleyGoal");
-    const finley = actors.find(actor => actor.constructor.name === "Finley");
-    const forestGoal = actors.find(actor => actor.constructor.name === "ForestGoal");
-    const forest = actors.find(actor => actor.constructor.name === "Forest");
-    const fitzGoal = actors.find(actor => actor.constructor.name === "FitzGoal");
-    const fitz = actors.find(actor => actor.constructor.name === "Fitz");
-    const feGoal = actors.find(actor => actor.constructor.name === "FeGoal");
-    const fe = actors.find(actor => actor.constructor.name === "Fe");
+    // determine of players are in their goalspots
+    const frankieGoal = actors.find(actor => actor.constructor.name === 'FrankieGoal');
+    const frankie = actors.find(actor => actor.constructor.name === 'Frankie');
+    const finleyGoal = actors.find(actor => actor.constructor.name === 'FinleyGoal');
+    const finley = actors.find(actor => actor.constructor.name === 'Finley');
+    const forestGoal = actors.find(actor => actor.constructor.name === 'ForestGoal');
+    const forest = actors.find(actor => actor.constructor.name === 'Forest');
+    const fitzGoal = actors.find(actor => actor.constructor.name === 'FitzGoal');
+    const fitz = actors.find(actor => actor.constructor.name === 'Fitz');
+    const feGoal = actors.find(actor => actor.constructor.name === 'FeGoal');
+    const fe = actors.find(actor => actor.constructor.name === 'Fe');
 
     newState.finleyStatus = this.overlap(finley, finleyGoal) ? true : false;
     newState.frankieStatus = this.overlap(frankie, frankieGoal) ? true : false;
@@ -773,8 +724,7 @@ class Game {
   }
 
   trackKeys(e) {
-    if (!e) return;
-    if (controlsMenu.classList.contains('show')) return;
+    if (!e || controlsMenu.classList.contains('show')) return;
     if (e.keyCode === 27 && e.type === 'keydown') {
       this.togglePauseScreen();
       return;
@@ -1368,133 +1318,131 @@ const scale = 20; // scale units into pixels
 // helper function to create an element in the dom and give it a class;
 
 const createElement = (name, className) => {
-    const element = document.createElement(name);
-    if (className) element.className = className;
-    return element;
+  const element = document.createElement(name);
+  if (className) element.className = className;
+  return element;
 };
 
 class Display {
-    constructor(parent, level) {
-        this.wrapper = parent.appendChild(createElement('div', 'game')); // create wrapper for actual game (since screen will be slipping off)
-        // this.wrapper = parent;
+  constructor(parent, level) {
+    // create wrapper for game
+    this.wrapper = parent.appendChild(createElement('div', 'game'));
 
-        this.level = level;
+    this.level = level;
 
-        // tracks element that holds actors so they can be removed/replaced
-        this.actorLayer = null; // background and actor layers important for time save
+    // tracks element that holds actors so they can be removed/replaced
+    this.actorLayer = null;
 
-        this.wrapper.appendChild(this.drawBackground());
+    this.wrapper.appendChild(this.drawBackground());
 
-        this.drawActors = this.drawActors.bind(this);
+    this.drawActors = this.drawActors.bind(this);
+  }
+
+  drawBackground() {
+    let background = 'background ';
+    switch (this.level.levelId) {
+      case 1:
+      case 2:
+        background += 'bg1';
+        break;
+      case 3:
+      case 4:
+        background += 'bg2';
+        break;
+      case 5:
+      case 6:
+        background += 'bg3';
+        break;
+      case 7:
+      case 8:
+      case 9:
+        background += 'bg4';
+        break;
+      case 10:
+      case 11:
+        background += 'bg5';
+        break;
+    }
+    const table = createElement('table', background);
+    table.style.width = `${this.level.width * scale}px`; // sets specifc style, doesn't change other inline styles
+
+    // iterate over each row of the previously built out grid (full of just words)
+    this.level.rows.forEach(row => {
+      // create row to append to the parent table
+      const rowElement = table.appendChild(createElement('tr'));
+
+      rowElement.style.height = `${scale}px`;
+
+      row.forEach(fieldType => {
+        // append individual tiles onto row
+        rowElement.appendChild(createElement('td', fieldType));
+      });
+    });
+
+    return table;
+  }
+
+  // drawn every time the display is updated with the given state
+  drawActors(state) {
+    const wrapper = createElement('div');
+
+    const currPlayer = state.player;
+    const currLevel = state.level.levelId;
+
+    for (let actor of state.actors) {
+      const currPlayerStatus = currPlayer === actor ? 'curr-player' : '';
+      const currLevelStatus = currLevel === 1 ? 'finley-tut' : '';
+      const el = wrapper.appendChild(createElement('div', `actor ${actor.constructor.name.toLowerCase()} ${currPlayerStatus} ${currLevelStatus}`)); // actor.constructor.name finds the name of the class of the actor
+      el.style.width = `${actor.size.x * scale}px`;
+      el.style.height = `${actor.size.y * scale}px`;
+      el.style.left = `${actor.pos.x * scale}px`;
+      el.style.top = `${actor.pos.y * scale}px`;
     }
 
-    drawBackground() {
-        let background = 'background ';
-        switch (this.level.levelId) {
-            case 1:
-            case 2:
-                background += 'bg1';
-                break;
-            case 3:
-            case 4:
-                background += 'bg2';
-                break;
-            case 5:
-            case 6:
-                background += 'bg3';
-                break;
-            case 7:
-            case 8:
-            case 9:
-                background += 'bg4';
-                break;
-            case 10:
-            case 11:
-                background += 'bg5';
-                break;
-        }
-        const table = createElement('table', background);
-        table.style.width = `${this.level.width * scale}px`; // sets specifc style, doesn't change other inline styles
+    return wrapper;
+  }
 
-        // iterate over each row of the previously built out grid (full of just words)
-        this.level.rows.forEach(row => {
+  drawFrame(state) {
+    if (this.actorLayer) this.actorLayer.remove();
+    this.actorLayer = this.drawActors(state);
+    this.wrapper.appendChild(this.actorLayer);
+    this.wrapper.className = `game ${state.status}`;
+    this.scrollPlayerIntoView(state);
+  }
 
-            // create row to append to the parent table
-            const rowElement = table.appendChild(createElement('tr'));
+  scrollPlayerIntoView(state) {
+    const width = this.wrapper.clientWidth; // takes width of game div
+    const height = this.wrapper.clientHeight;
+    const margin = width / 3; // it bugs out if I try too hard to make it centered???
 
-            rowElement.style.height = `${scale}px`;
+    const left = this.wrapper.scrollLeft;
+    const right = left + width;
+    const top = this.wrapper.scrollTop;
+    const bottom = top + height;
 
-            row.forEach(fieldType => {
-                // append individual tiles onto row
-                rowElement.appendChild(createElement('td', fieldType));
-            });
-        });
+    const player = state.player;
+    const center = player.pos.plus(player.size.times(0.5)).times(scale); // to find the player's center, we add the position + half the size
 
-        return table;
+    // if we set scrollLeft or scrollTop to negative number, it will re-center to 0
+    // margin creates a "neutral" area to not force player into the center
+    if (center.x < left + margin) {
+      this.wrapper.scrollLeft = center.x - margin;
+    } else if (center.x > right - margin) {
+      this.wrapper.scrollLeft = center.x + margin - width;
     }
 
-    // drawn every time the display is updated with the given state
-    drawActors(state) {
-        const wrapper = createElement('div');
-
-        const currPlayer = state.player;
-        const currLevel = state.level.levelId;
-
-        for (let actor of state.actors) {
-            const currPlayerStatus = currPlayer === actor ? 'curr-player' : '';
-            const currLevelStatus = currLevel === 1 ? 'finley-tut' : '';
-            const el = wrapper.appendChild(createElement('div', `actor ${actor.constructor.name.toLowerCase()} ${currPlayerStatus} ${currLevelStatus}`)); // actor.constructor.name finds the name of the class of the actor
-            el.style.width = `${actor.size.x * scale}px`;
-            el.style.height = `${actor.size.y * scale}px`;
-            el.style.left = `${actor.pos.x * scale}px`;
-            el.style.top = `${actor.pos.y * scale}px`;
-        }
-
-        return wrapper;
+    if (center.y < top + margin) {
+      this.wrapper.scrollTop = center.y - margin;
+    } else if (center.y > bottom - margin) {
+      this.wrapper.scrollTop = center.y + margin - height;
     }
+  }
 
-    drawFrame(state) {
-        if (this.actorLayer) this.actorLayer.remove();
-        this.actorLayer = this.drawActors(state);
-        this.wrapper.appendChild(this.actorLayer);
-        this.wrapper.className = `game ${state.status}`;
-        this.scrollPlayerIntoView(state);
-    }
-
-    scrollPlayerIntoView(state) {
-        const width = this.wrapper.clientWidth; // takes width of game div
-        const height = this.wrapper.clientHeight;
-        const margin = width / 3; // it bugs out if I try too hard to make it centered???
-
-        const left = this.wrapper.scrollLeft;
-        const right = left + width;
-        const top = this.wrapper.scrollTop;
-        const bottom = top + height;
-
-        const player = state.player;
-        const center = player.pos.plus(player.size.times(0.5)).times(scale); // to find the player's center, we add the position + half the size
-
-
-        // if we set scrollLeft or scrollTop to negative number, it will re-center to 0
-        // margin creates a "neutral" area to not force player into the center
-        if (center.x < left + margin) {
-            this.wrapper.scrollLeft = center.x - margin;
-        } else if (center.x > right - margin) {
-            this.wrapper.scrollLeft = center.x + margin - width;
-        }
-
-        if (center.y < top + margin) {
-            this.wrapper.scrollTop = center.y - margin;
-        } else if (center.y > bottom - margin) {
-            this.wrapper.scrollTop = center.y + margin - height;
-        }
-    }
-
-    clear() {
-        // odd syntax to remove the wrapper because htmlelements are weird! DOESN'T WORK
-        // this.wrapper.parentNode.removeChild(this.wrapper);
-        this.wrapper.remove();
-    }
+  clear() {
+    // odd syntax to remove the wrapper because htmlelements are weird! DOESN'T WORK
+    // this.wrapper.parentNode.removeChild(this.wrapper);
+    this.wrapper.remove();
+  }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Display);

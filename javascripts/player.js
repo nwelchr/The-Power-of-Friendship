@@ -149,25 +149,12 @@ class Player {
     for (let actor of state.actors) {
       if (!(this === actor)) {
         const currOverlap = state.overlap(this, actor);
-        // if (Object.getPrototypeOf(Object.getPrototypeOf(this)).constructor.name === 'Player'
-        //     && actor.constructor.name === 'Poison'
-        //     && currOverlap) {
-        //         actor.collide(state);
-        //     }
         if (
           currOverlap === 'topOverlap' &&
           actor.constructor.name === 'Platform'
         )
           overlap.push('Platform', { platform: actor });
         overlap.push(currOverlap);
-        // if (currOverlap
-        //     && ['topOverlap', 'bottomOverlap', 'leftOverlap', 'rightOverlap'].includes(currOverlap)) {
-        //         overlap.push(currOverlap);
-        //     }
-        // else if (currOverlap) {
-        //     overlap.push(currOverlap);
-        //     break;
-        // }
       }
     }
 
