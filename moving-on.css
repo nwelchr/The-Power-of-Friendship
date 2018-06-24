@@ -9,7 +9,8 @@
 }
 
 .background.bg1 {
-  background: linear-gradient(#0af, #196);
+  /* background: linear-gradient(#0af, #196); */
+  background: black;
 }
 
 .background.bg2 {
@@ -252,6 +253,11 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+.play-instructions img {
+  width: 300px;
+  height: 200px;
 }
 
 .hidden {

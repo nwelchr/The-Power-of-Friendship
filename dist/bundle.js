@@ -545,7 +545,10 @@ const mainMenuButton2 = document.querySelector('.main-menu-btn-2');
 const mainMenuPauseButton = document.querySelector('.main-menu-pause-btn');
 const levelSelectorMenu = document.querySelector('.level-selector-menu');
 const instructionsMenu = document.querySelector('.instructions-menu');
+const playInstructions = document.querySelector('.play-instructions');
 const gameWrapper = document.getElementById('game-wrapper');
+
+const instructions = [{ text: 'Meet Finley, your new friend.', img: 'finley-1.png' }, { text: '...along with a few others.', img: 'all-1.png' }];
 
 class Game {
   constructor() {
@@ -559,8 +562,12 @@ class Game {
     this.lastTime = 0;
     this.gameStarted = false;
 
+    this.instructionsVisited = false;
+    this.instructionsIdx = 0;
+
     this.trackKeys = this.trackKeys.bind(this);
     this.restartLevel = this.restartLevel.bind(this);
+    this.startInstructions = this.startInstructions.bind(this);
     this.start = this.start.bind(this);
     this.startLevel = this.startLevel.bind(this);
     this.statusFunction = this.statusFunction.bind(this);
@@ -577,7 +584,7 @@ class Game {
     this.goToMainMenu = this.goToMainMenu.bind(this);
 
     restartButton.addEventListener('click', this.restartLevel);
-    startButton.addEventListener('click', this.start);
+    startButton.addEventListener('click', this.startInstructions);
     levelSelectButton.addEventListener('click', this.loadLevels);
     instructionButton.addEventListener('click', this.loadInstructions);
     levelSelectorMenu.addEventListener('click', this.handleLevelClick);
@@ -587,6 +594,85 @@ class Game {
     pauseButton.addEventListener('click', this.togglePauseScreen);
     window.addEventListener('keydown', this.trackKeys);
     window.addEventListener('keyup', this.trackKeys);
+  }
+
+  startInstructions(e) {
+    // reset idx if clicked start button;
+    if (this.instructionsIdx === 0 && this.instructionsVisited) {
+      this.start();
+      return;
+    }
+
+    const goToNext = () => {
+      switch (this.instructionsIdx) {
+        case instructions.length - 1:
+          this.instructionsIdx = 0;
+          this.start();
+          return;
+        default:
+          this.instructionsIdx += 1;
+          this.startInstructions();
+          clearAnimatedTimeout();
+          break;
+      }
+    };
+
+    let animatedTimeout;
+
+    const setAnimatedTimeout = imgLink => {
+      animatedTimeout = setTimeout(function () {
+        const animatedImgLink = imgLink.replace('1', '2');
+        img.setAttribute('src', `https://s3.us-east-2.amazonaws.com/power-of-friendship/${animatedImgLink}`);
+      }, 1500);
+    };
+
+    const clearAnimatedTimeout = () => {
+      clearTimeout(animatedTimeout);
+    };
+
+    const setButtonListener = () => {
+      button.addEventListener('click', goToNext);
+    };
+
+    let button, h2, img, buttonText;
+    if (this.instructionsIdx === 0) {
+      playInstructions.classList.add('show');
+      titleScreen.classList.remove('show');
+    }
+
+    if (!this.instructionsVisited) {
+      this.instructionsVisited = true;
+      // show screen
+
+      // make h2
+      h2 = document.createElement('h2');
+      h2.innerText = instructions[this.instructionsIdx].text;
+
+      // make img
+      img = document.createElement('img');
+      button = document.createElement('button');
+
+      // append to page
+      playInstructions.appendChild(h2);
+      playInstructions.appendChild(img);
+      playInstructions.appendChild(button);
+
+      setButtonListener();
+    } else {
+      h2 = document.querySelector('.play-instructions h2');
+      h2.innerText = instructions[this.instructionsIdx].text;
+      img = document.querySelector('.play-instructions img');
+      button = document.querySelector('.play-instructions button');
+    }
+
+    const imgLink = instructions[this.instructionsIdx].img;
+    img.setAttribute('src', `https://s3.us-east-2.amazonaws.com/power-of-friendship/${imgLink}`);
+    if (imgLink.substring(imgLink.length - 3) === 'png') {
+      setAnimatedTimeout(imgLink);
+    }
+
+    buttonText = this.instructionsIdx === instructions.length - 1 ? 'Play' : 'Next';
+    button.innerText = buttonText;
   }
 
   loadLevels(e) {
@@ -673,6 +759,7 @@ class Game {
     audio.play();
 
     titleScreen.classList.remove('show');
+    playInstructions.classList.remove('show');
     this.startLevel();
   }
 
