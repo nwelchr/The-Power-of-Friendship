@@ -9,7 +9,7 @@
 }
 
 .background.bg1 {
-  background: black;
+  background: linear-gradient(#0af, #196);
 }
 
 .background.bg2 {
@@ -226,7 +226,29 @@
 
 .instructions-menu h2 {
   color: white;
-  font: 40px 'HelveticaNeue-UltraLight';
+  font: 30px 'HelveticaNeue-UltraLight';
+}
+
+.instructions-menu {
+  flex-direction: column;
+}
+
+.instructions-menu img {
+  width: 300px;
+}
+
+.instructions-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.instruction-img-container {
+  margin: 10px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hidden {
@@ -283,6 +305,9 @@
   padding: 15px;
   backface-visibility: hidden;
   text-decoration: none;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0) scale(1, 1);
+  transform: translateZ(0);
 }
 
 .level-selector-menu button {
