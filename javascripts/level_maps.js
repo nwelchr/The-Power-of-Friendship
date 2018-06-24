@@ -566,13 +566,13 @@ const levelMaps = [
   [
     'x                                                                                                                                  ',
     'x                                              ',
-    'x                                          ',
+    'x               z                           ',
     'x                                            ',
     'x                                            ',
     'x                                            ',
     'x                                            ',
     'x                                            ',
-    'x                                          ',
+    'x               Z                           ',
     'x           xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ',
     'x                                                                                                        ',
     'x                                                                                                        ',
@@ -624,12 +624,12 @@ const levelMaps = [
     'x                                                               xttttx                                 ',
     'x  @                                                            xxxxxx                                 ',
     'x                                                                                                      ',
-    'x    z                                                                                                 ',
+    'x                                                                                                      ',
     'x           E                                                                   e      xttttx          ',
     'x                                                                                      xxxxxx          ',
     'x                                                                                                      ',
-    'x  O Z      !                                                                                          ',
-    'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                               xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    'x  O        !                                                                                          ',
+    'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   ],
 
   [

@@ -274,6 +274,7 @@ class Game {
 
   trackKeys(e) {
     if (!e) return;
+    if (controlsMenu.classList.contains('show')) return;
     if (e.keyCode === 27 && e.type === 'keydown') {
       this.togglePauseScreen();
       return;
