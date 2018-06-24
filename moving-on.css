@@ -120,6 +120,7 @@
   position: relative;
   width: 900px;
   height: 600px;
+  /* margin-top: 50px; */
 }
 
 #game-wrapper.won {
@@ -454,7 +455,7 @@ a:active {
 }
 
 .two:before {
-  content: "press esc and click restart if you're stuck.";
+  /* content: "press esc and click restart if you're stuck."; */
 }
 
 .three:before {

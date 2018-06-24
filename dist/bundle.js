@@ -551,7 +551,10 @@ const controlsMenu = document.querySelector('.controls-menu');
 const playInstructions = document.querySelector('.play-instructions');
 const gameWrapper = document.getElementById('game-wrapper');
 
-const instructions = [{ text: 'Meet Finley, your new friend.', img: 'finley-1.png' }, { text: '...along with a few others.', img: 'all-1.png' }, {
+const instructions = [{ text: 'Meet Finley, your new friend.', img: 'finley-1.png' }, {
+  text: "...along with a few others.\nThey're also friends.",
+  img: 'all-1.png'
+}, {
   text: 'Hold the arrow keys to move.\nPress up to jump.',
   img: 'movement.gif'
 }, {
@@ -561,7 +564,7 @@ const instructions = [{ text: 'Meet Finley, your new friend.', img: 'finley-1.pn
   text: 'Your objective?\nGet to your goal.',
   img: 'goal.gif'
 }, {
-  text: 'Help each other get to the goal!\nTeamwork is required.',
+  text: 'Use the power of friendship\nto get everyone to their goal!',
   img: 'teamwork.gif'
 }];
 
