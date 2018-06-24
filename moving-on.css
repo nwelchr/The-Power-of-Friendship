@@ -9,8 +9,7 @@
 }
 
 .background.bg1 {
-  /* background: linear-gradient(#0af, #196); */
-  background: black;
+  background: linear-gradient(#0af, #196);
 }
 
 .background.bg2 {
@@ -26,8 +25,7 @@
 }
 
 .background.bg5 {
-  /* background: linear-gradient(purple, yellow); */
-  background: black;
+  background: linear-gradient(purple, yellow);
 }
 
 .background td {
@@ -199,6 +197,7 @@
 .title-screen,
 .level-selector-menu,
 .instructions-menu,
+.controls-menu,
 .play-instructions {
   /* border-radius: 45px; */
   display: none;
@@ -209,9 +208,14 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+.controls-menu {
+  background-color: black;
+}
+
 .title-screen,
 .level-selector-menu,
 .instructions-menu,
+.controls-menu,
 .play-instructions {
   position: absolute;
   top: 0;
@@ -228,16 +232,19 @@
 }
 
 .instructions-menu h2,
-.play-instructions h2 {
+.play-instructions h2,
+.controls-menu h2 {
   color: white;
   font: 30px 'HelveticaNeue-UltraLight';
 }
 
-.instructions-menu {
+.instructions-menu,
+.controls-menu {
   flex-direction: column;
 }
 
-.instructions-menu img {
+.instructions-menu img,
+.controls-menu img {
   width: 300px;
 }
 
@@ -299,6 +306,7 @@
 .title-screen button,
 .level-selector-menu button,
 .instructions-menu button,
+.controls-menu button,
 .play-instructions button,
 .title-screen a {
   width: 200px;
@@ -347,6 +355,7 @@
 }
 
 .instructions-menu,
+.controls-menu,
 .play-instructions {
   color: white;
 }

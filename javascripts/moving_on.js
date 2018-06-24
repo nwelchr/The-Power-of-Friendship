@@ -26,11 +26,14 @@ const titleScreen = document.querySelector('.title-screen');
 const startButton = document.querySelector('.start');
 const levelSelectButton = document.querySelector('.level-select');
 const instructionButton = document.querySelector('.instructions');
+const controlsButton = document.querySelector('.controls');
+const goBackButton = document.querySelector('.go-back');
 const mainMenuButton = document.querySelector('.main-menu-btn');
 const mainMenuButton2 = document.querySelector('.main-menu-btn-2');
 const mainMenuPauseButton = document.querySelector('.main-menu-pause-btn');
 const levelSelectorMenu = document.querySelector('.level-selector-menu');
 const instructionsMenu = document.querySelector('.instructions-menu');
+const controlsMenu = document.querySelector('.controls-menu');
 const playInstructions = document.querySelector('.play-instructions');
 const gameWrapper = document.getElementById('game-wrapper');
 
@@ -51,7 +54,7 @@ const instructions = [
   },
   {
     text: 'Help each other get to the goal!\nTeamwork is required.',
-    img: 'goal.gif'
+    img: 'teamwork.gif'
   }
 ];
 
@@ -92,6 +95,8 @@ class Game {
     startButton.addEventListener('click', this.startInstructions);
     levelSelectButton.addEventListener('click', this.loadLevels);
     instructionButton.addEventListener('click', this.loadInstructions);
+    controlsButton.addEventListener('click', this.loadControls);
+    goBackButton.addEventListener('click', this.goBackToPauseMenu);
     levelSelectorMenu.addEventListener('click', this.handleLevelClick);
     mainMenuButton.addEventListener('click', this.goBackToMainMenu);
     mainMenuButton2.addEventListener('click', this.goBackToMainMenu);
@@ -199,6 +204,16 @@ class Game {
   loadInstructions(e) {
     instructionsMenu.classList.add('show');
     titleScreen.classList.remove('show');
+  }
+
+  loadControls(e) {
+    controlsMenu.classList.add('show');
+    pauseModal.classList.remove('show');
+  }
+
+  goBackToPauseMenu(e) {
+    controlsMenu.classList.remove('show');
+    pauseModal.classList.add('show');
   }
 
   handleLevelClick(e) {
