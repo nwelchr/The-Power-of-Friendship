@@ -44,6 +44,14 @@ const instructions = [
   {
     text: 'Press s to switch between\ndifferent characters.',
     img: 'switch.gif'
+  },
+  {
+    text: 'Your objective?\nGet to your goal.',
+    img: 'goal.gif'
+  },
+  {
+    text: 'Help each other get to the goal!\nTeamwork is required.',
+    img: 'goal.gif'
   }
 ];
 
