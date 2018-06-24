@@ -36,7 +36,15 @@ const gameWrapper = document.getElementById('game-wrapper');
 
 const instructions = [
   { text: 'Meet Finley, your new friend.', img: 'finley-1.png' },
-  { text: '...along with a few others.', img: 'all-1.png' }
+  { text: '...along with a few others.', img: 'all-1.png' },
+  {
+    text: 'Hold the arrow keys to move.\nPress up to jump.',
+    img: 'movement.gif'
+  },
+  {
+    text: 'Press s to switch between\ndifferent characters.',
+    img: 'switch.gif'
+  }
 ];
 
 class Game {
@@ -102,16 +110,16 @@ class Game {
           return;
         default:
           this.instructionsIdx += 1;
-          this.startInstructions();
           clearAnimatedTimeout();
-          break;
+          this.startInstructions();
+          return;
       }
     };
 
-    let animatedTimeout;
+    this.animatedTimeout = null;
 
     const setAnimatedTimeout = imgLink => {
-      animatedTimeout = setTimeout(function() {
+      this.animatedTimeout = setTimeout(function() {
         const animatedImgLink = imgLink.replace('1', '2');
         img.setAttribute(
           'src',
@@ -121,7 +129,8 @@ class Game {
     };
 
     const clearAnimatedTimeout = () => {
-      clearTimeout(animatedTimeout);
+      clearTimeout(this.animatedTimeout);
+      this.animatedTimeout = null;
     };
 
     const setButtonListener = () => {
@@ -164,6 +173,7 @@ class Game {
       'src',
       `https://s3.us-east-2.amazonaws.com/power-of-friendship/${imgLink}`
     );
+
     if (imgLink.substring(imgLink.length - 3) === 'png') {
       setAnimatedTimeout(imgLink);
     }

@@ -255,9 +255,13 @@
   align-items: center;
 }
 
+.play-instructions h2 {
+  text-align: center;
+}
+
 .play-instructions img {
-  width: 300px;
   height: 200px;
+  width: auto;
 }
 
 .hidden {
@@ -436,7 +440,7 @@ a:active {
 }
 
 .one:before {
-  content: 'hold down the arrow keys to move and jump.';
+  /* content: 'hold down the arrow keys to move and jump.'; */
   margin-left: -30px;
 }
 
